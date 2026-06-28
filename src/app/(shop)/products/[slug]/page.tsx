@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProduct, getAllProductSlugs } from "@/lib/copy/products";
 import { Hero } from "@/components/ui/Hero";
@@ -72,6 +73,30 @@ export default async function ProductPage({
       <DividerMotif />
 
       <PrincipleGrid principles={product.principles} />
+
+      {/* Checkout CTA */}
+      <section className="py-[72px] px-[72px]">
+        <div className="mx-auto max-w-7xl flex flex-col items-center text-center gap-5">
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-secondary">
+            {"Ready to try it"}
+          </p>
+          <h2
+            className="font-sans font-semibold tracking-[-0.02em] text-ink"
+            style={{ fontSize: "clamp(28px, 2.5vw, 34px)" }}
+          >
+            {`Order ${product.name}`}
+          </h2>
+          <Link
+            href="/checkout"
+            className="inline-block rounded bg-ink px-6 py-3 font-sans text-[15px] font-medium text-page transition-opacity hover:opacity-80"
+          >
+            {"Place an order"}
+          </Link>
+          <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-secondary">
+            {"No payment collected now · we follow up by email"}
+          </p>
+        </div>
+      </section>
     </>
   );
 }
