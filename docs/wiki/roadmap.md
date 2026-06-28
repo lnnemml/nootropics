@@ -11,7 +11,7 @@
 - Initialize `docs/raw/` + `docs/wiki/` + root `CLAUDE.md`
 - Push to GitHub, connect Vercel + Neon
 
-## Phase 1 — Marketing shell + NeuroDrive launch surface *(done — deployed to Vercel 2026-06-28)*
+## Phase 1 — Marketing shell + NeuroDrive launch surface *(done — pushed to `lnnemml/nootropics`)*
 
 > **Sequencing (updated 2026-06-29):** non-advertorial first. Design and
 > build the shared system on simpler surfaces, then extend to the
@@ -31,21 +31,25 @@
   Failed Solutions → Mechanism → Transformation → Proof → Urgency →
   Action), once the design system is proven elsewhere
 - Goal: something live and shareable on Vercel
+- **Outcome:** structural skeleton works and the locked design system
+  holds up across pages — but Anton's review (2026-06-29) found it "too
+  generic, not a real e-commerce site yet." Correct assessment for a
+  7-task structural pass; see Phase 1.5 below for what's actually missing.
 
 ## Phase 1.5 — Site completeness *(current)*
 
-> Full task breakdown: [`phase-1.5-implementation-plan.md`](./phase-1.5-implementation-plan.md).
-> See ADR [`decisions/0008-phase-1.5-site-completeness.md`](./decisions/0008-phase-1.5-site-completeness.md)
-> for why this was inserted before Phase 2.
+> Inserted 2026-06-29, before any database/auth work — see ADR 0008.
+> **Format (amended 2026-06-29):** open punch list, not a fixed task
+> breakdown — Anton can't yet size this scope, so the plan stays loose
+> and reorderable. Full list:
+> [`phase-1.5-implementation-plan.md`](./phase-1.5-implementation-plan.md).
+> Rough areas, in no fixed order: header fixes, home page polish,
+> product page (photo + price — price blocked on Anton), maybe starter
+> articles, checkout polish, About, FAQ, legal/technical pages. Anton
+> decides when the site looks externally finished — that's "done" for
+> this phase, not a checklist.
 
-- **Task 1** — Product photo + price block on the product page (`next/image`, price UI slot with placeholder — no real price until Anton supplies one)
-- **Task 2** — Cart with `localStorage` persistence (`useCart` hook as the sole cart interface; Phase 4 DB swap is then hook-internals only)
-- **Task 3** — About page (`(marketing)/about`, deeper NORA mission content, reuses existing components)
-- **Task 4** — FAQ page (`(marketing)/faq`, sourced from `product/beliefs-and-objections.md` objection table)
-- **Task 5** — Legal/technical pages (Terms, Privacy, Refund, Shipping — AI-drafted templates, **not launch-ready without real legal review**)
-- **Task 6** — Nav/footer wiring + full click-through (all new pages linked, deployed + verified on live Vercel URL)
-
-## Phase 2 — Database & product catalog *(blocked until Phase 1.5 done)*
+## Phase 2 — Database & product catalog
 - Implement Drizzle schema per
   [`architecture/data-model.md`](./architecture/data-model.md)
 - Neon connection, migrations

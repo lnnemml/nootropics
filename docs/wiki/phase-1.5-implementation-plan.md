@@ -1,89 +1,60 @@
-# Phase 1.5 — Site Completeness — Implementation Plan
+# Phase 1.5 — Site Completeness — Punch List
 
-> Read [`product/beliefs-and-objections.md`](./product/beliefs-and-objections.md),
-> [`design/design-system.md`](./design/design-system.md), and this file's
-> task list before starting. Same convention as Phase 1: one task per
-> Claude Code session/commit.
+> **Format note (2026-06-29):** this is deliberately *not* structured
+> like the Phase 1 plan (fixed atomic tasks with acceptance checks).
+> Anton can't yet size the real scope of "make this look like a finished
+> e-commerce site," so locking a task breakdown now would be false
+> precision. This is an open punch list instead: a rough, reorderable
+> set of areas to work through one at a time with Claude Code. Add to
+> it, reorder it, or drop items as you actually see the site take shape
+> — that's the intended use, not a deviation from it.
+>
+> **Definition of done for this phase:** Anton decides the site looks
+> and functions like a real, externally-presentable e-commerce site.
+> Not a checklist completion — a judgment call.
 
-## Task 1 — Product photo + price block on the product page
+## Rough order to work through (not a contract)
 
-- Drop in `docs/raw/design/product_shot_without_bg.jpeg` as the
-  NeuroDrive product image (optimize via `next/image`, responsive sizes,
-  not a raw `<img>` tag)
-- Price block: **placeholder/TBD until Anton supplies real numbers** —
-  build the UI slot (price, compare-at-price if there's a subscription
-  discount, "subscribe & save" toggle per the offer brief's multi-bottle/
-  subscription framework) with an obviously-fake placeholder value so
-  it's visually complete but nobody mistakes it for a real price.
-- **Do not invent a real price.** If Anton hasn't supplied one by the
-  time this task starts, flag it back rather than guessing.
+1. **Header** — needs fixing (specifics TBD when you sit down with
+   Claude Code and look at what's actually wrong)
+2. **Home page** — rewrite/polish pass (the structure + copy from
+   `marketing/home-page-copy-v2.md` is the baseline, but expect it to
+   need real iteration once it's seen in the browser, not just approved
+   on paper)
+3. **Product page** — polish pass: real product photo
+   (`docs/raw/design/product_shot_without_bg.jpeg`), price block
+   (**blocked on Anton supplying real numbers — don't invent one**)
+4. **Starter articles** — maybe; if/when it's clear what early
+   education content should exist (mechanism explainers, etc. — source
+   material exists in `NeuroDrive_research_document.pdf`'s "Scientific &
+   Story Angles" section, not yet split into its own wiki page)
+5. **Checkout** — polish the manual-confirmation flow shell (see
+   `architecture/manual-payment-flow.md` for the fields/states it needs)
+6. **About** — deeper NORA mission content than the home page's brief
+   version (source: `product/overview.md`, `product/brand-hierarchy.md`)
+7. **FAQ** — built from `product/beliefs-and-objections.md`'s objection
+   → response map (close to copy-paste, minimal new copywriting)
+8. **Legal/technical pages** — Terms, Privacy, Refund, Shipping.
+   **AI-drafted starting templates only — needs real legal review before
+   launch**, not launch-ready as generated.
 
-## Task 2 — Cart with localStorage persistence
+## Standing constraints (apply to every item above, not just one)
 
-- Build a `useCart` hook (or context) as the single interface for
-  add/remove/update-quantity/clear — **all cart UI reads/writes through
-  this hook, never localStorage directly.** This is what makes the
-  Phase 4 swap to a DB-backed cart a hook-internals change, not a UI
-  rewrite.
-- Cart drawer/page component using `design-system.md`'s locked tokens
-  (no new visual patterns)
-- Persist to `localStorage`, hydrate on mount with the same
-  flicker-avoidance approach already used for the dark-mode toggle (see
-  Phase 1 Task 2's `ThemeToggle` — same `mounted` guard pattern applies
-  here)
+- **Never invent a real product price.** If a task needs one and Anton
+  hasn't supplied it, stop and ask rather than guessing.
+- **Cart, when it's built:** behind a `useCart` hook so localStorage now
+  → database-backed cart later (Phase 4) is a hook-internals swap, not a
+  UI rewrite. Don't let cart logic leak directly into components.
+- **Legal pages are templates, not final text** — say so in the commit,
+  don't present them as launch-ready.
+- Reuse the locked [`design/design-system.md`](./design/design-system.md)
+  components throughout. A genuinely new component type (e.g. an FAQ
+  accordion) is a legitimate small addition; a new color, radius, or
+  layout pattern invented per-page is not.
 
-## Task 3 — About page
+## After this phase
 
-- `(marketing)/about` — deeper mission content than the home page's
-  brief mission section. Source: `product/overview.md`,
-  `product/brand-hierarchy.md` (NORA's identity, why mechanism-first,
-  why curated not exhaustive — same material as the home page principles,
-  expanded into full paragraphs rather than 1-2 lines each)
-- Reuses existing components (`MissionStatement`, `PrincipleGrid`, etc.)
-  — this page should not need new component types
-
-## Task 4 — FAQ page
-
-- `(marketing)/faq` — every entry in
-  [`product/beliefs-and-objections.md`](./product/beliefs-and-objections.md)'s
-  objection table becomes one FAQ Q&A pair. This is largely a content-
-  transcription task, not new copywriting — don't editorialize the
-  existing objection responses, they're already calibrated.
-- Simple accordion or flat Q&A list — check `design-system.md` for
-  whether an accordion pattern already exists; if not, this is a small,
-  legitimate new component, not scope creep.
-
-## Task 5 — Legal/technical pages
-
-- Terms of Service, Privacy Policy, Refund Policy, Shipping Policy
-- **These are AI-drafted starting templates, not legally reviewed final
-  text.** Say so visibly in the commit message and flag to Anton — do
-  not present these as launch-ready without real legal review,
-  especially given the FDA-disclaimer and supplement-liability
-  considerations already present in `product/beliefs-and-objections.md`
-  and the footer's existing "not a medical device" line.
-- Reuse a simple long-form text layout (check if one exists in the
-  locked design system; if not, a plain article-style template is
-  appropriate here — these pages don't need the marketing component set)
-
-## Task 6 — Nav/footer wiring + full click-through
-
-- Add About, FAQ, and the legal pages to the footer link columns (the
-  `COMPANY` column already anticipated `Mission / Contact` — extend it;
-  the `RESEARCH` column already anticipated `Don't buy if…`, which now
-  has a real home in the FAQ)
-- Full click-through from home → product → cart → every new page, both
-  light and dark mode, deployed and checked on the live Vercel URL
-
-## Explicitly out of scope for Phase 1.5
-
-- Database, auth, real payment/email wiring — still Phase 2-4
-- The NeuroDrive advertorial — still deferred, per the original
-  non-advertorial-first sequencing decision
-- A second product — the product page template must support it, the
-  catalog still doesn't need it yet
-
-## After Phase 1.5
-
-Update [`roadmap.md`](./roadmap.md) to mark Phase 1.5 done, log the
-outcome, and only then start Phase 2 (database) planning in detail.
+When Anton calls it done, update [`roadmap.md`](./roadmap.md) to mark
+Phase 1.5 done, log what actually got built in `wiki/log.md` (the real
+list will likely differ from the rough order above — that's expected),
+and only then start Phase 2 (database) planning in detail.

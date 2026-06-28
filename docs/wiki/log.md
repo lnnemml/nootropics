@@ -302,25 +302,44 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
   home (via logo), in dark mode throughout. No console errors.
 - Roadmap updated: Phase 1 marked done, Phase 2 marked next.
 
-## [2026-06-28] decision | Phase 1.5 inserted — site completeness before database
-
-- Anton reviewed the deployed Phase 1 result. Design system assessment:
-  strong — palette, typography, steady/spike motif all landed. Overall
-  verdict: "too generic, not a real e-commerce site yet" — missing a
-  product photo, price block, working cart, and the standard pages (About,
-  FAQ, legal) any real storefront needs.
-- Decision: insert Phase 1.5 (site completeness) before Phase 2 (database).
-  Building the database layer against an incomplete frontend would create
-  integration rework when the frontend catches up anyway.
-- Recorded as ADR 0008. Created
+## [2026-06-29] decision | Phase 1 done, deployed; Phase 1.5 inserted before the database layer
+ 
+- Phase 1 (7 tasks) completed and pushed to `lnnemml/nootropics`. Anton's
+  review: design system holds up well, but the site reads as "too
+  generic, not a real e-commerce site yet" — correct assessment for a
+  structural pass.
+- Inserted **Phase 1.5 — Site completeness** before Phase 2 (database):
+  product photo + price block (price explicitly blocked on Anton — not
+  invented), a `useCart` hook with localStorage persistence (designed so
+  Phase 4's DB-backed cart is a hook-internals swap, not a UI rewrite),
+  About page, FAQ page (built directly from
+  `product/beliefs-and-objections.md`'s objection map), and legal/
+  technical pages (Terms, Privacy, Refund, Shipping — flagged explicitly
+  as AI-drafted templates needing real legal review, not launch-ready
+  as-is).
+- Recorded as ADR 0008. New page
   [`phase-1.5-implementation-plan.md`](./phase-1.5-implementation-plan.md)
-  with 6 tasks. Key structural decisions baked into the plan:
-  - Cart built `localStorage`-first behind a `useCart` hook — Phase 4
-    DB swap becomes a hook-internals change, not a UI rewrite.
-  - Pricing explicitly **blocked on Anton supplying real numbers** — no
-    invented prices, ever.
-  - Legal pages are AI-drafted templates only — flagged as not
-    launch-ready without real legal review.
-- Updated `roadmap.md` (Phase 1.5 current, Phase 2 blocked until done),
-  `CLAUDE.md` (active task list pointer + two new hard constraints),
-  and `index.md` (Planning + Decisions sections).
+  with 6 atomic tasks. `roadmap.md` updated (Phase 1 marked done, Phase
+  1.5 inserted — phases 2–7 not renumbered, to avoid breaking existing
+  cross-references). `CLAUDE.md` updated with the no-invented-price and
+  legal-templates-need-review constraints.
+
+## [2026-06-29] decision | Phase 1.5 format corrected — open punch list, not fixed tasks 
+
+- Anton corrected the execution structure of Phase 1.5: not a fixed
+  atomic-task breakdown with acceptance checks (that was right for
+  Phase 1's well-defined architectural scope, wrong here — he can't yet
+  size "make this look finished," so a locked task list would be false
+  precision).
+- Rewrote `phase-1.5-implementation-plan.md` as an open, reorderable
+  punch list: header → home page → product page → maybe starter
+  articles → checkout → about → faq → legal pages, in *rough* order
+  only. "Done" is Anton's subjective call that the site looks externally
+  finished, not a checklist completion.
+- Standing constraints carried over unchanged: never invent a real
+  price, cart goes behind a `useCart` hook for the later DB swap, legal
+  pages are templates not final text.
+- Amended ADR 0008 with this correction (the underlying decision — finish
+  the static site before the database layer — didn't change, only how
+  rigidly it's planned). Updated `roadmap.md`'s Phase 1.5 section to
+  match.
