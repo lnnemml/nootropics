@@ -5,10 +5,12 @@
 
 ## The tension
 
-Anton's vision is a full multi-product nootropics e-commerce platform with
-community/education presence, competing against Nootropics Depot and
-Umbrella Labs at the platform level (see
-[`../marketing/competitive-landscape.md`](../marketing/competitive-landscape.md)).
+Anton's vision is a full multi-product nootropics e-commerce platform —
+branded **NORA (Nootropics Research Alliance)** — with community/
+education presence, competing against Nootropics Depot and Umbrella
+Labs at the platform level (see
+[`../marketing/competitive-landscape.md`](../marketing/competitive-landscape.md)
+and [`../product/brand-hierarchy.md`](../product/brand-hierarchy.md)).
 But there is currently **one product** (NeuroDrive) and **zero revenue**.
 
 ## The rule

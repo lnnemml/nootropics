@@ -66,6 +66,63 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
 - Confirmed: Phase 0 scaffold has been deployed to Vercel. Roadmap updated
   to mark Phase 0 done, Phase 1 current.
 
+## [2026-06-29] ingest | Claude Design pass #1 results reviewed — copy rewritten
+
+- Anton reviewed Claude Design's two output directions (light "Baseline"
+  + dark "Calibration") for the home/mission page. **Design: approved as
+  strong** — palette, steady/spike motif (used as hero chart + recurring
+  divider, not just one hero moment), and Space Grotesk/JetBrains Mono
+  typography all landed as directed.
+- **Copy: rejected as generic.** Root cause identified: Claude Design's
+  project only contained `brand-design-brief.md` — it had no access to
+  `product/avatar.md`, `product/beliefs-and-objections.md`, or
+  `marketing/messaging-angles.md`, and was explicitly instructed (by the
+  Design pass #1 calibration answers) to invent "plausible placeholder
+  copy." The result was competent but interchangeable with any calm-tech
+  brand — no bromantane, no mechanism specifics, no voice-of-customer
+  language.
+- Wrote grounded replacement copy in
+  [`marketing/home-page-copy-v1.md`](./marketing/home-page-copy-v1.md),
+  same section structure as the locked design, sourced from the avatar/
+  beliefs/messaging-angles pages.
+- **Process lesson for future Claude Design passes:** hand it the
+  relevant `docs/wiki/product/` and `docs/wiki/marketing/` pages
+  alongside the design brief, not the design brief alone — otherwise
+  copy generation has nothing to ground in and defaults to generic.
+  Apply this before the next page (product template / checkout) goes
+  through a design pass.
+
+## [2026-06-29] decision | Design locked, Claude Design retired, NORA brand confirmed
+
+- Anton confirmed: lock the Claude Design composition as the permanent
+  design system; Claude Design is done for this project, all further
+  implementation happens in Claude Code only (ADR 0007).
+- **Brand hierarchy corrected:** the platform brand is **NORA
+  (Nootropics Research Alliance)**; NeuroDrive is product #1 under it
+  (confirmed by Anton, matches the "Nootropic Research Alliance"
+  endorsement line already on the physical label). New page
+  `product/brand-hierarchy.md`. This explains exactly why
+  `home-page-copy-v1.md` felt wrong — it spoke at the NeuroDrive/
+  bromantane level on a page that should speak as NORA.
+- Decoded and cleaned the raw Claude Design HTML bundle into a real,
+  viewable reference file:
+  `docs/raw/design/home-design-pass-1.html` (real Google Fonts swapped
+  in for the embedded base64 font blobs, fake wrapper tags unwrapped
+  into valid HTML).
+- Wrote `design/design-system.md` — the locked, implementation-ready
+  spec (color tokens for light+dark mode as a proper elevation system,
+  typography scale, spacing/radius rules, 7 named components, and the
+  generalized meaning of the steady/spike motif at the NORA platform
+  level vs. the NeuroDrive product level).
+- Wrote `marketing/home-page-copy-v2.md` — home page copy correctly
+  scoped to NORA (v1 marked superseded, kept per append-only convention).
+- Wrote `phase-1-implementation-plan.md` — 7 atomic tasks for Claude
+  Code (tokens → layout shell → reusable components → NORA home page →
+  product template → checkout shell → nav/deploy), explicitly excluding
+  the NeuroDrive advertorial and Phase 2+ work.
+- Recorded ADR 0007 tying all of this together; updated root `CLAUDE.md`
+  with the design-lock-in and brand-voice hard constraints.
+
 ## [2026-06-29] decision | Design & build sequencing: non-advertorial first
 
 - Anton corrected sequencing: both the Claude Design pass and the Phase 1

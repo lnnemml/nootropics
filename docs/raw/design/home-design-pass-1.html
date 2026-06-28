@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NORA — Design Reference (Claude Design pass #1)</title>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+</style>
+</head>
+<body>
+<!-- ================= DIRECTION 1 — BASELINE (LIGHT) ================= -->
+<div style="position:absolute; left:0; top:0; width:1280px;">
+  <div data-drags-parent="1" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.12em; color:#696C6D; text-transform:uppercase; margin-bottom:14px;">Direction 01 — Baseline · light / instrument</div>
+  <div data-screen-label="Direction 01 — Baseline" style="background:#FAFAF7; color:#242424; border-radius:2px; box-shadow:0 1px 3px rgba(0,0,0,0.08); overflow:hidden; font-family:'Space Grotesk',sans-serif;">
+
+    <!-- nav -->
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:24px 72px; border-bottom:1px solid rgba(46,58,60,0.09);">
+      <div style="display:flex; align-items:center; gap:11px;">
+        <div style="display:flex; gap:4px; align-items:center;">
+          <span style="width:8px; height:8px; border-radius:50%; background:#1E9C78; display:block;"></span>
+          <span style="width:8px; height:8px; border-radius:50%; background:#14B089; display:block;"></span>
+        </div>
+        <span style="font-weight:600; font-size:18px; letter-spacing:-0.01em; color:#2E3A3C;">NeuroDrive</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:36px;">
+        <span style="font-size:14px; color:#242424;">Science</span>
+        <span style="font-size:14px; color:#242424;">Mission</span>
+        <span style="font-size:14px; color:#242424;">Product</span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.04em; color:#2E3A3C; border:1px solid rgba(46,58,60,0.22); padding:9px 16px; border-radius:2px;">Read the mechanism →</span>
+      </div>
+    </div>
+
+    <!-- hero -->
+    <div style="display:grid; grid-template-columns:1.05fr 1fr; gap:56px; align-items:center; padding:80px 72px 76px;">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#696C6D; margin-bottom:26px;">Dopamine, recalibrated</div>
+        <h1 style="font-weight:600; font-size:62px; line-height:1.0; letter-spacing:-0.025em; margin:0 0 26px; color:#2E3A3C;">Restore,<br>don't stimulate.</h1>
+        <p style="font-size:18px; line-height:1.6; color:#242424; margin:0 0 36px; max-width:430px;">Most nootropics borrow tomorrow's focus and charge interest. NeuroDrive works on the recovery side of the dopamine pathway — so your baseline comes back up instead of spiking and crashing.</p>
+        <div style="display:flex; align-items:center; gap:18px;">
+          <span style="background:#2E3A3C; color:#FAFAF7; font-size:15px; font-weight:500; padding:13px 24px; border-radius:2px;">See the science</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:13px; color:#696C6D;">actoprotector class · not a stimulant</span>
+        </div>
+      </div>
+      <div style="border:1px solid rgba(46,58,60,0.12); border-radius:3px; padding:24px 26px 18px; background:#fff;">
+        <div style="display:flex; justify-content:space-between; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; color:#696C6D; margin-bottom:14px;"><span>FIG.01 — DOPAMINE vs. TIME</span><span>n=measured</span></div>
+        <svg viewBox="0 0 680 300" width="100%" style="display:block; overflow:visible;">
+          <line x1="30" y1="40" x2="30" y2="250" stroke="#696C6D" stroke-opacity="0.28" stroke-width="1"></line>
+          <line x1="30" y1="250" x2="662" y2="250" stroke="#696C6D" stroke-opacity="0.28" stroke-width="1"></line>
+          <line x1="30" y1="80" x2="662" y2="80" stroke="#696C6D" stroke-opacity="0.1" stroke-width="1"></line>
+          <line x1="30" y1="150" x2="662" y2="150" stroke="#696C6D" stroke-opacity="0.1" stroke-width="1"></line>
+          <line x1="30" y1="200" x2="662" y2="200" stroke="#696C6D" stroke-opacity="0.1" stroke-width="1"></line>
+          <path d="M30 240 L150 232 L250 58 L322 254 L420 248 L662 250" fill="none" stroke="#696C6D" stroke-width="2" stroke-dasharray="4 5" stroke-linejoin="round"></path>
+          <path d="M30 236 C150 236 188 152 305 142 C432 132 545 120 662 113" fill="none" stroke="#2E3A3C" stroke-width="2.5" stroke-linecap="round"></path>
+          <circle cx="30" cy="236" r="5" fill="#1E9C78"></circle>
+          <circle cx="662" cy="113" r="5" fill="#14B089"></circle>
+          <text x="566" y="104" font-family="'JetBrains Mono',monospace" font-size="11" fill="#2E3A3C">SUSTAINED</text>
+          <text x="234" y="48" font-family="'JetBrains Mono',monospace" font-size="11" fill="#696C6D">SPIKE</text>
+          <text x="358" y="245" font-family="'JetBrains Mono',monospace" font-size="11" fill="#696C6D">CRASH</text>
+        </svg>
+        <div style="display:flex; gap:24px; margin-top:10px; font-family:'JetBrains Mono',monospace; font-size:11px; color:#696C6D;">
+          <span style="display:flex; align-items:center; gap:7px;"><span style="width:16px; height:0; border-top:2.5px solid #2E3A3C; display:block;"></span>NeuroDrive</span>
+          <span style="display:flex; align-items:center; gap:7px;"><span style="width:16px; height:0; border-top:2px dashed #696C6D; display:block;"></span>Stimulants</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- contrast / mechanism -->
+    <div style="padding:72px 72px 80px; background:#F3F3EE; border-top:1px solid rgba(46,58,60,0.08); border-bottom:1px solid rgba(46,58,60,0.08);">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#696C6D; margin-bottom:14px;">The two curves</div>
+      <h2 style="font-weight:600; font-size:32px; letter-spacing:-0.02em; margin:0 0 40px; color:#2E3A3C; max-width:640px;">One mechanism lifts your floor. The other rents you a ceiling.</h2>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+        <div style="background:#FAFAF7; border:1px solid rgba(46,58,60,0.12); border-radius:3px; padding:28px 30px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; color:#1E9C78; margin-bottom:18px;">NEURODRIVE — RESTORE</div>
+          <svg viewBox="0 0 300 120" width="100%" style="display:block;">
+            <line x1="0" y1="102" x2="300" y2="102" stroke="#696C6D" stroke-opacity="0.2" stroke-width="1"></line>
+            <path d="M8 98 C90 98 112 52 162 46 C214 40 256 36 292 31" fill="none" stroke="#2E3A3C" stroke-width="2.5" stroke-linecap="round"></path>
+            <circle cx="292" cy="31" r="4.5" fill="#14B089"></circle>
+          </svg>
+          <p style="font-size:15px; line-height:1.55; color:#242424; margin:18px 0 0;">A measured rise that holds. You feel like yourself, for longer — no jolt to chase, nothing to recover from.</p>
+        </div>
+        <div style="background:#FAFAF7; border:1px solid rgba(46,58,60,0.12); border-radius:3px; padding:28px 30px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; color:#696C6D; margin-bottom:18px;">STIMULANTS — SPIKE &amp; CRASH</div>
+          <svg viewBox="0 0 300 120" width="100%" style="display:block;">
+            <line x1="0" y1="102" x2="300" y2="102" stroke="#696C6D" stroke-opacity="0.2" stroke-width="1"></line>
+            <path d="M8 96 L70 88 L120 16 L152 108 L205 102 L292 104" fill="none" stroke="#696C6D" stroke-width="2" stroke-dasharray="4 5" stroke-linejoin="round"></path>
+          </svg>
+          <p style="font-size:15px; line-height:1.55; color:#242424; margin:18px 0 0;">A borrowed peak, paid back with interest. The higher the spike, the deeper the afternoon you trade for it.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- mission -->
+    <div style="padding:96px 72px; display:flex; flex-direction:column; align-items:center; text-align:center;">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#696C6D; margin-bottom:28px;">Mission</div>
+      <p style="font-weight:500; font-size:34px; line-height:1.32; letter-spacing:-0.015em; color:#2E3A3C; margin:0; max-width:860px;">We build for people who think for a living. NeuroDrive started with a refusal: we wouldn't ship another stimulant dressed up as a breakthrough. Stimulation is easy to sell and expensive to live with<span style="color:#1E9C78;">.</span> Restoration is harder to fake — which is exactly why we chose it<span style="color:#14B089;">.</span></p>
+    </div>
+
+    <!-- principles -->
+    <div style="padding:8px 72px 88px;">
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:48px; border-top:1px solid rgba(46,58,60,0.12); padding-top:44px;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#696C6D; margin-bottom:16px;">01</div>
+          <h3 style="font-weight:600; font-size:20px; letter-spacing:-0.01em; margin:0 0 12px; color:#2E3A3C;">Mechanism over marketing</h3>
+          <p style="font-size:15px; line-height:1.55; color:#242424; margin:0;">Every claim traces back to a pathway we can name and a study we can cite. No proprietary fairy dust.</p>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#696C6D; margin-bottom:16px;">02</div>
+          <h3 style="font-weight:600; font-size:20px; letter-spacing:-0.01em; margin:0 0 12px; color:#2E3A3C;">Evidence, not vibes</h3>
+          <p style="font-size:15px; line-height:1.55; color:#242424; margin:0;">We show our reasoning the way you'd want a colleague to — assumptions stated, sources linked, limits admitted.</p>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#696C6D; margin-bottom:16px;">03</div>
+          <h3 style="font-weight:600; font-size:20px; letter-spacing:-0.01em; margin:0 0 12px; color:#2E3A3C;">No spike, no crash</h3>
+          <p style="font-size:15px; line-height:1.55; color:#242424; margin:0;">Designed to lift your floor, not your ceiling. The goal is a longer steady state, not a bigger high.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- divider motif -->
+    <div style="padding:0 72px 64px;">
+      <svg viewBox="0 0 1136 36" width="100%" style="display:block;">
+        <path d="M0 26 L500 26 L524 8 L540 32 L562 26 L1136 26" fill="none" stroke="#2E3A3C" stroke-opacity="0.45" stroke-width="1.5" stroke-linejoin="round"></path>
+        <circle cx="524" cy="8" r="3.5" fill="#14B089"></circle>
+      </svg>
+    </div>
+
+    <!-- footer -->
+    <div style="background:#2E3A3C; color:#FAFAF7; padding:64px 72px 56px; display:flex; justify-content:space-between; align-items:flex-start; gap:40px;">
+      <div style="max-width:320px;">
+        <div style="display:flex; align-items:center; gap:11px; margin-bottom:18px;">
+          <div style="display:flex; gap:4px;">
+            <span style="width:8px; height:8px; border-radius:50%; background:#1E9C78; display:block;"></span>
+            <span style="width:8px; height:8px; border-radius:50%; background:#14B089; display:block;"></span>
+          </div>
+          <span style="font-weight:600; font-size:18px;">NeuroDrive</span>
+        </div>
+        <p style="font-size:14px; line-height:1.55; color:rgba(250,250,247,0.66); margin:0;">Restore, don't stimulate. A precision instrument for people who run hot.</p>
+      </div>
+      <div style="display:flex; gap:64px;">
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; color:rgba(250,250,247,0.5); margin-bottom:4px;">PRODUCT</span>
+          <span style="font-size:14px; color:rgba(250,250,247,0.85);">How it works</span>
+          <span style="font-size:14px; color:rgba(250,250,247,0.85);">The research</span>
+          <span style="font-size:14px; color:rgba(250,250,247,0.85);">Don't buy if…</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; color:rgba(250,250,247,0.5); margin-bottom:4px;">COMPANY</span>
+          <span style="font-size:14px; color:rgba(250,250,247,0.85);">Mission</span>
+          <span style="font-size:14px; color:rgba(250,250,247,0.85);">Contact</span>
+        </div>
+      </div>
+    </div>
+    <div style="background:#2E3A3C; color:rgba(250,250,247,0.4); font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.04em; padding:0 72px 40px;">© 2026 NEURODRIVE · NOT A MEDICAL DEVICE · STATEMENTS NOT EVALUATED</div>
+
+  </div>
+</div>
+
+<!-- ================= DIRECTION 2 — CALIBRATION (DARK) ================= -->
+<div style="position:absolute; left:1360px; top:0; width:1280px;">
+  <div data-drags-parent="1" style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.12em; color:#696C6D; text-transform:uppercase; margin-bottom:14px;">Direction 02 — Calibration · ink / editorial</div>
+  <div data-screen-label="Direction 02 — Calibration" style="background:#0A0A0A; color:#FAFAF7; border-radius:2px; box-shadow:0 1px 3px rgba(0,0,0,0.08); overflow:hidden; font-family:'Space Grotesk',sans-serif;">
+
+    <!-- nav -->
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:24px 72px; border-bottom:1px solid rgba(250,250,247,0.1);">
+      <div style="display:flex; align-items:center; gap:11px;">
+        <div style="display:flex; gap:4px; align-items:center;">
+          <span style="width:8px; height:8px; border-radius:50%; background:#1E9C78; display:block;"></span>
+          <span style="width:8px; height:8px; border-radius:50%; background:#14B089; display:block;"></span>
+        </div>
+        <span style="font-weight:600; font-size:18px; letter-spacing:-0.01em; color:#FAFAF7;">NeuroDrive</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:36px;">
+        <span style="font-size:14px; color:rgba(250,250,247,0.82);">Science</span>
+        <span style="font-size:14px; color:rgba(250,250,247,0.82);">Mission</span>
+        <span style="font-size:14px; color:rgba(250,250,247,0.82);">Product</span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.04em; color:#FAFAF7; border:1px solid rgba(250,250,247,0.28); padding:9px 16px; border-radius:2px;">Read the mechanism →</span>
+      </div>
+    </div>
+
+    <!-- hero: full-bleed motif backdrop -->
+    <div style="position:relative; padding:96px 72px 104px; overflow:hidden;">
+      <svg viewBox="0 0 1136 420" preserveAspectRatio="none" width="100%" height="100%" style="position:absolute; inset:0; opacity:0.5;">
+        <path d="M0 360 L300 348 L470 96 L560 392 L700 380 L1136 384" fill="none" stroke="#696C6D" stroke-width="1.5" stroke-dasharray="5 6" stroke-linejoin="round"></path>
+        <path d="M0 350 C260 350 360 220 560 204 C780 186 940 168 1136 150" fill="none" stroke="rgba(250,250,247,0.55)" stroke-width="2"></path>
+      </svg>
+      <div style="position:relative; max-width:720px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#14B089; margin-bottom:26px;">Dopamine, recalibrated</div>
+        <h1 style="font-weight:600; font-size:74px; line-height:0.98; letter-spacing:-0.03em; margin:0 0 28px; color:#FAFAF7;">Restore,<br>don't stimulate.</h1>
+        <p style="font-size:19px; line-height:1.6; color:rgba(250,250,247,0.74); margin:0 0 40px; max-width:520px;">Most nootropics borrow tomorrow's focus and charge interest. We work on the recovery side of the dopamine pathway — so your baseline comes back up instead of spiking and crashing.</p>
+        <div style="display:flex; align-items:center; gap:20px;">
+          <span style="background:#14B089; color:#0A0A0A; font-size:15px; font-weight:600; padding:13px 26px; border-radius:2px;">See the science</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:13px; color:rgba(250,250,247,0.55);">actoprotector class · not a stimulant</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- contrast / mechanism -->
+    <div style="padding:76px 72px 84px; background:#2E3A3C;">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(250,250,247,0.5); margin-bottom:14px;">The two curves</div>
+      <h2 style="font-weight:600; font-size:34px; letter-spacing:-0.02em; margin:0 0 44px; color:#FAFAF7; max-width:660px;">One mechanism lifts your floor. The other rents you a ceiling.</h2>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+        <div style="background:#0A0A0A; border:1px solid rgba(250,250,247,0.12); border-radius:3px; padding:30px 32px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; color:#14B089; margin-bottom:20px;">NEURODRIVE — RESTORE</div>
+          <svg viewBox="0 0 300 120" width="100%" style="display:block;">
+            <line x1="0" y1="102" x2="300" y2="102" stroke="rgba(250,250,247,0.18)" stroke-width="1"></line>
+            <path d="M8 98 C90 98 112 52 162 46 C214 40 256 36 292 31" fill="none" stroke="rgba(250,250,247,0.85)" stroke-width="2.5" stroke-linecap="round"></path>
+            <circle cx="292" cy="31" r="4.5" fill="#14B089"></circle>
+          </svg>
+          <p style="font-size:15px; line-height:1.55; color:rgba(250,250,247,0.72); margin:20px 0 0;">A measured rise that holds. You feel like yourself, for longer — no jolt to chase, nothing to recover from.</p>
+        </div>
+        <div style="background:#0A0A0A; border:1px solid rgba(250,250,247,0.12); border-radius:3px; padding:30px 32px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; color:rgba(250,250,247,0.5); margin-bottom:20px;">STIMULANTS — SPIKE &amp; CRASH</div>
+          <svg viewBox="0 0 300 120" width="100%" style="display:block;">
+            <line x1="0" y1="102" x2="300" y2="102" stroke="rgba(250,250,247,0.18)" stroke-width="1"></line>
+            <path d="M8 96 L70 88 L120 16 L152 108 L205 102 L292 104" fill="none" stroke="#696C6D" stroke-width="2" stroke-dasharray="4 5" stroke-linejoin="round"></path>
+          </svg>
+          <p style="font-size:15px; line-height:1.55; color:rgba(250,250,247,0.72); margin:20px 0 0;">A borrowed peak, paid back with interest. The higher the spike, the deeper the afternoon you trade for it.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- mission -->
+    <div style="padding:104px 72px; display:flex; flex-direction:column; align-items:center; text-align:center;">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(250,250,247,0.5); margin-bottom:30px;">Mission</div>
+      <p style="font-weight:500; font-size:37px; line-height:1.3; letter-spacing:-0.015em; color:#FAFAF7; margin:0; max-width:880px;">We build for people who think for a living. NeuroDrive started with a refusal: we wouldn't ship another stimulant dressed up as a breakthrough. Stimulation is easy to sell and expensive to live with<span style="color:#1E9C78;">.</span> Restoration is harder to fake — which is exactly why we chose it<span style="color:#14B089;">.</span></p>
+    </div>
+
+    <!-- principles -->
+    <div style="padding:0 72px 92px;">
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:48px; border-top:1px solid rgba(250,250,247,0.14); padding-top:46px;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:rgba(250,250,247,0.5); margin-bottom:16px;">01</div>
+          <h3 style="font-weight:600; font-size:21px; letter-spacing:-0.01em; margin:0 0 12px; color:#FAFAF7;">Mechanism over marketing</h3>
+          <p style="font-size:15px; line-height:1.55; color:rgba(250,250,247,0.7); margin:0;">Every claim traces back to a pathway we can name and a study we can cite. No proprietary fairy dust.</p>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:rgba(250,250,247,0.5); margin-bottom:16px;">02</div>
+          <h3 style="font-weight:600; font-size:21px; letter-spacing:-0.01em; margin:0 0 12px; color:#FAFAF7;">Evidence, not vibes</h3>
+          <p style="font-size:15px; line-height:1.55; color:rgba(250,250,247,0.7); margin:0;">We show our reasoning the way you'd want a colleague to — assumptions stated, sources linked, limits admitted.</p>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:rgba(250,250,247,0.5); margin-bottom:16px;">03</div>
+          <h3 style="font-weight:600; font-size:21px; letter-spacing:-0.01em; margin:0 0 12px; color:#FAFAF7;">No spike, no crash</h3>
+          <p style="font-size:15px; line-height:1.55; color:rgba(250,250,247,0.7); margin:0;">Designed to lift your floor, not your ceiling. The goal is a longer steady state, not a bigger high.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- footer -->
+    <div style="border-top:1px solid rgba(250,250,247,0.1); padding:60px 72px 30px; display:flex; justify-content:space-between; align-items:flex-start; gap:40px;">
+      <div style="max-width:320px;">
+        <div style="display:flex; align-items:center; gap:11px; margin-bottom:18px;">
+          <div style="display:flex; gap:4px;">
+            <span style="width:8px; height:8px; border-radius:50%; background:#1E9C78; display:block;"></span>
+            <span style="width:8px; height:8px; border-radius:50%; background:#14B089; display:block;"></span>
+          </div>
+          <span style="font-weight:600; font-size:18px; color:#FAFAF7;">NeuroDrive</span>
+        </div>
+        <p style="font-size:14px; line-height:1.55; color:rgba(250,250,247,0.6); margin:0;">Restore, don't stimulate. A precision instrument for people who run hot.</p>
+      </div>
+      <div style="display:flex; gap:64px;">
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; color:rgba(250,250,247,0.45); margin-bottom:4px;">PRODUCT</span>
+          <span style="font-size:14px; color:rgba(250,250,247,0.8);">How it works</span>
+          <span style="font-size:14px; color:rgba(250,250,247,0.8);">The research</span>
+          <span style="font-size:14px; color:rgba(250,250,247,0.8);">Don't buy if…</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; color:rgba(250,250,247,0.45); margin-bottom:4px;">COMPANY</span>
+          <span style="font-size:14px; color:rgba(250,250,247,0.8);">Mission</span>
+          <span style="font-size:14px; color:rgba(250,250,247,0.8);">Contact</span>
+        </div>
+      </div>
+    </div>
+    <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.04em; color:rgba(250,250,247,0.35); padding:0 72px 40px;">© 2026 NEURODRIVE · NOT A MEDICAL DEVICE · STATEMENTS NOT EVALUATED</div>
+
+  </div>
+</div>
+</body>
+</html>

@@ -14,6 +14,8 @@ whole wiki.
 - [`product/beliefs-and-objections.md`](./product/beliefs-and-objections.md)
   — belief chain required to buy, objection → response map, hard
   constraints
+- [`product/brand-hierarchy.md`](./product/brand-hierarchy.md) — **NORA
+  (platform) vs. NeuroDrive (product) — check before writing any copy**
 
 ## Marketing knowledge
 
@@ -22,6 +24,11 @@ whole wiki.
 - [`marketing/competitive-landscape.md`](./marketing/competitive-landscape.md)
   — product-level competitors (Modafinil, Alpha Brain, Thesis, etc.) vs.
   platform-level competitors (Nootropics Depot, Umbrella Labs)
+- [`marketing/home-page-copy-v1.md`](./marketing/home-page-copy-v1.md) —
+  *(superseded by v2 — wrote at the NeuroDrive level, wrong for the home
+  page)*
+- [`marketing/home-page-copy-v2.md`](./marketing/home-page-copy-v2.md) —
+  **current home/mission copy, correctly scoped to NORA**
 
 ## Architecture knowledge
 
@@ -41,6 +48,9 @@ whole wiki.
 
 - [`design/brand-design-brief.md`](./design/brand-design-brief.md) —
   brand direction brief for Claude Design / frontend implementation
+- [`design/design-system.md`](./design/design-system.md) — **locked
+  design system** (tokens, typography, components) — implement every
+  page against this, not ad hoc per-page styling
 - [`design/design-tokens.md`](./design/design-tokens.md) — **authoritative
   color palette**, extracted directly from the existing logo + product
   label (supersedes the earlier color-temperature instinct)
@@ -55,10 +65,14 @@ whole wiki.
 - [`decisions/0005-manual-payment-flow.md`](./decisions/0005-manual-payment-flow.md)
   — **hard constraint: no Stripe / no payment gateway in code**
 - [`decisions/0006-claude-design-for-ui-ux.md`](./decisions/0006-claude-design-for-ui-ux.md)
+- [`decisions/0007-design-lock-in-and-brand-hierarchy.md`](./decisions/0007-design-lock-in-and-brand-hierarchy.md)
+  — design system locked, Claude Design retired, NORA brand confirmed
 
 ## Planning
 
 - [`roadmap.md`](./roadmap.md) — phase-by-phase plan
+- [`phase-1-implementation-plan.md`](./phase-1-implementation-plan.md) —
+  **active task list for Claude Code**, one task per session
 
 ## Backlog (sources not yet ingested / pages not yet written)
 

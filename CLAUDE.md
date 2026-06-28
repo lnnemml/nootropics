@@ -82,6 +82,21 @@ an architecture analysis, a copywriting rationale.
   [`docs/wiki/architecture/manual-payment-flow.md`](docs/wiki/architecture/manual-payment-flow.md)
   and
   [`docs/wiki/decisions/0005-manual-payment-flow.md`](docs/wiki/decisions/0005-manual-payment-flow.md).
+- **Design system is locked — implement against
+  [`docs/wiki/design/design-system.md`](docs/wiki/design/design-system.md),
+  don't invent new colors/radii/spacing per page.** Raw reference markup:
+  [`docs/raw/design/home-design-pass-1.html`](docs/raw/design/home-design-pass-1.html)
+  (open directly in a browser). Claude Design is retired from the build
+  loop — see
+  [`docs/wiki/decisions/0007-design-lock-in-and-brand-hierarchy.md`](docs/wiki/decisions/0007-design-lock-in-and-brand-hierarchy.md).
+- **Brand voice depends on the page — check
+  [`docs/wiki/product/brand-hierarchy.md`](docs/wiki/product/brand-hierarchy.md)
+  before writing copy.** Platform pages (home, mission, nav, footer)
+  speak as **NORA**. Product pages (`(shop)/neurodrive`, future product
+  pages) speak as the product, inside NORA's visual system.
+- **Active task list:** working through Phase 1 right now? Follow
+  [`docs/wiki/phase-1-implementation-plan.md`](docs/wiki/phase-1-implementation-plan.md)
+  task-by-task — one task per session/commit.
 
 ## Coding conventions
 
