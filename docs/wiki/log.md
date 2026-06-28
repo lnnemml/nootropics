@@ -260,3 +260,22 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
   comes from the data object keyed by slug.
 - Acceptance check: `/products/neurodrive` renders correctly in dark
   mode; `/products/unknown-product` returns 404; tsc --noEmit clean.
+
+## [2026-06-28] phase | Phase 1 Task 6 — Checkout shell (manual-confirmation, UI only)
+
+- Created `src/app/(shop)/checkout/page.tsx` as a client component
+  (interactive form state + confirmation toggle).
+- All fields per `architecture/manual-payment-flow.md`: name, email,
+  phone, address (line 1, line 2 optional, city, state, postal code,
+  country), product/quantity select, optional note textarea.
+- No payment fields, no DB wiring — form submission console.logs only,
+  per Task 6 scope.
+- Confirmation state replaces the form: NORA dot-pair accent, "Order
+  received." heading, explicit "payment isn't processed yet" copy,
+  order summary card (name, email, product, qty), mono footer line.
+- Design: locked tokens throughout (bg-card inputs, border-border hairlines,
+  2px radius, mono section labels, bg-ink submit button, Space Grotesk
+  body). Section dividers are hairline border-t between Contact /
+  Shipping / Your order / Note / Submit groups.
+- Verified: form renders correctly in light mode; confirmation state
+  shows after submit; tsc --noEmit clean.
