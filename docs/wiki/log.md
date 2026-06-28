@@ -139,6 +139,24 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
   addendum in `design/brand-design-brief.md`. Not yet a locked ADR;
   finalize once Anton reviews Claude Design's actual output.
 
+## [2026-06-28] phase | Phase 1 Task 2 — Shared layout shell
+
+- Built `NavBar` (Server Component): two-dot accent logo mark + "NORA" wordmark
+  (Space Grotesk 600) + three nav links (Science · Mission · Products) + outlined
+  mono CTA pill "Read the mechanism →". Sticky, hairline `border-b border-border`.
+- Built `Footer` (Server Component): `bg-raised` surface, logo+tagline column,
+  RESEARCH and COMPANY link columns with mono uppercase headers, mono copyright line.
+  Copy sourced exactly from `marketing/home-page-copy-v2.md`.
+- Built `ThemeToggle` (Client Component): moon/sun icon toggle, reads
+  `localStorage` on mount, toggles `.dark` on `<html>`, persists preference.
+  Uses `mounted` guard to avoid icon flicker on first render.
+- FOUC prevention: inline `<script>` at top of `<body>` reads `localStorage`
+  synchronously before any content renders; `suppressHydrationWarning` on `<html>`.
+- Updated `layout.tsx` to compose NavBar + `<main>` + Footer; updated marketing
+  placeholder page to use design system tokens.
+- Acceptance check passed: both modes correct visually, dark mode persists across
+  reload with no flash, build clean.
+
 ## [2026-06-28] phase | Phase 1 Task 1 — Design tokens wired into Tailwind
 
 - Replaced placeholder Geist fonts with **Space Grotesk** (400/500/600/700) and
