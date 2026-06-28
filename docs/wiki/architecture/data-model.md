@@ -1,7 +1,7 @@
 # Architecture — Data Model (Phase 2 sketch)
 
 > Status: **sketch for Phase 2 planning**, not yet implemented. Last
-> updated 2026-06-28.
+> updated 2026-06-29.
 
 This is intentionally e-commerce-ready even though Phase 1 has no checkout
 and only one product — see
@@ -24,8 +24,20 @@ product_variants
   id, product_id, sku, price_cents, currency, subscription_eligible (bool)
 
 orders
-  id, user_id (nullable for guest), email, status, subtotal_cents,
-  discount_cents, total_cents, referral_code_used (nullable), created_at
+  id, user_id (nullable for guest), email, phone, shipping_address,
+  status (pending_payment_instructions | awaiting_payment | paid |
+          fulfilled | cancelled),
+  subtotal_cents, discount_cents, total_cents, referral_code_used (nullable),
+  payment_method (nullable — free-form/enum once a merchant solution
+    exists; "manual" for now), payment_reference (nullable free text),
+  customer_note (nullable — collected at checkout, e.g. payment
+    preference), confirmation_email_sent_at, created_at
+
+order_notes
+  id, order_id, author (ops team member or "system"), note, created_at
+  -- manual ops log: "emailed customer 6/29 re: bank transfer", etc.
+  -- this table exists specifically because there is no payment gateway
+  -- producing an automatic audit trail (see manual-payment-flow.md)
 
 order_items
   id, order_id, product_variant_id, quantity, unit_price_cents
@@ -44,6 +56,13 @@ customer_tiers
 ```
 
 ## Reasoning notes
+
+- **`order_notes` as its own table** — there's no payment gateway
+  producing an automatic audit trail (see
+  [`manual-payment-flow.md`](./manual-payment-flow.md)), so the manual
+  back-and-forth with a customer needs *somewhere* to live that isn't
+  someone's personal email inbox. This is what makes the manual flow
+  operable past the first few orders.
 
 - **`users.email` nullable, `orders.user_id` nullable** — this is the
   concrete schema-level expression of "optional auth": a real purchase
@@ -73,3 +92,4 @@ customer_tiers
 
 - [`tech-stack.md`](./tech-stack.md)
 - [`platform-vs-product.md`](./platform-vs-product.md)
+- [`manual-payment-flow.md`](./manual-payment-flow.md)

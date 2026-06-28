@@ -33,6 +33,17 @@ whole wiki.
   DB schema sketch, open questions
 - [`architecture/platform-vs-product.md`](./architecture/platform-vs-product.md)
   — scope-discipline rule (read before starting any new phase)
+- [`architecture/manual-payment-flow.md`](./architecture/manual-payment-flow.md)
+  — order lifecycle, checkout fields, email touchpoints (no payment
+  gateway — see ADR 0005)
+
+## Design knowledge
+
+- [`design/brand-design-brief.md`](./design/brand-design-brief.md) —
+  brand direction brief for Claude Design / frontend implementation
+- [`design/design-tokens.md`](./design/design-tokens.md) — **authoritative
+  color palette**, extracted directly from the existing logo + product
+  label (supersedes the earlier color-temperature instinct)
 
 ## Decisions (ADR-style, append-only — never delete, supersede instead)
 
@@ -41,6 +52,9 @@ whole wiki.
 - [`decisions/0003-no-soviet-origin-angle.md`](./decisions/0003-no-soviet-origin-angle.md)
   — **hard constraint, check before any new advertorial**
 - [`decisions/0004-platform-scope-discipline.md`](./decisions/0004-platform-scope-discipline.md)
+- [`decisions/0005-manual-payment-flow.md`](./decisions/0005-manual-payment-flow.md)
+  — **hard constraint: no Stripe / no payment gateway in code**
+- [`decisions/0006-claude-design-for-ui-ux.md`](./decisions/0006-claude-design-for-ui-ux.md)
 
 ## Planning
 

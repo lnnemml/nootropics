@@ -5,22 +5,31 @@
 > in GitHub Issues/Projects once the repo is pushed (not duplicated here
 > in full — link, don't copy, to avoid the wiki going stale).
 
-## Phase 0 — Architecture & Wiki *(current)*
+## Phase 0 — Architecture & Wiki *(done — scaffold deployed to Vercel)*
 - Confirm tech stack & repo shape (ADR 0001)
 - Scaffold Next.js project, folder structure
 - Initialize `docs/raw/` + `docs/wiki/` + root `CLAUDE.md`
 - Push to GitHub, connect Vercel + Neon
 
-## Phase 1 — Marketing shell + NeuroDrive launch surface
+## Phase 1 — Marketing shell + NeuroDrive launch surface *(current)*
+
+> **Sequencing (updated 2026-06-29):** non-advertorial first. Design and
+> build the shared system on simpler surfaces, then extend to the
+> advertorial last — see
+> [`design/brand-design-brief.md`](./design/brand-design-brief.md).
+
 - Design system (Tailwind theme, shadcn components, typography) reflecting
-  "for builders, not bio-spiritual wellness" brand tone
+  "for builders, not bio-spiritual wellness" brand tone — explored first
+  in Claude Design on the home/mission page
 - `(marketing)` shell: home, mission/about
-- `(shop)/neurodrive` — the long-form advertorial landing page, built from
-  existing validated copy (Belief → Problem → Failed Solutions →
-  Mechanism → Transformation → Proof → Urgency → Action)
 - `(shop)/products/[slug]` generic template, NeuroDrive as the first entry
-  (content-only — no real cart/checkout yet, "Buy Now" can point to an
-  external/temporary checkout if needed before Phase 4 ships)
+  (content-only — no real cart/checkout yet)
+- Checkout (manual-confirmation) shell — UI only, no payment logic yet
+  (see [`architecture/manual-payment-flow.md`](./architecture/manual-payment-flow.md))
+- `(shop)/neurodrive` — **last** in this phase — the long-form advertorial
+  landing page, built from existing validated copy (Belief → Problem →
+  Failed Solutions → Mechanism → Transformation → Proof → Urgency →
+  Action), once the design system is proven elsewhere
 - Goal: something live and shareable on Vercel
 
 ## Phase 2 — Database & product catalog
@@ -33,9 +42,14 @@
 - Auth.js setup, guest-checkout-compatible user model
 - Account page (order history placeholder)
 
-## Phase 4 — Cart + checkout (Stripe)
-- Cart state, checkout flow, Stripe integration
+## Phase 4 — Cart + manual-confirmation checkout
+- Cart state, checkout form (no payment fields — see
+  [`architecture/manual-payment-flow.md`](./architecture/manual-payment-flow.md))
+- Resend integration: order-received + internal new-order emails
+- `order_notes` table + minimal way for ops to mark orders paid/fulfilled
 - Multi-bottle / subscription upsell (per offer brief funnel architecture)
+  — subscription billing itself is blocked on a real payment processor;
+  ship the upsell *offer* in copy/UI now, automate billing later
 
 ## Phase 5 — Referral & cumulative discount system
 - `referral_codes`, `discount_ledger`, `customer_tiers` tables live

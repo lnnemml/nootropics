@@ -75,6 +75,13 @@ an architecture analysis, a copywriting rationale.
 - Don't expand platform scope ahead of the current roadmap phase — see
   [`docs/wiki/architecture/platform-vs-product.md`](docs/wiki/architecture/platform-vs-product.md)
   and [`docs/wiki/roadmap.md`](docs/wiki/roadmap.md).
+- **No Stripe, no card input fields, no "Pay Now" button implying
+  real-time payment processing** — this product category can't use
+  mainstream processors. Checkout is a manual-confirmation flow with
+  Resend emails. See
+  [`docs/wiki/architecture/manual-payment-flow.md`](docs/wiki/architecture/manual-payment-flow.md)
+  and
+  [`docs/wiki/decisions/0005-manual-payment-flow.md`](docs/wiki/decisions/0005-manual-payment-flow.md).
 
 ## Coding conventions
 
