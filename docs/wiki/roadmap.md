@@ -11,7 +11,7 @@
 - Initialize `docs/raw/` + `docs/wiki/` + root `CLAUDE.md`
 - Push to GitHub, connect Vercel + Neon
 
-## Phase 1 — Marketing shell + NeuroDrive launch surface *(current)*
+## Phase 1 — Marketing shell + NeuroDrive launch surface *(done — deployed to Vercel 2026-06-28)*
 
 > **Sequencing (updated 2026-06-29):** non-advertorial first. Design and
 > build the shared system on simpler surfaces, then extend to the
@@ -32,7 +32,7 @@
   Action), once the design system is proven elsewhere
 - Goal: something live and shareable on Vercel
 
-## Phase 2 — Database & product catalog
+## Phase 2 — Database & product catalog *(next)*
 - Implement Drizzle schema per
   [`architecture/data-model.md`](./architecture/data-model.md)
 - Neon connection, migrations

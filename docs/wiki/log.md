@@ -279,3 +279,25 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
   Shipping / Your order / Note / Submit groups.
 - Verified: form renders correctly in light mode; confirmation state
   shows after submit; tsc --noEmit clean.
+
+## [2026-06-28] phase | Phase 1 Task 7 — Navigation wiring + deploy
+
+- Added "Place an order" checkout CTA section to product page template
+  (bottom of page, below PrincipleGrid), completing the
+  home → products → checkout flow.
+- Navigation wiring confirmed:
+  - Home: NavBar "Products" → `/products/neurodrive` ✓
+  - Home: NavBar "READ THE MECHANISM →" → `/products/neurodrive` ✓
+  - Home: Hero CTA "See how we evaluate compounds" → `/#science` ✓
+  - Product: Hero CTA "Read the mechanism" → `#mechanism` ✓
+  - Product: "Place an order" → `/checkout` ✓
+  - All pages: NORA wordmark → `/` ✓
+  - Footer: RESEARCH / COMPANY links wired ✓
+- Dark mode persists across all navigation (localStorage + inline script
+  in layout.tsx prevents flash; verified on live Vercel URL).
+- `npm run build` passed clean (8 static/SSG pages, no errors).
+- Deployed to Vercel production: https://nora-lovat.vercel.app
+  Project: isribs-projects/nora
+- Live click-through verified: home → products/neurodrive → checkout →
+  home (via logo), in dark mode throughout. No console errors.
+- Roadmap updated: Phase 1 marked done, Phase 2 marked next.
