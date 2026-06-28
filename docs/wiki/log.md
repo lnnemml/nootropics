@@ -241,3 +241,22 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
 - All copy matches `marketing/home-page-copy-v2.md` exactly.
 - Verified: page renders correctly in both light and dark mode; tsc
   --noEmit clean; 200 OK from running dev server.
+
+## [2026-06-28] phase | Phase 1 Task 5 — Generic product page template
+
+- Created `src/lib/copy/products.ts` with `ProductData` interface and
+  `getProduct` / `getAllProductSlugs` helpers. NeuroDrive is the first
+  (and currently only) entry — placeholder-but-structurally-correct copy
+  with product-level (NeuroDrive) voice, not NORA-level.
+- Created `src/app/(shop)/products/[slug]/page.tsx` as a fully
+  data-driven async server component. Uses `await params` per Next.js
+  16 API (params is a Promise). Calls `notFound()` for unknown slugs.
+  `generateStaticParams` derived from the products list.
+- Template structure mirrors the home page but with product framing:
+  Hero (SUSTAINED vs. SPIKED chart) → DividerMotif → ContrastCardPair
+  (SYNTHESIS-LED vs. RELEASE-LED) → MissionStatement (mechanism
+  pull-quote) → DividerMotif → PrincipleGrid.
+- No NeuroDrive-specific strings hardcoded in the template — all text
+  comes from the data object keyed by slug.
+- Acceptance check: `/products/neurodrive` renders correctly in dark
+  mode; `/products/unknown-product` returns 404; tsc --noEmit clean.
