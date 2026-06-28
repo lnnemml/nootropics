@@ -31,6 +31,22 @@ Three layers, following the Karpathy LLM-wiki pattern:
    the whole directory.
 3. **This file** — the schema. It tells you the conventions below.
 
+## Wiki ownership (read this if you're Claude Code)
+
+This repo is the **only source of truth** for `docs/wiki/` and this
+file. Claude web (the architect-role session) does not have live
+repo access — it works from a local sandbox copy that can and does
+drift out of sync. When a Claude web session proposes wiki content (an
+ADR, a log entry, an updated spec), **apply it directly here, in the
+live repo** — don't wait for or rely on a zip export to "sync" it.
+Claude web's sandbox is scratch space for drafting, never authoritative.
+
+If you (Claude Code) add a `wiki/log.md` entry, **append it at the
+actual end of the file, in true chronological order of when the work
+happened** — not wherever feels convenient. If the file already has
+out-of-order entries, fixing the order is a welcome cleanup, not scope
+creep.
+
 ## Wiki maintenance workflow
 
 **Ingest** (new source dropped into `docs/raw/`, or a new decision made in
@@ -109,8 +125,32 @@ an architecture analysis, a copywriting rationale.
   [`docs/wiki/log.md`](docs/wiki/log.md)).
 - One logical change per Claude Code session/commit where practical —
   keeps the wiki's `log.md` entries and the git history both meaningful.
-- For non-trivial tasks, write/confirm a plan before executing — don't
-  jump straight to multi-file edits without stating the approach first.
+- **Token efficiency:** once a component exists in
+  `src/components/`, point future tasks at that component file, not at
+  `docs/raw/design/home-design-pass-1.html` again — the raw reference is
+  large (~24KB, both directions) and was only needed to extract exact
+  values once. Re-reading it per task (e.g. via Explore subagents) is
+  unnecessary cost after the component it covers is built.
+- **Verify `.gitignore` actually excludes `.next/`, `node_modules/`, and
+  `.vercel/` before the first commit of any session** — if a build or
+  dev server ran before the first commit, check `git status` isn't
+  showing thousands of generated files. If it is, `git rm -r --cached`
+  the offending paths before committing anything else (lesson from
+  Phase 1 Task 1 — see `docs/wiki/log.md`).
+- For non-trivial tasks (anything touching 3+ files, or any of the
+  Phase 1 task list), use Claude Code's actual **Plan Mode**
+  (`Shift+Tab` twice, or `/plan` for one turn) before letting it edit —
+  review the plan, then switch back to default mode to implement. Don't
+  skip this for "architectural" tasks (tokens, layout shell, reusable
+  components); it's fine to skip for a single narrow page change once
+  the components it reuses already exist.
+- **No third-party agent-harness plugins (e.g. ECC) and no parallel git
+  worktrees for now.** Phase 1's 7 tasks are sequential and dependent on
+  each other — a single Claude Code session, one task at a time, is
+  correct, not a limitation to route around. Revisit worktrees/parallel
+  sessions only once there are genuinely independent, non-overlapping
+  workstreams (e.g. two unrelated products, or a second person on the
+  project).
 
 ## Where to go next
 
@@ -123,4 +163,3 @@ an architecture analysis, a copywriting rationale.
   [`docs/wiki/marketing/`](docs/wiki/marketing/) pages first.
 - Working on infra/code → read
   [`docs/wiki/architecture/`](docs/wiki/architecture/) pages first.
-
