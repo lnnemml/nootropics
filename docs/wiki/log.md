@@ -222,3 +222,22 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
   extruded/3D-shaded render of the logo (highlight + bevel layers) in
   addition to the flat 2-tone version seen on the label — needs a
   decision on whether the 3D version is used anywhere on the site.
+
+## [2026-06-28] phase | Phase 1 Task 4 — NORA home / mission page
+
+- Built `src/app/(marketing)/page.tsx` using all Task 3 components.
+- Replaced Phase-0 placeholder with the full page structure:
+  Hero → DividerMotif → ContrastCardPair → MissionStatement →
+  DividerMotif → PrincipleGrid.
+- StatChart re-captioned for NORA platform level: `FIG.01 — SIGNAL vs.
+  NOISE`, labels VALIDATED / HYPED / FORGOTTEN, legend NORA / Hype cycles.
+- MissionStatement body highlights "NORA" in `text-accent` (teal) as the
+  sole color accent in the pull-quote, per design-system spec.
+- ContrastCardPair eyebrows: `NORA — RESEARCH-LED` (accent) vs.
+  `INDUSTRY — HYPE-LED` (neutral), both cards wired to MiniChart variants
+  (steady / jagged).
+- Section IDs `#science` and `#mission` added as wrapper divs for nav
+  anchor links (full nav wiring comes in Task 7).
+- All copy matches `marketing/home-page-copy-v2.md` exactly.
+- Verified: page renders correctly in both light and dark mode; tsc
+  --noEmit clean; 200 OK from running dev server.
