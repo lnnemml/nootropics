@@ -1,26 +1,46 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Class-based dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Colors — light mode defaults */
+  --color-page:          #FAFAF7;
+  --color-raised:        #F3F3EE;
+  --color-card:          #FFFFFF;
+  --color-primary:       #242424;
+  --color-ink:           #2E3A3C;
+  --color-secondary:     #696C6D;
+  --color-border:        rgba(46, 58, 60, 0.15);
+  --color-accent:        #1E9C78;
+  --color-accent-bright: #14B089;
+
+  /* Fonts */
+  --font-sans: var(--font-space-grotesk);
+  --font-mono: var(--font-jetbrains-mono);
+
+  /* Radius — precision instrument, not SaaS-rounded */
+  --radius-sm:   1px;
+  --radius:      2px;
+  --radius-md:   2px;
+  --radius-lg:   3px;
+  --radius-xl:   3px;
+  --radius-2xl:  3px;
+  --radius-3xl:  3px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Dark mode color overrides */
+.dark {
+  --color-page:      #0A0A0A;
+  --color-raised:    #2E3A3C;
+  --color-card:      #0A0A0A;
+  --color-primary:   #FAFAF7;
+  --color-ink:       #FAFAF7;
+  --color-secondary: rgba(250, 250, 247, 0.6);
+  --color-border:    rgba(250, 250, 247, 0.18);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-page);
+  color: var(--color-primary);
 }

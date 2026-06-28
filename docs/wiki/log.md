@@ -139,6 +139,22 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
   addendum in `design/brand-design-brief.md`. Not yet a locked ADR;
   finalize once Anton reviews Claude Design's actual output.
 
+## [2026-06-28] phase | Phase 1 Task 1 — Design tokens wired into Tailwind
+
+- Replaced placeholder Geist fonts with **Space Grotesk** (400/500/600/700) and
+  **JetBrains Mono** (400/500) via `next/font/google`; both exposed as CSS vars
+  `--font-space-grotesk` / `--font-jetbrains-mono` and wired into Tailwind `@theme`
+  as `--font-sans` / `--font-mono`.
+- Rewrote `src/app/globals.css` with Tailwind v4 `@theme` block: all nine color
+  tokens from `design-system.md` + `design-tokens.md` (page, raised, card, primary,
+  ink, secondary, border, accent, accent-bright), radius scale capped at 1–3px
+  everywhere, dark-mode custom variant via `@custom-variant dark`.
+- `.dark {}` block carries the dark-mode overrides; class-based strategy means
+  `dark:` Tailwind prefix works for any ancestor with `.dark`.
+- Created throwaway `src/app/test-tokens/page.tsx` rendering both modes
+  side-by-side (light half + `.dark`-wrapped dark half) — visually confirmed
+  against `docs/raw/design/home-design-pass-1.html`; production build clean.
+
 ## [2026-06-29] ingest | Real brand assets — extracted authoritative color palette
 
 - Anton provided the existing logo (`nora_logo_N.svg`) and a product
