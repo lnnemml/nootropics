@@ -67,12 +67,16 @@ whole wiki.
 - [`decisions/0006-claude-design-for-ui-ux.md`](./decisions/0006-claude-design-for-ui-ux.md)
 - [`decisions/0007-design-lock-in-and-brand-hierarchy.md`](./decisions/0007-design-lock-in-and-brand-hierarchy.md)
   — design system locked, Claude Design retired, NORA brand confirmed
+- [`decisions/0008-phase-1.5-site-completeness.md`](./decisions/0008-phase-1.5-site-completeness.md)
+  — Phase 1.5 inserted before Phase 2; cart hook pattern; pricing/legal constraints
 
 ## Planning
 
 - [`roadmap.md`](./roadmap.md) — phase-by-phase plan
 - [`phase-1-implementation-plan.md`](./phase-1-implementation-plan.md) —
-  **active task list for Claude Code**, one task per session
+  Phase 1 task list *(done)*
+- [`phase-1.5-implementation-plan.md`](./phase-1.5-implementation-plan.md) —
+  **active task list for Claude Code** (site completeness), one task per session
 
 ## Backlog (sources not yet ingested / pages not yet written)
 

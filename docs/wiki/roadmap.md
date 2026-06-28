@@ -32,7 +32,20 @@
   Action), once the design system is proven elsewhere
 - Goal: something live and shareable on Vercel
 
-## Phase 2 — Database & product catalog *(next)*
+## Phase 1.5 — Site completeness *(current)*
+
+> Full task breakdown: [`phase-1.5-implementation-plan.md`](./phase-1.5-implementation-plan.md).
+> See ADR [`decisions/0008-phase-1.5-site-completeness.md`](./decisions/0008-phase-1.5-site-completeness.md)
+> for why this was inserted before Phase 2.
+
+- **Task 1** — Product photo + price block on the product page (`next/image`, price UI slot with placeholder — no real price until Anton supplies one)
+- **Task 2** — Cart with `localStorage` persistence (`useCart` hook as the sole cart interface; Phase 4 DB swap is then hook-internals only)
+- **Task 3** — About page (`(marketing)/about`, deeper NORA mission content, reuses existing components)
+- **Task 4** — FAQ page (`(marketing)/faq`, sourced from `product/beliefs-and-objections.md` objection table)
+- **Task 5** — Legal/technical pages (Terms, Privacy, Refund, Shipping — AI-drafted templates, **not launch-ready without real legal review**)
+- **Task 6** — Nav/footer wiring + full click-through (all new pages linked, deployed + verified on live Vercel URL)
+
+## Phase 2 — Database & product catalog *(blocked until Phase 1.5 done)*
 - Implement Drizzle schema per
   [`architecture/data-model.md`](./architecture/data-model.md)
 - Neon connection, migrations

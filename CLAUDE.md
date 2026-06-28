@@ -110,9 +110,20 @@ an architecture analysis, a copywriting rationale.
   before writing copy.** Platform pages (home, mission, nav, footer)
   speak as **NORA**. Product pages (`(shop)/neurodrive`, future product
   pages) speak as the product, inside NORA's visual system.
-- **Active task list:** working through Phase 1 right now? Follow
-  [`docs/wiki/phase-1-implementation-plan.md`](docs/wiki/phase-1-implementation-plan.md)
-  task-by-task — one task per session/commit.
+- **Active task list:** Phase 1 is done (deployed). Now working through
+  Phase 1.5 — follow
+  [`docs/wiki/phase-1.5-implementation-plan.md`](docs/wiki/phase-1.5-implementation-plan.md)
+  task-by-task — one task per session/commit. See ADR
+  [`docs/wiki/decisions/0008-phase-1.5-site-completeness.md`](docs/wiki/decisions/0008-phase-1.5-site-completeness.md).
+- **Never invent a real product price.** The price is explicitly blocked
+  on Anton supplying real numbers — build the UI slot with an
+  obviously-fake placeholder and flag back if no real number has been
+  provided.
+- **Legal/technical pages (Terms, Privacy, Refund, Shipping) are
+  AI-drafted starting templates only** — not launch-ready without real
+  legal review. State this visibly in commit messages and flag to Anton.
+  Supplement-liability and FDA-disclaimer considerations make this
+  non-negotiable.
 
 ## Coding conventions
 

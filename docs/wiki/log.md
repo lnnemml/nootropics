@@ -301,3 +301,26 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
 - Live click-through verified: home → products/neurodrive → checkout →
   home (via logo), in dark mode throughout. No console errors.
 - Roadmap updated: Phase 1 marked done, Phase 2 marked next.
+
+## [2026-06-28] decision | Phase 1.5 inserted — site completeness before database
+
+- Anton reviewed the deployed Phase 1 result. Design system assessment:
+  strong — palette, typography, steady/spike motif all landed. Overall
+  verdict: "too generic, not a real e-commerce site yet" — missing a
+  product photo, price block, working cart, and the standard pages (About,
+  FAQ, legal) any real storefront needs.
+- Decision: insert Phase 1.5 (site completeness) before Phase 2 (database).
+  Building the database layer against an incomplete frontend would create
+  integration rework when the frontend catches up anyway.
+- Recorded as ADR 0008. Created
+  [`phase-1.5-implementation-plan.md`](./phase-1.5-implementation-plan.md)
+  with 6 tasks. Key structural decisions baked into the plan:
+  - Cart built `localStorage`-first behind a `useCart` hook — Phase 4
+    DB swap becomes a hook-internals change, not a UI rewrite.
+  - Pricing explicitly **blocked on Anton supplying real numbers** — no
+    invented prices, ever.
+  - Legal pages are AI-drafted templates only — flagged as not
+    launch-ready without real legal review.
+- Updated `roadmap.md` (Phase 1.5 current, Phase 2 blocked until done),
+  `CLAUDE.md` (active task list pointer + two new hard constraints),
+  and `index.md` (Planning + Decisions sections).
