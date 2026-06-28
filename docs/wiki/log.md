@@ -139,6 +139,32 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
   addendum in `design/brand-design-brief.md`. Not yet a locked ADR;
   finalize once Anton reviews Claude Design's actual output.
 
+## [2026-06-28] phase | Phase 1 Task 3 — Reusable content components
+
+- Built six reusable components in `src/components/ui/`, all prop-driven, all
+  working in light and dark mode via Task 1's token system:
+  - `DividerMotif` — full-width SVG (exact path from raw HTML), ink stroke at
+    45% opacity, accent-bright dot; no props
+  - `MiniChart` — variant prop ("steady" | "jagged"); viewBox 300×120, shared
+    baseline; steady has rising curve + teal endpoint dot, jagged has dashed
+    zigzag; used inside ContrastCardPair
+  - `StatChart` — full signature motif (680×300 viewBox); 6 props for caption,
+    three curve labels, and legend text; renders as `<figure>` with bordered card
+    and figcaption legend row; SVG strokes use `var(--color-*)` directly for
+    dark mode without `dark:` overrides
+  - `Hero` — eyebrow → H1 → subhead → CTA button, 2-col grid with chart slot;
+    CTA uses `bg-ink text-page` which auto-inverts in dark mode via tokens
+  - `ContrastCardPair` — `bg-raised` section, 2-card grid; eyebrowAccent bool
+    controls `text-accent` vs `text-secondary` for us/them differentiation;
+    accepts MiniChart variant per card
+  - `MissionStatement` — centered large pull-quote, `body: React.ReactNode` so
+    callers wrap accent words in `<span className="text-accent">`
+  - `PrincipleGrid` — 3-col grid, always 3 principles, auto-numbered 01/02/03
+    in JetBrains Mono, hairline `border-t` above the row
+- Created throwaway `src/app/test-components/page.tsx` showing each component
+  twice (different props) in a light/dark split layout; all verified visually.
+  Delete by Task 4.
+
 ## [2026-06-28] phase | Phase 1 Task 2 — Shared layout shell
 
 - Built `NavBar` (Server Component): two-dot accent logo mark + "NORA" wordmark
