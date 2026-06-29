@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProduct, getAllProductSlugs } from "@/lib/copy/products";
@@ -10,6 +11,20 @@ import { DividerMotif } from "@/components/ui/DividerMotif";
 
 export function generateStaticParams() {
   return getAllProductSlugs().map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const product = getProduct(slug);
+  if (!product) return {};
+  return {
+    title: `${product.name} | NORA`,
+    description: product.hero.subhead,
+  };
 }
 
 export default async function ProductPage({

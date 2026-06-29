@@ -17,7 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NeuroDrive Platform",
+  title: "NORA — Nootropics Research Alliance",
   description: "Evidence-based nootropics, built for builders.",
 };
 

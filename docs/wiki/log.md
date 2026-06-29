@@ -343,3 +343,25 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
   the static site before the database layer — didn't change, only how
   rigidly it's planned). Updated `roadmap.md`'s Phase 1.5 section to
   match.
+
+## [2026-06-29] phase | Nav shell hardening — mobile nav, responsive gutter, context CTA, root metadata
+
+- **Mobile hamburger nav** (`NavBar.tsx`): below `md`, text links + CTA pill
+  collapse into a hamburger-triggered overlay panel (`bg-page`, `border-border`,
+  2px radius tokens). Logo + theme toggle remain always visible. Above `md`,
+  desktop layout unchanged.
+- **Responsive gutter** (`Container.tsx`): extracted a `Container` layout
+  primitive at `src/components/layout/Container.tsx` with `px-4 sm:px-6
+  md:px-[72px]` — applied to NavBar. A TODO comment in `Container.tsx` flags
+  that Footer.tsx and the section components (Hero, ContrastCardPair,
+  PrincipleGrid, MissionStatement, DividerMotif, product page checkout CTA)
+  still use the hardcoded `px-[72px]` gutter and should migrate in a fast
+  follow.
+- **Context-aware CTA** (`NavBar.tsx`): "Read the mechanism →" pill is hidden
+  on `/products/*` and `/checkout` routes via `usePathname` — now client
+  component (`"use client"`). Visible everywhere else (home, future about/faq).
+- **Root metadata** (`layout.tsx`): title changed to `"NORA — Nootropics
+  Research Alliance"`. Product page (`(shop)/products/[slug]/page.tsx`) adds
+  `generateMetadata` exporting `"${product.name} | NORA"` — confirms ADR 0007
+  brand-hierarchy split down to the browser tab.
+- `tsc --noEmit` clean.
