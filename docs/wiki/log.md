@@ -401,3 +401,41 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
 - **Footer.tsx COMPANY column**: "Mission" stays; "Contact" now links to
   `/contact` (was raw mailto); "About" added.
 - `tsc --noEmit` clean.
+
+## [2026-06-29] phase | Cart icon + mobile header layout
+
+- **`src/lib/cart/useCart.ts`** — localStorage-backed cart hook. Shape:
+  `[{ slug, qty }]`. Exposes `addItem` / `removeItem` / `setQty` /
+  `itemCount` / `items`. Starts empty to match server render; populates
+  from localStorage on mount (no hydration mismatch). All localStorage
+  access isolated here — components never call it directly (per Phase 1.5
+  standing constraint: hook internals are Phase 4's swap point).
+- **`src/components/ui/CartIcon.tsx`** — outline bag icon (18×18, 1.4
+  stroke, `currentColor`), accent-colored count badge (top-right, hidden
+  when empty, "99+" cap). Wraps a Link to `/cart`.
+- **NavBar.tsx** — removed `usePathname` + `showCta` + "Order now →" CTA
+  entirely. Desktop right: ThemeToggle + CartIcon. Mobile right (always
+  visible, outside hamburger): ThemeToggle + CartIcon + hamburger button.
+  Mobile slide-down panel: 4 nav links only, no CTA duplicate.
+- **`src/app/(shop)/cart/page.tsx`** — client component using `useCart`.
+  Empty state: "Nothing here yet" + link to NeuroDrive. Non-empty: line
+  items with qty stepper (± buttons via `setQty`) + remove button, plus
+  "Proceed to checkout →" link stub. Checkout handoff wiring deferred to
+  punch-list item 5.
+- `tsc --noEmit` clean.
+
+## [2026-06-29] phase | Logo patch — N icon-mark + text wordmark at nav size
+
+- **Logo.tsx rewritten**: swapped from the 39KB full stacked lockup
+  (`nora_logo.svg`) to the 5-path N icon-mark only (`neurodrive_logo_N.svg`),
+  rendered as a 24×24 inline SVG with viewBox "365 270 430 440" (crops to
+  the N content area). Same color-token mapping as before. "NORA" wordmark
+  is now a plain text `<span>` (Space Grotesk 14px font-semibold text-ink)
+  next to the icon — matches the original placeholder LogoMark() pattern,
+  just with the real geometric mark in place of the CSS dots. `height` prop
+  removed (fixed 24px icon, text scales with font).
+- Full stacked lockup remains at `public/nora_logo.svg` for future
+  large-size placements (About hero, OG image) — not deleted.
+- NavBar.tsx and Footer.tsx updated: removed now-invalid `height` prop.
+- Verified at 100% browser zoom: N mark crisp, wordmark readable, favicon
+  N-mark visible in tab. `tsc --noEmit` clean.

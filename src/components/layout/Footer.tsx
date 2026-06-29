@@ -28,7 +28,7 @@ export function Footer() {
           {/* Logo + tagline */}
           <div className="flex flex-col gap-4">
             <Link href="/">
-              <Logo height={44} />
+              <Logo />
             </Link>
             <p className="max-w-[200px] font-sans text-sm leading-relaxed text-secondary">
               {"A research alliance for people who run hot. Evidence first, every time."}

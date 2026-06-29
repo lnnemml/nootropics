@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
 import { Container } from "./Container";
 import { Logo } from "@/components/ui/Logo";
+import { CartIcon } from "@/components/ui/CartIcon";
 
 const NAV_LINKS = [
   { label: "Products", href: "/products/neurodrive" },
@@ -44,16 +44,12 @@ function HamburgerIcon({ open }: { open: boolean }) {
 
 export function NavBar() {
   const [open, setOpen] = useState(false);
-  const pathname = usePathname();
-
-  const showCta =
-    !pathname.startsWith("/products/") && pathname !== "/checkout";
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-page">
       <Container className="flex h-14 items-center justify-between">
         <Link href="/" className="shrink-0">
-          <Logo height={38} />
+          <Logo />
         </Link>
 
         {/* Desktop nav — hidden below md */}
@@ -70,21 +66,15 @@ export function NavBar() {
         </nav>
 
         {/* Desktop right — hidden below md */}
-        <div className="hidden md:flex items-center gap-3 shrink-0">
+        <div className="hidden md:flex items-center gap-2 shrink-0">
           <ThemeToggle />
-          {showCta && (
-            <Link
-              href="/checkout"
-              className="rounded border border-border px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-primary transition-colors hover:border-accent hover:text-accent"
-            >
-              {"Order now →"}
-            </Link>
-          )}
+          <CartIcon />
         </div>
 
-        {/* Mobile right — hidden above md */}
-        <div className="flex md:hidden items-center gap-2 shrink-0">
+        {/* Mobile right — always visible, outside hamburger */}
+        <div className="flex md:hidden items-center gap-1 shrink-0">
           <ThemeToggle />
+          <CartIcon />
           <button
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Close menu" : "Open menu"}
@@ -96,7 +86,7 @@ export function NavBar() {
         </div>
       </Container>
 
-      {/* Mobile panel — slide in below the bar */}
+      {/* Mobile panel — nav links only */}
       {open && (
         <nav
           className="md:hidden border-t border-border bg-page"
@@ -113,17 +103,6 @@ export function NavBar() {
                 {label}
               </Link>
             ))}
-            {showCta && (
-              <div className="mt-2 border-t border-border pt-3">
-                <Link
-                  href="/checkout"
-                  onClick={() => setOpen(false)}
-                  className="inline-block rounded border border-border px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-primary transition-colors hover:border-accent hover:text-accent"
-                >
-                  {"Order now →"}
-                </Link>
-              </div>
-            )}
           </div>
         </nav>
       )}
