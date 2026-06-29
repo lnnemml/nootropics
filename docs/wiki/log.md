@@ -439,3 +439,20 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
 - NavBar.tsx and Footer.tsx updated: removed now-invalid `height` prop.
 - Verified at 100% browser zoom: N mark crisp, wordmark readable, favicon
   N-mark visible in tab. `tsc --noEmit` clean.
+
+## [2026-06-29] phase | Logo viewBox fix + path5 restore + cart redirect
+
+- **Logo.tsx viewBox corrected**: changed from `"365 270 430 440"` to `"318 243
+  338 333"` (artwork bounding box 322–652 x / 247–572 y from source SVG, +4px
+  padding per side so strokes/dots aren't clipped). Previous viewBox was an
+  eyeballed approximation that cropped the leftmost stroke of the N.
+- **path5 `d` attribute restored**: the 3rd path (bevel-shadow layer,
+  `fill:#1E9C78`) had a literal `"path5"` string as its `d` value — a
+  copy/extraction error from the previous session. Pulled the real path data
+  from `docs/raw/design/neurodrive_logo_N.svg` id="path5". All 5 layers now
+  render.
+- **CartIcon.tsx**: `href` changed from `/cart` to `/checkout`. The existing
+  `src/app/(shop)/cart/page.tsx` remains in place but is currently dead code —
+  not linked from anywhere, parked for a future cart-review step if one gets
+  added to the roadmap.
+- `tsc --noEmit` clean.

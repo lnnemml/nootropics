@@ -27,7 +27,7 @@ export function CartIcon() {
 
   return (
     <Link
-      href="/cart"
+      href="/checkout"
       aria-label={
         itemCount > 0
           ? `Cart — ${itemCount} item${itemCount !== 1 ? "s" : ""}`
