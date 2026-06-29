@@ -5,26 +5,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
 import { Container } from "./Container";
+import { Logo } from "@/components/ui/Logo";
 
 const NAV_LINKS = [
-  { label: "Science", href: "/#science" },
-  { label: "Mission", href: "/#mission" },
   { label: "Products", href: "/products/neurodrive" },
+  { label: "About", href: "/about" },
+  { label: "Journal", href: "/blog" },
+  { label: "Contact", href: "/contact" },
 ] as const;
-
-function LogoMark() {
-  return (
-    <Link href="/" className="flex items-center gap-2.5 shrink-0">
-      <span className="flex items-center gap-[3px]">
-        <span className="block h-[7px] w-[7px] rounded-full bg-accent" />
-        <span className="block h-[7px] w-[7px] rounded-full bg-accent-bright" />
-      </span>
-      <span className="font-sans text-[13px] font-semibold tracking-[-0.01em] text-ink">
-        NORA
-      </span>
-    </Link>
-  );
-}
 
 function HamburgerIcon({ open }: { open: boolean }) {
   return (
@@ -64,7 +52,9 @@ export function NavBar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-page">
       <Container className="flex h-14 items-center justify-between">
-        <LogoMark />
+        <Link href="/" className="shrink-0">
+          <Logo height={38} />
+        </Link>
 
         {/* Desktop nav — hidden below md */}
         <nav className="hidden md:flex items-center gap-7">
@@ -84,10 +74,10 @@ export function NavBar() {
           <ThemeToggle />
           {showCta && (
             <Link
-              href="/products/neurodrive"
+              href="/checkout"
               className="rounded border border-border px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-primary transition-colors hover:border-accent hover:text-accent"
             >
-              {"Read the mechanism →"}
+              {"Order now →"}
             </Link>
           )}
         </div>
@@ -126,11 +116,11 @@ export function NavBar() {
             {showCta && (
               <div className="mt-2 border-t border-border pt-3">
                 <Link
-                  href="/products/neurodrive"
+                  href="/checkout"
                   onClick={() => setOpen(false)}
                   className="inline-block rounded border border-border px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-primary transition-colors hover:border-accent hover:text-accent"
                 >
-                  {"Read the mechanism →"}
+                  {"Order now →"}
                 </Link>
               </div>
             )}

@@ -31,10 +31,13 @@
 5. **Checkout** — polish the manual-confirmation flow shell (see
    `architecture/manual-payment-flow.md` for the fields/states it needs)
 6. **About** — deeper NORA mission content than the home page's brief
-   version (source: `product/overview.md`, `product/brand-hierarchy.md`)
-7. **FAQ** — built from `product/beliefs-and-objections.md`'s objection
+   version (source: `product/overview.md`, `product/brand-hierarchy.md`).
+   Placeholder exists at `/about`.
+7. **Contact** — minimal page with email link currently at `/contact`.
+   Could add a form later; not in scope now.
+8. **FAQ** — built from `product/beliefs-and-objections.md`'s objection
    → response map (close to copy-paste, minimal new copywriting)
-8. **Legal/technical pages** — Terms, Privacy, Refund, Shipping.
+9. **Legal/technical pages** — Terms, Privacy, Refund, Shipping.
    **AI-drafted starting templates only — needs real legal review before
    launch**, not launch-ready as generated.
 

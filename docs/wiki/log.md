@@ -365,3 +365,39 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
   `generateMetadata` exporting `"${product.name} | NORA"` — confirms ADR 0007
   brand-hierarchy split down to the browser tab.
 - `tsc --noEmit` clean.
+
+## [2026-06-29] ingest | Commit 1 — Logo integration
+
+- **`src/components/ui/Logo.tsx`** — new component, inline SVG of the NORA
+  stacked lockup (`public/nora_logo.svg`, 39KB source). 5 layered paths,
+  fills mapped to CSS tokens: `#2b3235` + `#334d48` → `var(--color-ink)`;
+  `#696c6d` → `var(--color-secondary)`; accent teal values stay as hex
+  (`#1E9C78`, `#14B089`). Accepts a `height` prop (nav: 38px, footer: 44px);
+  viewBox crops to `"246 260 660 613"` so the logo renders tightly without
+  the blank canvas margins from the Inkscape export.
+- **`src/app/icon.svg`** — favicon, sourced from `neurodrive_logo_N.svg`
+  (the N-mark only, not the full stacked lockup — better for 16-32px),
+  viewBox cropped to `"365 270 430 440"`. Uses static hex fills since
+  favicons don't support CSS variables. Resolves the open item in
+  `design-tokens.md` about the extruded logo: layered lockup → header/footer;
+  flat N-mark → favicon.
+- **NavBar.tsx, Footer.tsx** — `LogoMark()` replaced with `<Logo />`.
+- **`design/design-system.md`** — Logo section added to Components list.
+- `tsc --noEmit` clean.
+
+## [2026-06-29] phase | Commit 2 — Header nav restructure + placeholder pages
+
+- **NavBar.tsx**: NAV_LINKS updated to Products / About / Journal / Contact.
+  CTA pill changed from "Read the mechanism →" (→ `/products/neurodrive`)
+  to "Order now →" (→ `/checkout`). Context-aware hide logic unchanged (pill
+  hides on `/products/*` and `/checkout`).
+- **`(marketing)/about/page.tsx`** — placeholder: mono eyebrow + H1 +
+  muted body. Real content (from `product/overview.md` + `brand-hierarchy.md`)
+  deferred to Phase 1.5 item 6.
+- **`(marketing)/contact/page.tsx`** — minimal: heading + `hello@nora.so`
+  mailto button. Added as Phase 1.5 item 7 in `phase-1.5-implementation-plan.md`.
+- **`(blog)/blog/page.tsx`** — placeholder index: mono eyebrow + H1 + muted
+  body. Article content deferred to Phase 1.5 item 4.
+- **Footer.tsx COMPANY column**: "Mission" stays; "Contact" now links to
+  `/contact` (was raw mailto); "About" added.
+- `tsc --noEmit` clean.

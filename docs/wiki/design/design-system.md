@@ -61,8 +61,15 @@ is for *reading* text. Don't collapse these into one "dark" value — see
 
 ## Components
 
-1. **NavBar** — two-dot logo mark (accent colors) + wordmark + 3 text
-   links + one outlined mono CTA pill. Hairline border-bottom.
+**Logo** — `src/components/ui/Logo.tsx`. Inline SVG of the NORA stacked lockup
+(geometric N lettermark + NORA wordmark). Fill colors are mapped to CSS tokens
+(`#2b3235` + `#334d48` → `var(--color-ink)`; `#696c6d` → `var(--color-secondary)`;
+teal accents stay as hex). Accepts a `height` prop (nav: 38px, footer: 44px).
+Favicon: `src/app/icon.svg` — the N-mark only (flat, cropped viewBox), no CSS vars.
+
+1. **NavBar** — NORA logo lockup + 4 text links (Products/About/Journal/Contact)
+   + one outlined mono CTA pill ("Order now →", hidden on /checkout). Hairline
+   border-bottom. Collapses to hamburger below md.
 2. **Hero** — eyebrow (mono, uppercase) → H1 (2 lines) → subhead
    (max-width constrained) → CTA row (solid button + mono caption),
    paired with a bordered **stat card**: an SVG line chart contrasting a

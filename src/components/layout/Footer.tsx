@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "@/components/ui/Logo";
 
 const FOOTER_COLUMNS = [
   {
@@ -13,24 +14,11 @@ const FOOTER_COLUMNS = [
     heading: "COMPANY",
     links: [
       { label: "Mission", href: "/#mission" },
-      { label: "Contact", href: "mailto:hello@nora.so" },
+      { label: "About", href: "/about" },
+      { label: "Contact", href: "/contact" },
     ],
   },
 ] as const;
-
-function LogoMark() {
-  return (
-    <div className="flex items-center gap-2.5">
-      <span className="flex items-center gap-[3px]">
-        <span className="block h-[7px] w-[7px] rounded-full bg-accent" />
-        <span className="block h-[7px] w-[7px] rounded-full bg-accent-bright" />
-      </span>
-      <span className="font-sans text-[13px] font-semibold tracking-[-0.01em] text-ink">
-        NORA
-      </span>
-    </div>
-  );
-}
 
 export function Footer() {
   return (
@@ -39,7 +27,9 @@ export function Footer() {
         <div className="grid grid-cols-[1fr_auto_auto] gap-x-24 gap-y-10">
           {/* Logo + tagline */}
           <div className="flex flex-col gap-4">
-            <LogoMark />
+            <Link href="/">
+              <Logo height={44} />
+            </Link>
             <p className="max-w-[200px] font-sans text-sm leading-relaxed text-secondary">
               {"A research alliance for people who run hot. Evidence first, every time."}
             </p>
