@@ -87,8 +87,18 @@ Favicon: `src/app/icon.svg` — the N-mark only (flat, cropped viewBox), no CSS 
    or two per page, not on every section boundary.
 7. **Footer** — raised-surface block: logo+tagline column + 2 link
    columns with mono uppercase headers, mono copyright line below.
+8. **ReleaseCatalog** — `src/components/ui/ReleaseCatalog.tsx`. Eyebrow +
+   intro paragraph + asymmetric 3-col grid (`1.7fr 1fr 1fr`): first slot is
+   a `bg-card` card with product photo + name + body + CTA (status `"live"`),
+   remaining slots are dashed-border placeholder cards at 55% opacity (status
+   `"in-research"`). Signals platform breadth without overstating catalog size.
 
 ## The signature motif — generalized meaning
+
+> **As of ADR 0009 (2026-06-30): this motif is deprecated for new pages
+> and has been removed from the home page.** It remains on the NeuroDrive
+> product page pending its own polish pass (Phase 1.5 item 3). Do not add
+> it to new pages — see ADR 0009 for the revisit trigger.
 
 The steady-curve-vs-jagged-dashed-curve motif was designed for
 NeuroDrive's "Restore, Don't Stimulate" claim, but it generalizes cleanly

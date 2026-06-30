@@ -4,7 +4,7 @@ interface CardDef {
   eyebrow: string;
   eyebrowAccent: boolean;
   body: string;
-  chartVariant: "steady" | "jagged";
+  chartVariant?: "steady" | "jagged";
 }
 
 interface ContrastCardPairProps {
@@ -44,7 +44,7 @@ export function ContrastCardPair({ eyebrow, heading, cards }: ContrastCardPairPr
               >
                 {card.eyebrow}
               </p>
-              <MiniChart variant={card.chartVariant} />
+              {card.chartVariant && <MiniChart variant={card.chartVariant} />}
               <p className="font-sans text-[15px] leading-relaxed text-secondary">
                 {card.body}
               </p>

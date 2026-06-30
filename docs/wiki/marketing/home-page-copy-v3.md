@@ -1,5 +1,9 @@
 # Home / Mission Page — Copy v3
 
+> **Superseded by [`home-page-copy-v4.md`](./home-page-copy-v4.md)** —
+> v4 drops the abstract chart motif (ADR 0009) and replaces FeaturedRelease
+> with ReleaseCatalog. Kept per append-only convention.
+
 > Supersedes [`home-page-copy-v2.md`](./home-page-copy-v2.md) — adds a
 > concrete proof point (bromantane/tyrosine hydroxylase mechanism named
 > in the ContrastCardPair) and a Featured Release product teaser

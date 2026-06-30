@@ -28,9 +28,11 @@ whole wiki.
   *(superseded by v2 — wrote at the NeuroDrive level, wrong for the home
   page)*
 - [`marketing/home-page-copy-v2.md`](./marketing/home-page-copy-v2.md) —
-  *(superseded by v3 — missing proof point, Hero CTA aimed at #science)*
+  *(superseded by v3)*
 - [`marketing/home-page-copy-v3.md`](./marketing/home-page-copy-v3.md) —
-  **current home/mission copy** — adds named mechanism, FeaturedRelease teaser, product-page CTA
+  *(superseded by v4 — dropped chart motif, replaced FeaturedRelease with ReleaseCatalog)*
+- [`marketing/home-page-copy-v4.md`](./marketing/home-page-copy-v4.md) —
+  **current home/mission copy** — chart-free Hero, ReleaseCatalog (1 live + 2 in-research slots)
 
 ## Architecture knowledge
 
@@ -71,6 +73,8 @@ whole wiki.
   — design system locked, Claude Design retired, NORA brand confirmed
 - [`decisions/0008-phase-1.5-site-completeness.md`](./decisions/0008-phase-1.5-site-completeness.md)
   — Phase 1.5 inserted before Phase 2; cart hook pattern; pricing/legal constraints
+- [`decisions/0009-retire-chart-motif-on-home.md`](./decisions/0009-retire-chart-motif-on-home.md)
+  — abstract line-chart motif dropped from home page; optional on product page pending revisit
 
 ## Planning
 

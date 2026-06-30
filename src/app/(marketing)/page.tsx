@@ -1,7 +1,6 @@
 import { Hero } from "@/components/ui/Hero";
-import { StatChart } from "@/components/ui/StatChart";
 import { ContrastCardPair } from "@/components/ui/ContrastCardPair";
-import { FeaturedRelease } from "@/components/ui/FeaturedRelease";
+import { ReleaseCatalog } from "@/components/ui/ReleaseCatalog";
 import { MissionStatement } from "@/components/ui/MissionStatement";
 import { PrincipleGrid } from "@/components/ui/PrincipleGrid";
 import { DividerMotif } from "@/components/ui/DividerMotif";
@@ -17,16 +16,6 @@ export default function HomePage() {
         }
         ctaLabel="View NeuroDrive →"
         ctaHref="/products/neurodrive"
-        chart={
-          <StatChart
-            caption="FIG.01 — SIGNAL vs. NOISE"
-            solidLabel="VALIDATED"
-            dashedPeakLabel="HYPED"
-            dashedEndLabel="FORGOTTEN"
-            legendSolid="NORA"
-            legendDashed="Hype cycles"
-          />
-        }
       />
 
       <DividerMotif />
@@ -39,27 +28,36 @@ export default function HomePage() {
             {
               eyebrow: "NORA — RESEARCH-LED",
               eyebrowAccent: true,
-              body: "Our first release names its mechanism outright: bromantane upregulates tyrosine hydroxylase, the enzyme that sets your brain's own dopamine synthesis rate. That's the bar — a pathway we can point to, not a blend we can't explain.",
-              chartVariant: "steady",
+              body: "Every release names a mechanism and cites a study. If it doesn't hold up, we don't ship it — no matter how well it would sell.",
             },
             {
               eyebrow: "INDUSTRY — HYPE-LED",
               eyebrowAccent: false,
-              body: "A twelve-ingredient 'focus blend' with no single dose disclosed, no mechanism named per ingredient, and one clinical study covering one component — not the formula you're actually taking.",
-              chartVariant: "jagged",
+              body: "Proprietary blends nobody can verify, reviews standing in for clinical evidence, a compound chosen because it's trending this quarter.",
             },
           ]}
         />
       </div>
 
-      <FeaturedRelease
-        eyebrow="Our first release"
-        name="NeuroDrive"
-        body="Sublingual bromantane, one named mechanism — evaluated against the standard above, not an exception to it."
-        ctaLabel="View NeuroDrive →"
-        ctaHref="/products/neurodrive"
-        imageSrc="/neurodrive-bottle.jpg"
-        imageAlt="NeuroDrive sublingual bromantane bottle"
+      <ReleaseCatalog
+        eyebrow="What we're building"
+        intro={
+          "NORA isn't a single-product storefront — it's the early shelf of a research-led catalog we're building release by release. Every addition gets evaluated the same way NeuroDrive was: a mechanism we can name, a study we can cite, or it doesn't make the cut."
+        }
+        releases={[
+          {
+            label: "RELEASE 01",
+            name: "NeuroDrive",
+            status: "live",
+            body: "Sublingual bromantane, one named mechanism — evaluated against the standard above, not an exception to it.",
+            ctaLabel: "View NeuroDrive →",
+            href: "/products/neurodrive",
+            imageSrc: "/neurodrive-bottle.jpg",
+            imageAlt: "NeuroDrive sublingual bromantane bottle",
+          },
+          { label: "RELEASE 02", name: "In research", status: "in-research" },
+          { label: "RELEASE 03", name: "In research", status: "in-research" },
+        ]}
       />
 
       <div id="mission">

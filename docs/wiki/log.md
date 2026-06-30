@@ -457,6 +457,48 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
   added to the roadmap.
 - `tsc --noEmit` clean.
 
+## [2026-06-30] phase | Home page v4 — drop chart motif, add ReleaseCatalog
+
+Anton reviewed v3 live in the browser. Feedback: chart motif "looks generic,
+like fake data." Root cause: the steady/jagged curves earn their place on the
+product page (they map to a real physiological dynamic — dopamine synthesis
+rate vs. stimulant spike). Generalized to the platform level as SIGNAL vs.
+NOISE they have no concrete referent and read as decorative infographic,
+which undercuts the page's own evidence-over-hype claim.
+
+**Changes:**
+
+1. **Chart motif removed from home.** `Hero.chart` and
+   `ContrastCardPair.cards[].chartVariant` made optional (backward compatible —
+   product page compiles unchanged). Home page no longer passes either prop.
+   ADR 0009 records the decision and flags the revisit trigger: product page
+   polish pass (Phase 1.5 item 3) should evaluate whether the motif still
+   earns its place there.
+
+2. **FeaturedRelease replaced by ReleaseCatalog.** New component
+   (`src/components/ui/ReleaseCatalog.tsx`): eyebrow + intro + asymmetric
+   3-col grid. Slot 1 is the live product card (NeuroDrive, white-bg photo +
+   CTA); slots 2–3 are dashed-border "in research" placeholders at 55%
+   opacity. This signals platform ambition ("we're building a catalog") without
+   inventing products — consistent with the "curated, not exhaustive" wedge
+   from `competitive-landscape.md`.
+
+3. **Product photo swapped.** `public/neurodrive-bottle.jpg` overwritten with
+   `product_shot_white_bg.jpeg` (was the transparent-bg version).
+
+**Files changed:**
+- `src/components/ui/Hero.tsx` — `chart` prop made optional, layout conditional
+- `src/components/ui/ContrastCardPair.tsx` — `chartVariant` made optional, MiniChart render guarded
+- `src/components/ui/ReleaseCatalog.tsx` — new component
+- `src/components/ui/FeaturedRelease.tsx` — deleted (superseded by ReleaseCatalog)
+- `public/neurodrive-bottle.jpg` — overwritten with white-bg version
+- `src/app/(marketing)/page.tsx` — v4 structure
+- `docs/wiki/decisions/0009-retire-chart-motif-on-home.md` — new ADR
+- `docs/wiki/design/design-system.md` — motif deprecated note + ReleaseCatalog in component list
+- `docs/wiki/marketing/home-page-copy-v4.md` — new (supersedes v3)
+- `docs/wiki/marketing/home-page-copy-v3.md` — superseded header added
+- `docs/wiki/index.md` — v3 line marked superseded, v4 + ADR 0009 added
+
 ## [2026-06-30] phase | Home page v3 — proof point + FeaturedRelease teaser
 
 Three problems fixed in one pass (Phase 1.5 punch-list item 2):
