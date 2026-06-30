@@ -128,10 +128,11 @@ in a component**. Container provides `px-4 sm:px-6 md:px-[72px]` and a
 configurable `maxWidth` (default `max-w-7xl`).
 
 Rules for using Container:
-- Pass a narrower max-width via the `maxWidth` prop (`maxWidth="max-w-[760px]"`
-  etc.) — never stack a second `max-w-*` class via `className` on the same
-  Container, as two `max-w-*` classes have ambiguous precedence in compiled
-  Tailwind output.
+- Don't pass a narrower max-width to Container itself for text-column
+  purposes — its `md:px-[72px]` gutter applies *inside* that box and
+  compounds, shrinking usable text width more than expected. Nest a
+  `mx-auto max-w-[...]` div inside Container instead. See Hero's no-chart
+  variant (`max-w-[860px]` inner div) and MissionStatement for the pattern.
 - `md` (768px) is the mobile/desktop split, matching NavBar's existing
   `md:hidden`/`md:flex` convention. `sm` (640px) is available for intermediate
   tweaks where a binary mobile/desktop jump is too harsh — use it where

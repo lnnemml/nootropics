@@ -457,6 +457,23 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
   added to the roadmap.
 - `tsc --noEmit` clean.
 
+## [2026-06-30] fix | Container maxWidth double-shrink bug
+
+**Bug:** `maxWidth` prop on Container (added in the mobile pass) was
+double-shrinking text columns. Container's `md:px-[72px]` gutter applies
+*inside* the max-width box, so `maxWidth="max-w-[760px]"` on the Hero
+no-chart variant left only ~616px of usable text width.
+
+**Fix:** removed the `maxWidth` prop from Container entirely. Narrower
+text columns are now an inner `mx-auto max-w-[...]` div *inside* a
+normal `<Container>` (gutter + max-w-7xl). Hero no-chart variant and
+MissionStatement both use this pattern. No other component had the prop.
+
+Subhead `max-w-[520px]` bumped to `max-w-[620px]` in Hero to match the
+wider 860px text column (520px looked disproportionately narrow).
+
+`tsc --noEmit` clean.
+
 ## [2026-06-30] phase | Mobile responsiveness pass — sitewide
 
 All section components migrated to `Container` (`src/components/layout/Container.tsx`)
