@@ -63,6 +63,14 @@
   accordion) is a legitimate small addition; a new color, radius, or
   layout pattern invented per-page is not.
 
+10. **Mobile responsiveness pass — sitewide.** None of the locked
+    components (Hero, ContrastCardPair, ReleaseCatalog, PrincipleGrid,
+    Footer) have `md:`-breakpoint behavior, and `design-system.md`
+    doesn't yet define mobile gutter/column rules. Deliberately deferred
+    by Anton (2026-06-30) until home page and product page
+    content/structure are both finalized, so this gets done once across
+    both pages instead of twice.
+
 ## After this phase
 
 When Anton calls it done, update [`roadmap.md`](./roadmap.md) to mark

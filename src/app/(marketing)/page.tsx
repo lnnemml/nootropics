@@ -4,40 +4,22 @@ import { ReleaseCatalog } from "@/components/ui/ReleaseCatalog";
 import { MissionStatement } from "@/components/ui/MissionStatement";
 import { PrincipleGrid } from "@/components/ui/PrincipleGrid";
 import { DividerMotif } from "@/components/ui/DividerMotif";
+import Link from "next/link";
 
 export default function HomePage() {
   return (
     <>
       <Hero
-        eyebrow="Built for people who can't afford an off day"
-        h1={"We name the mechanism. Or we don't ship it."}
+        eyebrow="NORA — Nootropics Research Alliance"
+        h1={"Nootropics with a named mechanism and a cited trial. Or we don't ship them."}
         subhead={
-          "We're a research alliance, not a supplement brand. Every release ships with a mechanism we can name and a study we can cite — starting with NeuroDrive, a single, named compound, evaluated against exactly that standard."
+          "We're a research alliance for people who can't afford an off day — not a supplement brand. Every release ships with a mechanism we can name and a study we can cite, starting with NeuroDrive, a single, named compound evaluated against exactly that standard."
         }
         ctaLabel="View NeuroDrive →"
         ctaHref="/products/neurodrive"
       />
 
       <DividerMotif />
-
-      <div id="science">
-        <ContrastCardPair
-          eyebrow="The two methods"
-          heading={"One method compounds. The other just trends."}
-          cards={[
-            {
-              eyebrow: "NORA — RESEARCH-LED",
-              eyebrowAccent: true,
-              body: "Every release names a mechanism and cites a study. If it doesn't hold up, we don't ship it — no matter how well it would sell.",
-            },
-            {
-              eyebrow: "INDUSTRY — HYPE-LED",
-              eyebrowAccent: false,
-              body: "Proprietary blends nobody can verify, reviews standing in for clinical evidence, a compound chosen because it's trending this quarter.",
-            },
-          ]}
-        />
-      </div>
 
       <ReleaseCatalog
         eyebrow="What we're building"
@@ -59,6 +41,30 @@ export default function HomePage() {
           { label: "RELEASE 03", name: "In research", status: "in-research" },
         ]}
       />
+
+      <div id="science">
+        <ContrastCardPair
+          eyebrow="The two methods"
+          heading={"One method compounds. The other just trends."}
+          cards={[
+            {
+              eyebrow: "NORA — RESEARCH-LED",
+              eyebrowAccent: true,
+              body: "Every release names a mechanism and cites a study. If it doesn't hold up, we don't ship it — no matter how well it would sell.",
+            },
+            {
+              eyebrow: "INDUSTRY — HYPE-LED",
+              eyebrowAccent: false,
+              body: "Proprietary blends nobody can verify, reviews standing in for clinical evidence, a compound chosen because it's trending this quarter.",
+            },
+          ]}
+          footnote={{
+            citation: "EXAMPLE — BROMANTANE · 728-PATIENT TRIAL · 76% RESPONSE RATE (PMID 21322821)",
+            linkLabel: "Read more on the Journal →",
+            linkHref: "/blog",
+          }}
+        />
+      </div>
 
       <div id="mission">
         <MissionStatement
@@ -90,6 +96,26 @@ export default function HomePage() {
           },
         ]}
       />
+
+      <section className="py-[72px] px-[72px]">
+        <div className="mx-auto max-w-7xl flex flex-col items-center text-center gap-5">
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-secondary">
+            {"Ready when you are"}
+          </p>
+          <h2
+            className="font-sans font-semibold tracking-[-0.02em] text-ink"
+            style={{ fontSize: "clamp(28px, 2.5vw, 34px)" }}
+          >
+            {"Start with NeuroDrive"}
+          </h2>
+          <Link
+            href="/products/neurodrive"
+            className="inline-block rounded bg-ink px-6 py-3 font-sans text-[15px] font-medium text-page transition-opacity hover:opacity-80"
+          >
+            {"View NeuroDrive →"}
+          </Link>
+        </div>
+      </section>
     </>
   );
 }

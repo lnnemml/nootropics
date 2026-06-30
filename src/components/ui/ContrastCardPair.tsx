@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { MiniChart } from "./MiniChart";
 
 interface CardDef {
@@ -11,13 +12,17 @@ interface ContrastCardPairProps {
   eyebrow: string;
   heading: string;
   cards: [CardDef, CardDef];
+  footnote?: {
+    citation: string;
+    linkLabel: string;
+    linkHref: string;
+  };
 }
 
-export function ContrastCardPair({ eyebrow, heading, cards }: ContrastCardPairProps) {
+export function ContrastCardPair({ eyebrow, heading, cards, footnote }: ContrastCardPairProps) {
   return (
     <section className="bg-raised py-[72px] px-[72px]">
       <div className="mx-auto max-w-7xl">
-        {/* Section header */}
         <div className="mb-10">
           <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-secondary">
             {eyebrow}
@@ -30,7 +35,6 @@ export function ContrastCardPair({ eyebrow, heading, cards }: ContrastCardPairPr
           </h2>
         </div>
 
-        {/* Card grid */}
         <div className="grid grid-cols-2 gap-6">
           {cards.map((card, i) => (
             <div
@@ -51,6 +55,20 @@ export function ContrastCardPair({ eyebrow, heading, cards }: ContrastCardPairPr
             </div>
           ))}
         </div>
+
+        {footnote && (
+          <div className="mt-8 pt-6 border-t border-border flex items-center justify-between gap-6 flex-wrap">
+            <span className="inline-block font-mono text-[10px] uppercase tracking-[0.08em] text-secondary bg-card border border-border rounded px-2.5 py-1">
+              {footnote.citation}
+            </span>
+            <Link
+              href={footnote.linkHref}
+              className="font-sans text-[14px] text-ink underline-offset-2 hover:underline whitespace-nowrap"
+            >
+              {footnote.linkLabel}
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

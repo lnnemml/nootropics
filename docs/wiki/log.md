@@ -457,6 +457,43 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
   added to the roadmap.
 - `tsc --noEmit` clean.
 
+## [2026-06-30] phase | Home page v5 — section order, new H1, citation footnote, closing CTA
+
+Four structural changes in one pass:
+
+1. **New eyebrow + revised H1/subhead.** Eyebrow now names the platform
+   explicitly ("NORA — Nootropics Research Alliance") — the old "Built for
+   people who can't afford an off day" line now lives in the subhead where
+   it has room to breathe. H1 revised from Anton's draft ("proven
+   efficiency") to "a cited trial" — factually tighter and avoids an
+   efficacy claim that conflicts with the footer's FDA disclaimer. Flagged
+   in `home-page-copy-v5.md` so Anton can revert if he prefers his phrasing.
+
+2. **Section order swapped.** ReleaseCatalog now comes before
+   ContrastCardPair. The product appears first (the thing a visitor can
+   actually buy), then the methodology section follows as the "why trust
+   this" argument. Leads with the what before the how.
+
+3. **Citation footnote on ContrastCardPair.** New optional `footnote` prop
+   (citation tag + link). Home page passes the PMID 21322821 bromantane
+   trial data and a "Read more on the Journal →" link to `/blog`. The
+   `#science` anchor wrapper stays on the ContrastCardPair — nav links still
+   resolve. Product page is unaffected (doesn't pass `footnote`).
+
+4. **Closing CTA section.** Inline `<section>` (no new component — doesn't
+   warrant one) before the footer: mono eyebrow "Ready when you are" + H2
+   "Start with NeuroDrive" + product CTA button. Gives the page a landing-
+   page-style exit ramp rather than ending on the PrincipleGrid.
+
+**Files changed:**
+- `src/components/ui/ContrastCardPair.tsx` — `footnote` prop added, `Link` import added
+- `src/app/(marketing)/page.tsx` — v5 structure
+- `docs/wiki/marketing/home-page-copy-v5.md` — new (supersedes v4)
+- `docs/wiki/marketing/home-page-copy-v4.md` — superseded header added
+- `docs/wiki/index.md` — v4 marked superseded, v5 added as current
+- `docs/wiki/phase-1.5-implementation-plan.md` — item 10 added (mobile
+  responsiveness pass, deferred by Anton until content is finalized)
+
 ## [2026-06-30] phase | Home page v4 — drop chart motif, add ReleaseCatalog
 
 Anton reviewed v3 live in the browser. Feedback: chart motif "looks generic,

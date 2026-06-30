@@ -30,9 +30,11 @@ whole wiki.
 - [`marketing/home-page-copy-v2.md`](./marketing/home-page-copy-v2.md) —
   *(superseded by v3)*
 - [`marketing/home-page-copy-v3.md`](./marketing/home-page-copy-v3.md) —
-  *(superseded by v4 — dropped chart motif, replaced FeaturedRelease with ReleaseCatalog)*
+  *(superseded by v4)*
 - [`marketing/home-page-copy-v4.md`](./marketing/home-page-copy-v4.md) —
-  **current home/mission copy** — chart-free Hero, ReleaseCatalog (1 live + 2 in-research slots)
+  *(superseded by v5 — section order, new eyebrow/H1, citation footnote, closing CTA)*
+- [`marketing/home-page-copy-v5.md`](./marketing/home-page-copy-v5.md) —
+  **current home/mission copy** — ReleaseCatalog-first order, citation footnote, closing CTA
 
 ## Architecture knowledge
 

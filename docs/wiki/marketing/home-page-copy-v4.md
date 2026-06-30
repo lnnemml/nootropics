@@ -1,5 +1,10 @@
 # Home / Mission Page — Copy v4
 
+> **Superseded by [`home-page-copy-v5.md`](./home-page-copy-v5.md)** —
+> v5 revises eyebrow/H1/subhead, swaps section order (ReleaseCatalog before
+> ContrastCardPair), adds citation footnote, adds closing CTA. Kept per
+> append-only convention.
+
 > Supersedes [`home-page-copy-v3.md`](./home-page-copy-v3.md) — drops
 > the abstract chart motif per ADR 0009 (Anton feedback: "looks generic,
 > like fake data"); replaces the single FeaturedRelease card with a 3-slot
