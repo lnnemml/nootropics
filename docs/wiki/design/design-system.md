@@ -67,31 +67,36 @@ is for *reading* text. Don't collapse these into one "dark" value — see
 teal accents stay as hex). Accepts a `height` prop (nav: 38px, footer: 44px).
 Favicon: `src/app/icon.svg` — the N-mark only (flat, cropped viewBox), no CSS vars.
 
+All section components below use `Container` (`src/components/layout/Container.tsx`)
+for horizontal gutter and max-width — see **Mobile breakpoints** section below.
+
 1. **NavBar** — NORA logo lockup + 4 text links (Products/About/Journal/Contact)
    + one outlined mono CTA pill ("Order now →", hidden on /checkout). Hairline
    border-bottom. Collapses to hamburger below md.
-2. **Hero** — eyebrow (mono, uppercase) → H1 (2 lines) → subhead
-   (max-width constrained) → CTA row (solid button + mono caption),
-   paired with a bordered **stat card**: an SVG line chart contrasting a
-   smooth solid curve against a dashed jagged curve, with mono
-   fig-caption and axis labels, accent-colored endpoint dots.
-3. **ContrastCardPair** — 2-col equal grid, each card = mono eyebrow
-   (accent-colored for "us," neutral for "them") + small SVG mini-chart
-   + body paragraph.
-4. **MissionStatement** — centered, eyebrow + large pull-quote paragraph
-   with 1–2 accent-colored characters/words as the only color accent.
-5. **PrincipleGrid** — 3-col grid, each = mono numbered label + H3 + body
-   paragraph, hairline `border-top` above the whole row.
-6. **DividerMotif** — thin full-width SVG: a steady line with one small
-   deviation + an accent dot. Use between major sections sparingly — one
-   or two per page, not on every section boundary.
-7. **Footer** — raised-surface block: logo+tagline column + 2 link
-   columns with mono uppercase headers, mono copyright line below.
-8. **ReleaseCatalog** — `src/components/ui/ReleaseCatalog.tsx`. Eyebrow +
-   intro paragraph + asymmetric 3-col grid (`1.7fr 1fr 1fr`): first slot is
-   a `bg-card` card with product photo + name + body + CTA (status `"live"`),
-   remaining slots are dashed-border placeholder cards at 55% opacity (status
-   `"in-research"`). Signals platform breadth without overstating catalog size.
+2. **Hero** (`Container`) — eyebrow (mono, uppercase) → H1 (2 lines) → subhead
+   (max-width constrained) → CTA row (solid button). `chart` prop optional: when
+   present renders a 2-col grid with the chart slot; when absent renders single-
+   column with `max-w-[760px]`. Built on Container.
+3. **ContrastCardPair** (`Container`) — 2-col equal grid (stacks 1-col below md),
+   each card = mono eyebrow + optional MiniChart + body paragraph. Optional
+   `footnote` prop adds a citation tag + journal link below the cards. Built on
+   Container.
+4. **MissionStatement** (`Container maxWidth="max-w-[860px]"`) — centered, eyebrow
+   + large pull-quote paragraph with 1–2 accent-colored words. Built on Container.
+5. **PrincipleGrid** (`Container`) — 3-col grid (stacks 1-col below md), each = mono
+   numbered label + H3 + body paragraph, hairline `border-top` above the whole row.
+   Built on Container.
+6. **DividerMotif** (`Container`) — thin full-width SVG: a steady line with one small
+   deviation + an accent dot. Use between major sections sparingly — one or two per
+   page. Built on Container.
+7. **Footer** (`Container`) — raised-surface block: logo+tagline column + 2 link
+   columns with mono uppercase headers, mono copyright line below. Grid collapses
+   1-col → 2-col (sm) → 3-col (md). Built on Container.
+8. **ReleaseCatalog** (`Container`) — eyebrow + intro paragraph + asymmetric 3-col
+   grid (`1.7fr 1fr 1fr`, stacks 1-col below md): first slot is a `bg-card` card
+   with product photo + name + body + CTA (status `"live"`), remaining slots are
+   dashed-border placeholder cards at 55% opacity (status `"in-research"`). Built
+   on Container.
 
 ## The signature motif — generalized meaning
 
@@ -114,6 +119,29 @@ Keep the SVG path shapes and component structure identical — only the
 mono labels change. This is what "reusing the style for every page"
 means in practice: same component, re-captioned per page's actual
 subject, never a new motif invented per page.
+
+## Mobile breakpoints
+
+All section-level horizontal gutter goes through
+`src/components/layout/Container.tsx` — **never hardcode `px-[72px]` directly
+in a component**. Container provides `px-4 sm:px-6 md:px-[72px]` and a
+configurable `maxWidth` (default `max-w-7xl`).
+
+Rules for using Container:
+- Pass a narrower max-width via the `maxWidth` prop (`maxWidth="max-w-[760px]"`
+  etc.) — never stack a second `max-w-*` class via `className` on the same
+  Container, as two `max-w-*` classes have ambiguous precedence in compiled
+  Tailwind output.
+- `md` (768px) is the mobile/desktop split, matching NavBar's existing
+  `md:hidden`/`md:flex` convention. `sm` (640px) is available for intermediate
+  tweaks where a binary mobile/desktop jump is too harsh — use it where
+  genuinely helpful, not by default.
+- Multi-column grids collapse to 1 column below `md` by default
+  (`grid-cols-1 md:grid-cols-N`).
+- Any `clamp()`-based heading size must live in a `md:text-[clamp(...)]`
+  arbitrary-value class (never a bare inline `style` attribute) and define
+  explicit smaller `text-[Npx]` / `sm:text-[Npx]` steps below `md`, so mobile
+  doesn't fall through to the clamp's desktop-sized floor.
 
 ## Related pages
 

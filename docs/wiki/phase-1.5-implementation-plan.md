@@ -63,13 +63,15 @@
   accordion) is a legitimate small addition; a new color, radius, or
   layout pattern invented per-page is not.
 
-10. **Mobile responsiveness pass — sitewide.** None of the locked
-    components (Hero, ContrastCardPair, ReleaseCatalog, PrincipleGrid,
-    Footer) have `md:`-breakpoint behavior, and `design-system.md`
-    doesn't yet define mobile gutter/column rules. Deliberately deferred
-    by Anton (2026-06-30) until home page and product page
-    content/structure are both finalized, so this gets done once across
-    both pages instead of twice.
+10. **Mobile responsiveness pass — sitewide** ✓ *(done 2026-06-30)* —
+    all section components (Hero, ContrastCardPair, MissionStatement,
+    PrincipleGrid, ReleaseCatalog, DividerMotif, Footer) now use
+    `Container` for gutter, stack to 1-col below `md`, and use
+    `md:text-[clamp(...)]` for heading sizes with explicit mobile steps
+    below `md`. Mobile breakpoint conventions documented in
+    `design-system.md` under "Mobile breakpoints." Product page benefits
+    automatically for shared components; its own inline CTA section
+    received the same mechanical fix.
 
 ## After this phase
 

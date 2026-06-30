@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Container } from "@/components/layout/Container";
 
 interface ReleaseItem {
   label: string;
@@ -20,22 +21,22 @@ interface ReleaseCatalogProps {
 
 export function ReleaseCatalog({ eyebrow, intro, releases }: ReleaseCatalogProps) {
   return (
-    <section className="py-[88px] px-[72px]">
-      <div className="mx-auto max-w-7xl">
-        <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.14em] text-secondary">
+    <section className="py-12 md:py-[88px]">
+      <Container>
+        <p className="mb-3 md:mb-4 font-mono text-[11px] uppercase tracking-[0.14em] text-secondary">
           {eyebrow}
         </p>
-        <p className="mb-10 font-sans text-[16px] leading-relaxed text-primary max-w-[620px]">
+        <p className="mb-8 md:mb-10 font-sans text-[15px] md:text-[16px] leading-relaxed text-primary max-w-[620px]">
           {intro}
         </p>
 
-        <div className="grid grid-cols-[1.7fr_1fr_1fr] gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-[1.7fr_1fr_1fr] gap-4 md:gap-5">
           {releases.map((r) => {
             if (r.status === "live") {
               return (
                 <div
                   key={r.label}
-                  className="bg-card border border-border rounded p-7 grid grid-cols-[100px_1fr] gap-6 items-center"
+                  className="bg-card border border-border rounded p-6 md:p-7 grid grid-cols-[88px_1fr] sm:grid-cols-[100px_1fr] gap-5 md:gap-6 items-center"
                 >
                   {r.imageSrc && (
                     <div className="relative aspect-[2/3] w-full">
@@ -74,7 +75,7 @@ export function ReleaseCatalog({ eyebrow, intro, releases }: ReleaseCatalogProps
             return (
               <div
                 key={r.label}
-                className="border border-dashed border-border rounded p-7 opacity-55 flex flex-col gap-3 justify-center"
+                className="border border-dashed border-border rounded p-6 md:p-7 opacity-55 flex flex-col gap-3 justify-center"
               >
                 <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-secondary">
                   {r.label}
@@ -86,7 +87,7 @@ export function ReleaseCatalog({ eyebrow, intro, releases }: ReleaseCatalogProps
             );
           })}
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

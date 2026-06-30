@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
+import { Container } from "./Container";
 
 const FOOTER_COLUMNS = [
   {
@@ -23,8 +24,8 @@ const FOOTER_COLUMNS = [
 export function Footer() {
   return (
     <footer className="bg-raised">
-      <div className="mx-auto max-w-7xl px-[72px] py-16">
-        <div className="grid grid-cols-[1fr_auto_auto] gap-x-24 gap-y-10">
+      <Container className="py-12 md:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-[1fr_auto_auto] gap-x-10 md:gap-x-24 gap-y-8 md:gap-y-10">
           {/* Logo + tagline */}
           <div className="flex flex-col gap-4">
             <Link href="/">
@@ -58,12 +59,12 @@ export function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="mt-12 border-t border-border pt-6">
+        <div className="mt-10 md:mt-12 border-t border-border pt-6">
           <p className="font-mono text-[11px] text-secondary">
             {"© 2026 NORA · NOT A MEDICAL DEVICE · STATEMENTS NOT EVALUATED"}
           </p>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

@@ -4,6 +4,7 @@ import { ReleaseCatalog } from "@/components/ui/ReleaseCatalog";
 import { MissionStatement } from "@/components/ui/MissionStatement";
 import { PrincipleGrid } from "@/components/ui/PrincipleGrid";
 import { DividerMotif } from "@/components/ui/DividerMotif";
+import { Container } from "@/components/layout/Container";
 import Link from "next/link";
 
 export default function HomePage() {
@@ -97,15 +98,12 @@ export default function HomePage() {
         ]}
       />
 
-      <section className="py-[72px] px-[72px]">
-        <div className="mx-auto max-w-7xl flex flex-col items-center text-center gap-5">
+      <section className="py-12 md:py-[72px]">
+        <Container className="flex flex-col items-center text-center gap-4 md:gap-5">
           <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-secondary">
             {"Ready when you are"}
           </p>
-          <h2
-            className="font-sans font-semibold tracking-[-0.02em] text-ink"
-            style={{ fontSize: "clamp(28px, 2.5vw, 34px)" }}
-          >
+          <h2 className="font-sans font-semibold tracking-[-0.02em] text-ink text-[22px] md:text-[clamp(28px,2.5vw,34px)]">
             {"Start with NeuroDrive"}
           </h2>
           <Link
@@ -114,7 +112,7 @@ export default function HomePage() {
           >
             {"View NeuroDrive →"}
           </Link>
-        </div>
+        </Container>
       </section>
     </>
   );

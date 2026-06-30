@@ -8,6 +8,7 @@ import { ContrastCardPair } from "@/components/ui/ContrastCardPair";
 import { MissionStatement } from "@/components/ui/MissionStatement";
 import { PrincipleGrid } from "@/components/ui/PrincipleGrid";
 import { DividerMotif } from "@/components/ui/DividerMotif";
+import { Container } from "@/components/layout/Container";
 
 export function generateStaticParams() {
   return getAllProductSlugs().map((slug) => ({ slug }));
@@ -90,15 +91,12 @@ export default async function ProductPage({
       <PrincipleGrid principles={product.principles} />
 
       {/* Checkout CTA */}
-      <section className="py-[72px] px-[72px]">
-        <div className="mx-auto max-w-7xl flex flex-col items-center text-center gap-5">
+      <section className="py-12 md:py-[72px]">
+        <Container className="flex flex-col items-center text-center gap-4 md:gap-5">
           <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-secondary">
             {"Ready to try it"}
           </p>
-          <h2
-            className="font-sans font-semibold tracking-[-0.02em] text-ink"
-            style={{ fontSize: "clamp(28px, 2.5vw, 34px)" }}
-          >
+          <h2 className="font-sans font-semibold tracking-[-0.02em] text-ink text-[22px] md:text-[clamp(28px,2.5vw,34px)]">
             {`Order ${product.name}`}
           </h2>
           <Link
@@ -110,7 +108,7 @@ export default async function ProductPage({
           <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-secondary">
             {"No payment collected now · we follow up by email"}
           </p>
-        </div>
+        </Container>
       </section>
     </>
   );

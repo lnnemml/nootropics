@@ -457,6 +457,43 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
   added to the roadmap.
 - `tsc --noEmit` clean.
 
+## [2026-06-30] phase | Mobile responsiveness pass — sitewide
+
+All section components migrated to `Container` (`src/components/layout/Container.tsx`)
+and given mobile-first breakpoint classes. `md` (768px) is the
+mobile/desktop split, matching NavBar's existing hamburger breakpoint.
+
+**Container changes:** `maxWidth` prop added (default `max-w-7xl`); TODO
+comment removed.
+
+**Per-component changes:**
+- **Hero** — 2-col grid now `grid-cols-1 md:grid-cols-[1.05fr_1fr]`. H1
+  `style={{fontSize:"clamp(...)"}}` replaced with `text-[36px] sm:text-[46px]
+  md:text-[clamp(62px,5.5vw,74px)]` — clamp now only applies at `md+`, mobile
+  gets explicit step sizes. `py-[80px]` → `py-12 md:py-[80px]`.
+- **ContrastCardPair** — card grid `grid-cols-1 md:grid-cols-2`. Footnote
+  row stacks vertically below `sm`. `py-[72px]` → `py-12 md:py-[72px]`.
+  Section H2 `style={{fontSize:clamp(...)}}` → `text-[24px] md:text-[clamp(...)]`.
+- **MissionStatement** — pull-quote `style={{fontSize:clamp(...)}}` →
+  `text-[26px] sm:text-[30px] md:text-[clamp(34px,3vw,37px)]`. `py-[96px]` →
+  `py-16 md:py-[96px]`.
+- **PrincipleGrid** — `grid-cols-3` → `grid-cols-1 md:grid-cols-3`. `pb-[88px]`
+  → `pb-10 md:pb-[88px]`. `pt-[44px]` → `pt-8 md:pt-[44px]`.
+- **ReleaseCatalog** — grid `grid-cols-1 md:grid-cols-[1.7fr_1fr_1fr]`. Live
+  card image col `88px` mobile, `100px` sm+. `py-[88px]` → `py-12 md:py-[88px]`.
+- **DividerMotif** — hardcoded `px-[72px]` div replaced by `Container` wrapper.
+- **Footer** — `grid-cols-[1fr_auto_auto]` → `grid-cols-1 sm:grid-cols-2
+  md:grid-cols-[1fr_auto_auto]`. `px-[72px] py-16` moved into Container
+  (`py-12 md:py-16`).
+- **page.tsx (marketing) + products/[slug]/page.tsx** — inline CTA sections
+  migrated from `px-[72px]` + `mx-auto max-w-7xl` to `Container`. CTA H2
+  heading: `style={{clamp(...)}}` → `text-[22px] md:text-[clamp(28px,2.5vw,34px)]`.
+
+Mobile breakpoint conventions documented in `design/design-system.md` under
+new "Mobile breakpoints" section.
+
+`tsc --noEmit` clean.
+
 ## [2026-06-30] phase | Home page v5 — section order, new H1, citation footnote, closing CTA
 
 Four structural changes in one pass:
