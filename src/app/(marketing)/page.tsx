@@ -1,6 +1,7 @@
 import { Hero } from "@/components/ui/Hero";
 import { StatChart } from "@/components/ui/StatChart";
 import { ContrastCardPair } from "@/components/ui/ContrastCardPair";
+import { FeaturedRelease } from "@/components/ui/FeaturedRelease";
 import { MissionStatement } from "@/components/ui/MissionStatement";
 import { PrincipleGrid } from "@/components/ui/PrincipleGrid";
 import { DividerMotif } from "@/components/ui/DividerMotif";
@@ -10,10 +11,12 @@ export default function HomePage() {
     <>
       <Hero
         eyebrow="Built for people who can't afford an off day"
-        h1={"Nootropics, backed by mechanism — not marketing."}
-        subhead={"We're a research alliance, not a supplement brand — we publish the mechanism behind everything we ship, cite the studies, and say plainly when something probably isn't worth your money. NeuroDrive, our first release, is built on exactly that standard."}
-        ctaLabel="See how we evaluate compounds"
-        ctaHref="/#science"
+        h1={"We name the mechanism. Or we don't ship it."}
+        subhead={
+          "We're a research alliance, not a supplement brand. Every release ships with a mechanism we can name and a study we can cite — starting with NeuroDrive, a single, named compound, evaluated against exactly that standard."
+        }
+        ctaLabel="View NeuroDrive →"
+        ctaHref="/products/neurodrive"
         chart={
           <StatChart
             caption="FIG.01 — SIGNAL vs. NOISE"
@@ -36,26 +39,36 @@ export default function HomePage() {
             {
               eyebrow: "NORA — RESEARCH-LED",
               eyebrowAccent: true,
-              body: "Every release traces to a mechanism we can name and a study we can cite. If the evidence doesn't hold up, we don't ship it — no matter how well it would sell.",
+              body: "Our first release names its mechanism outright: bromantane upregulates tyrosine hydroxylase, the enzyme that sets your brain's own dopamine synthesis rate. That's the bar — a pathway we can point to, not a blend we can't explain.",
               chartVariant: "steady",
             },
             {
               eyebrow: "INDUSTRY — HYPE-LED",
               eyebrowAccent: false,
-              body: "Proprietary blends nobody can verify. Reviews standing in for clinical evidence. A compound chosen because it's trending this quarter, not because it's tested.",
+              body: "A twelve-ingredient 'focus blend' with no single dose disclosed, no mechanism named per ingredient, and one clinical study covering one component — not the formula you're actually taking.",
               chartVariant: "jagged",
             },
           ]}
         />
       </div>
 
+      <FeaturedRelease
+        eyebrow="Our first release"
+        name="NeuroDrive"
+        body="Sublingual bromantane, one named mechanism — evaluated against the standard above, not an exception to it."
+        ctaLabel="View NeuroDrive →"
+        ctaHref="/products/neurodrive"
+        imageSrc="/neurodrive-bottle.jpg"
+        imageAlt="NeuroDrive sublingual bromantane bottle"
+      />
+
       <div id="mission">
         <MissionStatement
           eyebrow="Mission"
           body={
             <>
-              <span className="text-accent">{"NORA"}</span>
-              {" exists because the nootropics industry rewards marketing over mechanism. We do it differently: every product we research and release stands behind a mechanism we can name and evidence we can cite — starting with NeuroDrive, our first release."}
+              <span className="text-accent">{"NeuroDrive"}</span>
+              {" is proof of the standard, not an exception to it — every product that follows gets evaluated the same way."}
             </>
           }
         />

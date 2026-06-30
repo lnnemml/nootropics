@@ -456,3 +456,37 @@ Types: `setup`, `ingest`, `decision`, `lint`, `phase`.
   not linked from anywhere, parked for a future cart-review step if one gets
   added to the roadmap.
 - `tsc --noEmit` clean.
+
+## [2026-06-30] phase | Home page v3 — proof point + FeaturedRelease teaser
+
+Three problems fixed in one pass (Phase 1.5 punch-list item 2):
+
+1. **Hero/Mission redundancy removed.** Both v2 sections said "mechanism
+   we can name and a study we can cite." Mission body now focuses on
+   NeuroDrive as proof of the standard, not a restatement of the platform
+   pitch. Hero H1 sharpened to a direct claim ("We name the mechanism. Or
+   we don't ship it.") and CTA now points to the product page, not `#science`.
+
+2. **ContrastCardPair cards now prove the claim instead of asserting it.**
+   NORA card names the actual mechanism: bromantane → tyrosine hydroxylase
+   → dopamine synthesis rate. Industry card describes a realistic foil
+   (twelve-ingredient blend, undisclosed doses, one study covering one
+   component). The page earns its "no unproven claims" line rather than
+   just making it.
+
+3. **Product is now visible on the home page.** New `FeaturedRelease`
+   component (eyebrow / product name / body / CTA + product photo in a
+   `bg-card` card) sits between ContrastCardPair and MissionStatement.
+   Uses only locked design-system tokens; no new colors, radii, or font
+   sizes. Product photo reused from `docs/raw/design/product_shot_without_bg.jpeg`
+   (same asset earmarked for the product page in item 3 — not new scope).
+
+**Files changed:**
+- `src/components/ui/FeaturedRelease.tsx` — new component
+- `public/neurodrive-bottle.jpg` — product photo added
+- `src/app/(marketing)/page.tsx` — replaced with v3 structure
+- `docs/wiki/marketing/home-page-copy-v3.md` — new (supersedes v2)
+- `docs/wiki/marketing/home-page-copy-v2.md` — superseded header added
+- `docs/wiki/index.md` — v2 line marked superseded, v3 line added
+- `docs/wiki/phase-1.5-implementation-plan.md` — item 2 marked done,
+  item 3 price unblocked ($120 confirmed by Anton 2026-06-30)

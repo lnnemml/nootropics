@@ -28,7 +28,9 @@ whole wiki.
   *(superseded by v2 — wrote at the NeuroDrive level, wrong for the home
   page)*
 - [`marketing/home-page-copy-v2.md`](./marketing/home-page-copy-v2.md) —
-  **current home/mission copy, correctly scoped to NORA**
+  *(superseded by v3 — missing proof point, Hero CTA aimed at #science)*
+- [`marketing/home-page-copy-v3.md`](./marketing/home-page-copy-v3.md) —
+  **current home/mission copy** — adds named mechanism, FeaturedRelease teaser, product-page CTA
 
 ## Architecture knowledge
 

@@ -17,13 +17,21 @@
 
 1. **Header** — needs fixing (specifics TBD when you sit down with
    Claude Code and look at what's actually wrong)
-2. **Home page** — rewrite/polish pass (the structure + copy from
-   `marketing/home-page-copy-v2.md` is the baseline, but expect it to
-   need real iteration once it's seen in the browser, not just approved
-   on paper)
+2. **Home page** ✓ *(pass done 2026-06-30 — see `home-page-copy-v3.md`
+   and log entry of the same date)* — added `FeaturedRelease` component
+   with product photo, named the bromantane/TH mechanism in the
+   ContrastCardPair, redirected Hero CTA to product page, tightened
+   Mission body to remove duplicate claim. Expected to need one more look
+   once Anton sees it rendered (per this phase's own "real iteration in
+   the browser" caveat).
 3. **Product page** — polish pass: real product photo
-   (`docs/raw/design/product_shot_without_bg.jpeg`), price block
-   (**blocked on Anton supplying real numbers — don't invent one**)
+   (`docs/raw/design/product_shot_without_bg.jpeg`), price block.
+   Launch price: $120 (confirmed by Anton, 2026-06-30). Rationale: sits
+   at the top of the premium nootropic-subscription comp band (Thesis
+   $79–119/mo, Mind Lab Pro $65/mo) while staying a thin markup over
+   Anton's own raw-bromantane retail pricing on isrib.shop — room exists
+   to test up toward $140 later, not down. Full price-block
+   implementation is the next session's task, not this one.
 4. **Starter articles** — maybe; if/when it's clear what early
    education content should exist (mechanism explainers, etc. — source
    material exists in `NeuroDrive_research_document.pdf`'s "Scientific &

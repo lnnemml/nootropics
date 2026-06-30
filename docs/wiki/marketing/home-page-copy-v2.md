@@ -1,5 +1,10 @@
 # Home / Mission Page — Copy v2 (NORA-scoped)
 
+> **Superseded by [`home-page-copy-v3.md`](./home-page-copy-v3.md)** —
+> v3 adds a concrete proof point (named mechanism in ContrastCardPair),
+> a FeaturedRelease product teaser, and redirects the Hero CTA to the
+> product page. Kept per append-only convention.
+
 > Supersedes [`home-page-copy-v1.md`](./home-page-copy-v1.md) — same
 > locked visual structure ([`design-system.md`](./design-system.md)),
 > rewritten to speak as **NORA** (the alliance), not **NeuroDrive** (the
