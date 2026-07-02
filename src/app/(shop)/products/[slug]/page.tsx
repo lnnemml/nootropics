@@ -159,7 +159,7 @@ export default async function ProductPage({
             href="/checkout"
             className="inline-block rounded bg-ink px-6 py-3 font-sans text-[15px] font-medium text-page transition-opacity hover:opacity-80 mt-1"
           >
-            {"Place an order"}
+            {"Order now →"}
           </Link>
         </Container>
       </section>
