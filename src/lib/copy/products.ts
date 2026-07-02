@@ -70,7 +70,7 @@ const PRODUCTS: ProductData[] = [
       subhead:
         "Dopamine synthesis support. Without the stimulant architecture.",
       ctaLabel: "Place an order",
-      imageSrc: "/neurodrive-bottle.jpg",
+      imageSrc: "/neurodrive_without_bg.png",
       imageAlt: "NeuroDrive — 30ml amber sublingual dropper bottle",
       attributes: "30 ml · 80 mg/ml · ~30 day supply",
       price: "$120",

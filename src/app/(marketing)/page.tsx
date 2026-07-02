@@ -35,7 +35,7 @@ export default function HomePage() {
             body: "Sublingual bromantane, one named mechanism — evaluated against the standard above, not an exception to it.",
             ctaLabel: "View NeuroDrive →",
             href: "/products/neurodrive",
-            imageSrc: "/neurodrive-bottle.jpg",
+            imageSrc: "/neurodrive_without_bg.png",
             imageAlt: "NeuroDrive sublingual bromantane bottle",
           },
           { label: "RELEASE 02", name: "In research", status: "in-research" },

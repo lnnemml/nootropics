@@ -35,7 +35,7 @@ export function ProductHero({
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start">
           {/* Left: product image */}
-          <div className="relative w-full aspect-[3/2] md:aspect-[4/5] bg-raised rounded overflow-hidden">
+          <div className="relative w-full aspect-[3/2] md:aspect-[4/5] rounded overflow-hidden">
             <Image
               src={imageSrc}
               alt={imageAlt}
