@@ -27,13 +27,42 @@ transitions are made by a human — there is no webhook driving this.
 
 - Name, email, phone (phone matters more than usual here — it's a real
   contact channel for payment coordination, not just a nice-to-have)
-- Shipping address
-- Product/variant + quantity
-- Optional note field (e.g. "I'd prefer crypto" / "call me after 6pm") —
-  feeds directly into the first manual outreach, saves a round-trip
+- Shipping address (state/province is optional)
+- Quantity — product is always NeuroDrive in Phase 1, shown in the order
+  summary, not a form field
+- Optional note field (customer can pre-state preferred payment method,
+  best contact time, etc.) — feeds directly into first manual outreach,
+  saves a round-trip
 
 **Explicitly not collected:** any card/payment details. Don't add a
 payment field "for later" — see hard constraint in ADR 0005.
+
+## Payment method selection (added Phase 1.5)
+
+Three options are rendered as radio cards on the checkout page:
+
+**1. Crypto via NowPayments (default, 10% discount)**
+Customers are incentivised to pay in crypto (BTC, ETH, USDC, 150+).
+A 10% discount is applied to the order total and shown in the order
+summary before submission. NowPayments API integration (invoice
+generation) is deferred to the next session; in Phase 1.5 the option
+only affects the displayed total — no API call is made on submit.
+The 10% discount is funded by the spread between card processing fees
+(~3–4% + chargebacks) and crypto network fees (~0.5–1%).
+
+**2. Manual arrangement (email follow-up)**
+Unchanged from original flow. The note field lets the customer
+indicate a preferred method (PayPal, SEPA/SWIFT, Western Union, etc.)
+before first contact.
+
+**3. Card online (permanently disabled)**
+A disabled UI slot with "Coming soon" badge. Must not be enabled
+until a compatible high-risk merchant account is approved via ADR.
+Do not remove the disabled state in a hotfix.
+
+Backend impact (Phase 2): the `orders` table must store
+`payment_method` ("crypto" | "manual") and, if crypto,
+`crypto_discount_pct` (10) to know which post-submit flow to invoke.
 
 ## Emails (Resend)
 
