@@ -688,3 +688,48 @@ CTA (with price + attributes).
   "Read more in the Journal →" link.
 
 `tsc --noEmit` clean.
+
+## [2026-07-02] phase | ProductHero — quantity selector, trust spec grid, checkout ?qty pre-fill
+
+Follow-up to the product page rebuild in the same session. Replaced the
+static price display in `ProductHero` with an interactive 3-option quantity
+selector and wired the CTA through to checkout with a `?qty=N` param.
+
+**`src/lib/copy/products.ts`:**
+- Added `QuantityOption` interface (`qty`, `label`, `price`, `perUnit`,
+  optional `saveTag`). Exported.
+- Added `quantityOptions: QuantityOption[]` to `ProductData`.
+- Populated `neurodrive` entry with 3 tiers: 1 bottle $120, 2 bottles $220
+  (Save $20), 3 bottles $300 (Save $60).
+- `hero.price` field retained — still referenced in the purchase CTA at
+  the bottom of the product page.
+
+**`src/components/ui/ProductHero.tsx` rewritten as `"use client"`:**
+- Removed `price: string` prop. Added `quantityOptions: QuantityOption[]`.
+- `useState(0)` tracks selected tier index; `selected` derives current option.
+- Right column layout — 10 items top to bottom: eyebrow → H1
+  (`text-[36px] md:text-[clamp(44px,4vw,56px)]`) → subhead
+  (`max-w-[460px]` inner constraint) → attributes → trust spec grid →
+  divider → quantity selector → selected price + per-unit → CTA → secondary
+  anchor.
+- Trust spec grid: 2-col (`auto auto`), 4 hardcoded rows (PURITY / LEGAL
+  STATUS / CARRIER / DOSE). Uses `React.Fragment` with `key` so each row
+  produces two grid cells without a wrapper div breaking the grid.
+- Quantity selector: `grid-cols-3`, unselected (`border-border bg-card`) /
+  selected (`border-ink bg-ink text-page`). `saveTag` at 9px,
+  `text-accent` / `text-accent-bright` depending on selection state.
+- CTA: hardcoded label "Order NeuroDrive →", href `${ctaHref}?qty=${selected.qty}`.
+
+**`src/app/(shop)/products/[slug]/page.tsx`:**
+- `<ProductHero>` call: removed `price` prop, added
+  `quantityOptions={product.quantityOptions}`.
+
+**`src/app/(shop)/checkout/page.tsx`:**
+- `useSearchParams()` reads `?qty` param. Requires Suspense boundary —
+  existing page logic moved into `CheckoutInner`; `CheckoutPage` export is
+  now a Suspense wrapper with a mono "Loading..." fallback.
+- `EMPTY` constant moved inside `CheckoutInner`; uses `initialQty`
+  (whitelisted against `["1","2","3","4","5"]`, falls back to "1") so the
+  quantity select pre-fills from the CTA link.
+
+`tsc --noEmit` clean.

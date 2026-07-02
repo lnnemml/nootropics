@@ -44,7 +44,7 @@ export default async function ProductPage({
         name={product.hero.h1}
         subhead={product.hero.subhead}
         attributes={product.hero.attributes}
-        price={product.hero.price}
+        quantityOptions={product.quantityOptions}
         ctaHref="/checkout"
         imageSrc={product.hero.imageSrc}
         imageAlt={product.hero.imageAlt}

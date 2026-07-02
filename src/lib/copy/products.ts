@@ -13,6 +13,14 @@ export interface FAQItem {
   journalLink?: boolean;
 }
 
+export interface QuantityOption {
+  qty: number;
+  label: string;
+  price: string;
+  perUnit: string;
+  saveTag?: string;
+}
+
 export interface ProductData {
   slug: string;
   name: string;
@@ -49,6 +57,7 @@ export interface ProductData {
     journalHref: string;
   };
   faq: FAQItem[];
+  quantityOptions: QuantityOption[];
 }
 
 const PRODUCTS: ProductData[] = [
@@ -143,6 +152,28 @@ const PRODUCTS: ProductData[] = [
         q: "Why haven't I heard of this before?",
         a: "Bromantane is an actoprotector — a class of compounds developed to increase physical and mental performance under stress without the side effects of classical stimulants. It has been available and used clinically for decades, but no large Western pharmaceutical company ever sponsored it through the FDA or EMA approval process, so it remained outside mainstream awareness. Biohacker and nootropics communities have been documenting it for years. NORA makes it accessible in a formulated, batch-verified form.",
         journalLink: true,
+      },
+    ],
+    quantityOptions: [
+      {
+        qty: 1,
+        label: "1 bottle",
+        price: "$120",
+        perUnit: "$120 / bottle",
+      },
+      {
+        qty: 2,
+        label: "2 bottles",
+        price: "$220",
+        perUnit: "$110 / bottle",
+        saveTag: "Save $20",
+      },
+      {
+        qty: 3,
+        label: "3 bottles",
+        price: "$300",
+        perUnit: "$100 / bottle",
+        saveTag: "Save $60",
       },
     ],
   },

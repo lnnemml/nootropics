@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
 // ── Field primitives ──────────────────────────────────────────────────────────
 
@@ -155,24 +156,30 @@ interface FormState {
   note: string;
 }
 
-const EMPTY: FormState = {
-  name: "",
-  email: "",
-  phone: "",
-  addressLine1: "",
-  addressLine2: "",
-  city: "",
-  state: "",
-  postalCode: "",
-  country: "",
-  product: "neurodrive",
-  quantity: "1",
-  note: "",
-};
+// ── Inner page (needs useSearchParams — must be inside Suspense) ──────────────
 
-// ── Page ──────────────────────────────────────────────────────────────────────
+function CheckoutInner() {
+  const searchParams = useSearchParams();
+  const qtyParam = searchParams.get("qty");
+  const initialQty = qtyParam && ["1", "2", "3", "4", "5"].includes(qtyParam)
+    ? qtyParam
+    : "1";
 
-export default function CheckoutPage() {
+  const EMPTY: FormState = {
+    name: "",
+    email: "",
+    phone: "",
+    addressLine1: "",
+    addressLine2: "",
+    city: "",
+    state: "",
+    postalCode: "",
+    country: "",
+    product: "neurodrive",
+    quantity: initialQty,
+    note: "",
+  };
+
   const [form, setForm] = useState<FormState>(EMPTY);
   const [submitted, setSubmitted] = useState(false);
 
@@ -388,5 +395,21 @@ export default function CheckoutPage() {
         </>
       )}
     </div>
+  );
+}
+
+// ── Page (Suspense wrapper required by useSearchParams) ───────────────────────
+
+export default function CheckoutPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="py-24 text-center font-mono text-[11px] uppercase tracking-[0.12em] text-secondary">
+          Loading...
+        </div>
+      }
+    >
+      <CheckoutInner />
+    </Suspense>
   );
 }
