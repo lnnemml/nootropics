@@ -623,3 +623,68 @@ Three problems fixed in one pass (Phase 1.5 punch-list item 2):
 - `docs/wiki/index.md` — v2 line marked superseded, v3 line added
 - `docs/wiki/phase-1.5-implementation-plan.md` — item 2 marked done,
   item 3 price unblocked ($120 confirmed by Anton 2026-06-30)
+
+## [2026-07-02] phase | Product page rebuild — ProductHero, PuritySection, FAQAccordion, NMR batch data
+
+Full rewrite of `src/app/(shop)/products/[slug]/page.tsx` and its data
+layer as Phase 1.5 item 3 (product page completeness).
+
+**New components:**
+- `src/components/ui/ProductHero.tsx` — Server Component. 2-col desktop
+  (photo | details), 1-col mobile (photo first). Left: `<Image>` with
+  `bg-raised` wrapper, `aspect-[3/2]` mobile / `aspect-[4/5]` desktop,
+  `object-contain`, `rounded` (2px). Right: eyebrow → H1 "NeuroDrive" →
+  one-liner subhead → attributes chip row → hairline divider → price →
+  bg-ink CTA ("Place an order →" → `/checkout`) → secondary anchor link
+  ("Read the mechanism ↓" → `#mechanism`). Props-driven; all content
+  comes from `products.ts`.
+- `src/components/ui/PuritySection.tsx` — Client Component (`"use client"`).
+  `bg-raised` section. Centered header block (eyebrow + H2 "Verifiable by
+  design." + description). 2-col NMR card grid — each card: header row
+  (spectrum label + instrument + batch chip), click-to-lightbox image area
+  (`cursor-zoom-in`), key-signals footer. Hardcoded Batch 01 data for ¹H
+  (400 MHz CDCl₃, 6 signal groups) and ¹³C (100 MHz CDCl₃, 11 lines).
+  FID download block with two outlined-pill links (`.zip` files served from
+  `public/downloads/`). Lightbox: fixed overlay + Escape-key listener via
+  `useEffect`.
+- `src/components/ui/FAQAccordion.tsx` — Client Component. `border-t /
+  border-b border-border` accordion. Chevron (`&#8964;`) rotates 180° when
+  open (`transition-transform`). 6 FAQ items (safety, legality, vs.
+  Adderall/modafinil, tolerance, sleep, awareness). Items with
+  `journalLink: true` render a "Read more in the Journal →" link below
+  the answer text.
+
+**NMR assets copied to repo:**
+- `public/nmr/bromantane-nmr-h1.png` — ¹H NMR spectrum image
+- `public/nmr/bromantane-nmr-c13.png` — ¹³C NMR spectrum image
+- `public/downloads/Bromantane-H1.zip` — raw FID data (¹H)
+- `public/downloads/Bromantane-C13.zip` — raw FID data (¹³C)
+
+**`src/lib/copy/products.ts` updated:**
+- `hero.chart` block removed from `ProductData` interface.
+- Added to `hero`: `imageSrc`, `imageAlt`, `attributes`, `price`.
+- `hero.eyebrow` updated to "RELEASE 01 · SUBLINGUAL BROMANTANE DROPS".
+- `hero.h1` changed to "NeuroDrive" (was the subhead; page structure now
+  separates name from tagline).
+- Added `formula` block: 3-row composition table + 3-step sublingual
+  protocol + `journalHref`.
+- Added `faq` array: 6 items with `journalLink` flags.
+- `contrast.eyebrow` updated to "The mechanism" (was "The difference").
+- Exported `FAQItem` type for use in `FAQAccordion`.
+
+**`src/app/(shop)/products/[slug]/page.tsx` rewritten:**
+Old structure: `Hero` (with StatChart) → DividerMotif → ContrastCardPair
+(with chartVariant) → MissionStatement → DividerMotif → PrincipleGrid →
+checkout CTA.
+New structure: `ProductHero` → `ContrastCardPair` (with `footnote` prop,
+no `chartVariant`) → Formula section (inline, 2-col composition +
+protocol) → `PrincipleGrid` → `PuritySection` → `FAQAccordion` → purchase
+CTA (with price + attributes).
+- `Hero`, `StatChart`, `MissionStatement`, `DividerMotif` imports removed
+  from this page only — components not deleted.
+- `id="mechanism"` moved to wrap `ContrastCardPair` (was on
+  `MissionStatement`).
+- `footnote` passed to `ContrastCardPair`: PMID 21322821 citation +
+  "Read more in the Journal →" link.
+
+`tsc --noEmit` clean.
