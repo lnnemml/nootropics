@@ -4,6 +4,7 @@ import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Container } from "@/components/layout/Container";
+import { submitOrder } from "@/app/actions/submitOrder";
 
 // ── Field primitives ──────────────────────────────────────────────────────────
 
@@ -223,6 +224,7 @@ function OrderSummary({
       {/* Promo code */}
       <div className="flex gap-2">
         <input
+          name="promoCode"
           value={promoCode}
           onChange={(e) => setPromoCode(e.target.value)}
           placeholder="Promo code"
@@ -312,86 +314,6 @@ function OrderSummary({
   );
 }
 
-// ── Confirmation ──────────────────────────────────────────────────────────────
-
-function Confirmation({
-  name,
-  email,
-  qty,
-  total,
-  paymentMethod,
-}: {
-  name: string;
-  email: string;
-  qty: number;
-  total: number;
-  paymentMethod: PaymentMethod;
-}) {
-  const paymentMsg =
-    paymentMethod === "crypto"
-      ? `A NowPayments invoice will be sent to ${email} within the same business day.`
-      : `We'll contact ${email} to arrange payment within the same business day.`;
-
-  return (
-    <div className="flex flex-col items-center text-center gap-8 py-16">
-      <span className="flex items-center gap-[4px]">
-        <span className="block h-[9px] w-[9px] rounded-full bg-accent" />
-        <span className="block h-[9px] w-[9px] rounded-full bg-accent-bright" />
-      </span>
-
-      <div className="flex flex-col gap-3">
-        <h2
-          className="font-sans font-semibold tracking-[-0.02em] text-ink"
-          style={{ fontSize: "clamp(28px, 2.5vw, 34px)" }}
-        >
-          {"Order received."}
-        </h2>
-        <p className="font-sans text-[16px] leading-relaxed text-secondary max-w-[420px]">
-          {paymentMsg}
-        </p>
-      </div>
-
-      <div className="w-full border border-border rounded-[2px] p-6 flex flex-col gap-5 text-left">
-        <SectionLabel>{"Order summary"}</SectionLabel>
-        <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-          <div className="flex flex-col gap-1">
-            <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-secondary">
-              Name
-            </p>
-            <p className="font-sans text-[15px] text-primary font-medium">
-              {name}
-            </p>
-          </div>
-          <div className="flex flex-col gap-1">
-            <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-secondary">
-              Email
-            </p>
-            <p className="font-sans text-[15px] text-primary font-medium">
-              {email}
-            </p>
-          </div>
-          <div className="flex flex-col gap-1">
-            <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-secondary">
-              Quantity
-            </p>
-            <p className="font-sans text-[15px] text-primary font-medium">
-              {qty}
-            </p>
-          </div>
-          <div className="flex flex-col gap-1">
-            <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-secondary">
-              Total
-            </p>
-            <p className="font-sans text-[15px] text-primary font-medium">
-              ${total}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ── CheckoutInner ─────────────────────────────────────────────────────────────
 
 function CheckoutInner() {
@@ -414,7 +336,6 @@ function CheckoutInner() {
   const [qty, setQty] = useState<1 | 2 | 3>(initialQty);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("crypto");
   const [promoCode, setPromoCode] = useState("");
-  const [submitted, setSubmitted] = useState(false);
 
   const PRICES: Record<1 | 2 | 3, number> = { 1: 120, 2: 220, 3: 300 };
   const BUNDLE_SAVINGS: Record<1 | 2 | 3, number> = { 1: 0, 2: 20, 3: 60 };
@@ -430,28 +351,6 @@ function CheckoutInner() {
   ) {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-  }
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    console.log("Order submitted:", { ...form, qty, paymentMethod, total });
-    setSubmitted(true);
-  }
-
-  if (submitted) {
-    return (
-      <Container>
-        <div className="mx-auto max-w-[1080px] py-12 md:py-[80px]">
-          <Confirmation
-            name={form.name}
-            email={form.email}
-            qty={qty}
-            total={total}
-            paymentMethod={paymentMethod}
-          />
-        </div>
-      </Container>
-    );
   }
 
   return (
@@ -479,7 +378,9 @@ function CheckoutInner() {
 
           {/* FORM — source-second (mobile bottom), desktop left */}
           <div className="lg:order-first">
-            <form onSubmit={handleSubmit} className="flex flex-col">
+            <form action={submitOrder} className="flex flex-col">
+                <input type="hidden" name="qty" value={String(qty)} />
+                <input type="hidden" name="paymentMethod" value={paymentMethod} />
               {/* Contact */}
               <div className="border-t border-border pt-6 pb-7 flex flex-col gap-4">
                 <SectionLabel>{"Contact"}</SectionLabel>

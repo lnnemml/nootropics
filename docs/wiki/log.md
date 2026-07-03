@@ -834,6 +834,27 @@ presentable. Final state of all items:
 - npm run db:push — orders table + enums created in Neon
 - tsc --noEmit clean
 
+## [2026-07-03] phase | Task 2.1 deviation — db scripts use node --env-file
+
+drizzle-kit doesn't auto-load .env.local (only .env). Scripts use
+`node --env-file=.env.local node_modules/.bin/drizzle-kit push` instead
+of bare drizzle-kit push. Uses Node 22's native --env-file flag, no
+dotenv-cli needed. Intent of the plan preserved.
+
+## [2026-07-03] phase | Task 2.2 — Checkout Server Action + order persistence
+
+- Created src/app/actions/submitOrder.ts — validates form, inserts order
+  to DB via Drizzle, redirects to /checkout/success?ref=[id]
+- Prices canonical on server (QUANTITY_PRICES map in cents), never trusted from client
+- Crypto discount (10%) calculated server-side
+- Created src/app/(shop)/checkout/success/page.tsx
+- Wired checkout form action={submitOrder}; removed dead handleSubmit +
+  Confirmation component; added hidden qty/paymentMethod inputs; added
+  name="promoCode" to promo input
+- submitOrder return type is Promise<void> (void on validation failure,
+  redirect() on success) — required by form action prop type; HTML
+  required attributes handle client-side validation
+
 ## [2026-07-03] lint | Fix env var names in Phase 2 plan — Vercel Neon naming
 
 Corrected NEON_DATABASE_URL → POSTGRES_URL / POSTGRES_URL_NON_POOLING
