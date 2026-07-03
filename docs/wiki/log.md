@@ -819,6 +819,21 @@ presentable. Final state of all items:
 - `POSTGRES_URL` + `POSTGRES_URL_NON_POOLING` copied to `.env.local`
   (needed before Task 2.1 — auto-created by Vercel Neon integration).
 
+## [2026-07-03] phase | Task 2.1 — Neon + Drizzle foundation
+
+- Installed: drizzle-orm, @neondatabase/serverless, drizzle-kit, nanoid
+- Created src/lib/db/schema.ts — orders table with status + payment_method enums
+- Created src/lib/db/index.ts — Neon HTTP driver, POSTGRES_URL
+- Created drizzle.config.ts — uses POSTGRES_URL_NON_POOLING for migrations
+- Added db:push and db:studio scripts to package.json (node --env-file=.env.local
+  prefix — drizzle-kit doesn't auto-load .env.local, Node 22 --env-file handles it
+  without adding dotenv-cli)
+- Updated .env.local — added POSTGRES_URL / POSTGRES_URL_NON_POOLING aliases
+  pointing at existing Neon connection strings (DATABASE_URL / DATABASE_URL_UNPOOLED)
+- Created .env.local.example
+- npm run db:push — orders table + enums created in Neon
+- tsc --noEmit clean
+
 ## [2026-07-03] lint | Fix env var names in Phase 2 plan — Vercel Neon naming
 
 Corrected NEON_DATABASE_URL → POSTGRES_URL / POSTGRES_URL_NON_POOLING
