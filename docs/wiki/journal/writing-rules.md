@@ -398,6 +398,132 @@ for invented quotes or composite characters.
 
 ---
 
+Citation integrity and research workflow
+
+The non-negotiable rule
+
+Never put a pmid attribute in <StudyCite> unless you have verified
+through PubMed that:
+
+
+The PMID exists
+The authors match what you believe them to be
+The paper studies what you claim it studies
+
+
+Fabricated or misattributed citations are worse than no citations.
+A confident-looking <StudyCite> block with a wrong PMID destroys
+credibility more thoroughly than an honest "I can't point to a
+verifiable source for this."
+
+The four-category system
+
+Before writing any claim that requires support, classify it:
+
+Category A — PubMed-verified, directly relevant
+The paper exists in PubMed, the authors and title are confirmed, and the
+abstract directly supports the claim being made.
+→ Use <StudyCite pmid="..." source="...">. Include DOI in source field.
+
+Category B — PubMed-verified, adjacent
+The paper exists but studies something related, not exactly the claim.
+For example: a toxicology study in rats that incidentally documents
+dopaminergic effects, being cited for mechanism data.
+→ Use <StudyCite pmid="..." source="..."> but write the block honestly —
+describe what the paper actually studied, not what you wish it showed.
+
+Category C — Non-indexed primary source
+The mechanism or finding is documented in Soviet-era or Russian-language
+pharmacological literature that isn't in PubMed. The claim is plausible
+and referenced in secondary sources, but you can't hand the reader a
+link to verify it.
+→ No <StudyCite>. Write inline with explicit framing:
+"This is documented in Soviet-era pharmacological literature that
+predates standard English-language indexing. I can't provide a PubMed
+link for verification."
+→ If a secondary English-language review cites the primary, cite the
+review and acknowledge the chain.
+
+Category D — Unverifiable
+The claim exists somewhere but you cannot trace it to a source.
+→ Remove the claim or rewrite it as explicit uncertainty:
+"This appears in secondary sources but I haven't been able to trace
+it to a verifiable primary paper."
+
+The research workflow before writing
+
+For every article, before drafting, run this sequence:
+
+Step 1 — Search PubMed
+Search for: compound name, mechanism term, compound + mechanism combined.
+Example queries:
+
+
+bromantane pharmacology
+bromantane dopamine
+actoprotector review
+
+
+Note what exists and what doesn't. Absence from PubMed is itself
+information worth acknowledging in the article.
+
+Step 2 — Pull metadata on any PMID you plan to cite
+Don't rely on memory or secondary descriptions of papers. Use PubMed
+to confirm authors, journal, publication year, and that the abstract
+actually supports your claim.
+
+Step 3 — Check what the paper actually measured
+A toxicology study in rats that documents behavioral effects "associated
+with central dopamine stimulation" is not the same as a mechanistic study
+of tyrosine hydroxylase expression. Both may be real and useful. They are
+different claims. Use the right framing.
+
+Step 4 — Map claims to categories
+Before writing, know which category each citation falls into. This
+determines how you write the surrounding text, not just the StudyCite
+block.
+
+Step 5 — Write the epistemic qualifier into the text
+For Category C claims especially: the limitation is not a footnote,
+it's part of the argument. "This mechanism is documented in literature
+I can't verify directly" is more trustworthy than a citation block that
+turns out to be wrong. The reader deserves to know how confident to be.
+
+Known verified sources (as of July 2026)
+
+PMID 21322821 — Voznesenskaia TG, Fokina NM, Iakhno NN
+"Treatment of asthenic disorders... ladasten" · Zh Nevrol Psikhiatr · 2010
+n=728, 28 days, 76% responder rate, 3% adverse events. No DOI.
+Use for: Ladasten clinical evidence, safety profile, asthenia indication.
+
+PMID 12124651 — Iezhitsa IN, Spasov AA, Bugaeva LI, Morozov IS
+"Toxic effect of single treatment with bromantane..." · Bull Exp Biol Med · 2002
+DOI: 10.1023/a:1016206306875
+Rat study, wide dose range. Documents central dopaminergic stimulation
+at therapeutic doses, wide safety margin (LD behavior >600mg/kg).
+Use for: dopaminergic mechanism (with Category B framing), safety margin.
+
+PMID 40223246 — Jędrejko K, Catlin O, Faiss R, Pokrywka A
+"A Review of Hypoxen Pharmacology..." · Drug Test Anal · 2025
+DOI: 10.1002/dta.3887
+Defines actoprotectors as a class, lists bromantane as synthetic actoprotector,
+notes the body of knowledge from Russian Military Medical Academy.
+Use for: actoprotector class definition, historical framing.
+
+What is NOT in PubMed (as of July 2026)
+
+
+Bromantane + tyrosine hydroxylase upregulation: no indexed paper found
+Bromantane + dopamine synthesis mechanism: no indexed English paper found
+Ladasten cognitive enhancement in healthy subjects: no indexed trial found
+
+
+These claims may be real — they appear in secondary sources and are
+mechanistically plausible — but they are Category C until a primary
+source is located and verified.
+
+---
+
 ## Final checklist before publishing
 
 Read the draft and ask:
