@@ -106,3 +106,9 @@ whole wiki.
   page work referenced in chat memory — not yet ingested)
 
 See [`log.md`](./log.md) for the chronological record of what's been done.
+
+## Journal knowledge
+
+- [`journal/writing-rules.md`](./journal/writing-rules.md) — **read before
+  generating any journal article** — voice, SEO rules, content taxonomy,
+  topic bank, MDX components, frontmatter template
