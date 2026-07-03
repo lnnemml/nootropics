@@ -77,6 +77,10 @@ whole wiki.
   — Phase 1.5 inserted before Phase 2; cart hook pattern; pricing/legal constraints
 - [`decisions/0009-retire-chart-motif-on-home.md`](./decisions/0009-retire-chart-motif-on-home.md)
   — abstract line-chart motif dropped from home page; optional on product page pending revisit
+- [`decisions/0010-payment-method-selection-ui.md`](./decisions/0010-payment-method-selection-ui.md)
+  — payment method selector UI (crypto + manual); quantity pre-fill via `?qty` param
+- [`decisions/0011-legal-pages.md`](./decisions/0011-legal-pages.md)
+  — **⚠ requires legal review** — four legal pages + LegalPageShell; key positions encoded
 
 ## Planning
 

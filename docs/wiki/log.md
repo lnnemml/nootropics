@@ -733,3 +733,24 @@ selector and wired the CTA through to checkout with a `?qty=N` param.
   quantity select pre-fills from the CTA link.
 
 `tsc --noEmit` clean.
+
+## [2026-07-03] decision | Legal pages — Terms, Privacy, Research Use Only, Disclaimer
+
+Added four legal pages under `/legal/*` and a shared `LegalPageShell` component.
+
+**Files created / updated:**
+- `src/components/layout/Footer.tsx` — rewritten to two named columns
+  (Company, Legal) replacing the old generic FOOTER_COLUMNS pattern.
+  Legal column links to all four new pages.
+- `src/components/layout/LegalPageShell.tsx` — new shared Server Component
+  shell (eyebrow, h1, last-updated dateline, divider, prose wrapper with
+  Tailwind arbitrary-property styles).
+- `src/app/(marketing)/legal/terms/page.tsx`
+- `src/app/(marketing)/legal/privacy/page.tsx`
+- `src/app/(marketing)/legal/research-use/page.tsx`
+- `src/app/(marketing)/legal/disclaimer/page.tsx`
+- `docs/wiki/decisions/0011-legal-pages.md` — ADR recording key positions
+  encoded (no card payment, minimal cookies, WADA note, GDPR/CCPA).
+
+**⚠ All legal pages require legal review before launch** — flagged in ADR 0011
+and in commit message. AI-drafted templates only.
