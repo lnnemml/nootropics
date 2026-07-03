@@ -26,7 +26,8 @@
 
 | Var | Task | Where to add |
 |-----|------|-------------|
-| `NEON_DATABASE_URL` | 2.1 | Vercel (Production + Preview + Development) + `.env.local` |
+| `POSTGRES_URL` | 2.1 | Auto-created by Vercel Neon integration — add to `.env.local` manually |
+| `POSTGRES_URL_NON_POOLING` | 2.1 | Auto-created by Vercel Neon integration — used by drizzle-kit only, add to `.env.local` |
 | `NOWPAYMENTS_API_KEY` | 2.4 | Vercel (Production + Preview) |
 | `ADMIN_EMAIL` | 2.5 | Vercel + `.env.local` |
 | `ADMIN_PASSWORD_HASH` | 2.5 | Vercel + `.env.local` (bcrypt hash) |
@@ -45,7 +46,7 @@ Neon connection, runs the first migration.
 **Packages to install:**
 ```
 drizzle-orm @neondatabase/serverless
-drizzle-kit dotenv-cli (dev)
+drizzle-kit (dev)
 ```
 
 **Files to create:**
@@ -114,7 +115,7 @@ import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "./schema";
 
-const sql = neon(process.env.NEON_DATABASE_URL!);
+const sql = neon(process.env.POSTGRES_URL!);
 export const db = drizzle(sql, { schema });
 ```
 
@@ -127,20 +128,22 @@ export default {
   out: "./drizzle",
   dialect: "postgresql",
   dbCredentials: {
-    url: process.env.NEON_DATABASE_URL!,
+    url: process.env.POSTGRES_URL_NON_POOLING ?? process.env.POSTGRES_URL!,
   },
 } satisfies Config;
 ```
 
 `.env.local.example` — append:
 ```
-NEON_DATABASE_URL=postgresql://...
+POSTGRES_URL=postgresql://...         # from Vercel Neon integration
+POSTGRES_URL_NON_POOLING=postgresql://...  # from Vercel Neon integration (unpooled, for migrations)
+RESEND_API_KEY=re_...                 # from Resend dashboard
 ```
 
 Add `package.json` scripts:
 ```json
-"db:push": "dotenv-cli -e .env.local -- drizzle-kit push",
-"db:studio": "dotenv-cli -e .env.local -- drizzle-kit studio"
+"db:push": "drizzle-kit push",
+"db:studio": "drizzle-kit studio"
 ```
 
 Also install `nanoid` (for order ID generation in Task 2.2):
@@ -149,8 +152,8 @@ nanoid
 ```
 
 **Gate:** `tsc --noEmit` clean. `npm run db:push` runs against a real Neon
-connection (Anton provides `NEON_DATABASE_URL` before this task). Build
-clean on Vercel preview.
+connection (Anton copies `POSTGRES_URL` + `POSTGRES_URL_NON_POOLING` from
+Vercel into `.env.local` before this task). Build clean on Vercel preview.
 
 **Wiki:** append log entry `[2026-07-03] phase | Task 2.1 — Neon + Drizzle foundation`.
 

@@ -816,4 +816,12 @@ presentable. Final state of all items:
 - SPF/DKIM DNS records on Namecheap (needed before Task 2.3 email
   delivery can be tested).
 - NowPayments account + `NOWPAYMENTS_API_KEY` (needed before Task 2.4).
-- `NEON_DATABASE_URL` in Vercel env (needed before Task 2.1).
+- `POSTGRES_URL` + `POSTGRES_URL_NON_POOLING` copied to `.env.local`
+  (needed before Task 2.1 — auto-created by Vercel Neon integration).
+
+## [2026-07-03] lint | Fix env var names in Phase 2 plan — Vercel Neon naming
+
+Corrected NEON_DATABASE_URL → POSTGRES_URL / POSTGRES_URL_NON_POOLING
+throughout phase-2-implementation-plan.md to match what Vercel's Neon
+integration actually creates. Added RESEND_API_KEY to .env.local.example.
+No other files changed.
