@@ -81,6 +81,8 @@ whole wiki.
   — payment method selector UI (crypto + manual); quantity pre-fill via `?qty` param
 - [`decisions/0011-legal-pages.md`](./decisions/0011-legal-pages.md)
   — **⚠ requires legal review** — four legal pages + LegalPageShell; key positions encoded
+- [`decisions/0012-neon-drizzle-phase2.md`](./decisions/0012-neon-drizzle-phase2.md)
+  — Neon Postgres + Drizzle ORM confirmed as Phase 2 DB layer; MVP schema denormalized
 
 ## Planning
 
@@ -88,7 +90,10 @@ whole wiki.
 - [`phase-1-implementation-plan.md`](./phase-1-implementation-plan.md) —
   Phase 1 task list *(done)*
 - [`phase-1.5-implementation-plan.md`](./phase-1.5-implementation-plan.md) —
-  **active task list for Claude Code** (site completeness), one task per session
+  Phase 1.5 task list *(done — 2026-07-03)*
+- [`phase-2-implementation-plan.md`](./phase-2-implementation-plan.md) —
+  **active task list for Phase 2** (backend MVP: DB, email, NowPayments,
+  admin) — one task per session
 
 ## Backlog (sources not yet ingested / pages not yet written)
 

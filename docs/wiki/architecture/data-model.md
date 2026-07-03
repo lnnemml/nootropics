@@ -1,16 +1,35 @@
-# Architecture — Data Model (Phase 2 sketch)
+# Architecture — Data Model
 
-> Status: **sketch for Phase 2 planning**, not yet implemented. Last
-> updated 2026-06-29.
+> **Phase 2 status:** MVP schema confirmed 2026-07-03. The `orders` table
+> below is what gets built in Phase 2. The fuller normalized schema
+> (users, products, product_variants, order_items, referral_codes,
+> discount_ledger, customer_tiers) is deferred to Phase 3+. The Phase 2
+> implementation plan is the authoritative task-level spec —
+> [`phase-2-implementation-plan.md`](../phase-2-implementation-plan.md).
 
-This is intentionally e-commerce-ready even though Phase 1 has no checkout
-and only one product — see
-[`platform-vs-product.md`](./platform-vs-product.md). Schema lives in
-`src/lib/db/schema.ts` (Drizzle) once Phase 2 starts; this page is the
-human/LLM-readable companion that explains *why* each shape is the way it
-is, and should be updated whenever the real schema changes.
+This page documents the schema shape and the *why* behind each decision.
+It should be updated whenever the live schema changes. `src/lib/db/schema.ts`
+is the ground truth for Drizzle types; this file explains intent.
 
-## Core tables (sketch)
+## Phase 2 schema (MVP — being built now)
+
+Single `orders` table. Denormalized: product slug and quantity live
+directly on the order row (no `products`, `order_items`, or `users` yet).
+See `src/lib/db/schema.ts` for the Drizzle definition.
+
+Fields: `id` (nanoid), `created_at`, `status` (enum), `name`, `email`,
+`phone`, `address`, `city`, `postal_code`, `state_region` (nullable),
+`country`, `product_slug`, `quantity`, `base_price` (cents),
+`payment_method` (enum: "crypto" | "manual"), `crypto_discount_pct`
+(nullable int), `total_price` (cents), `promo_code` (nullable),
+`note` (nullable), `nowpayments_invoice_id` (nullable),
+`nowpayments_payment_url` (nullable), `confirmation_email_sent_at`
+(nullable timestamp).
+
+Status enum: `pending_payment_instructions → awaiting_payment → paid →
+fulfilled`, or any → `cancelled`.
+
+## Future schema (Phase 3+, not yet built)
 
 ```
 users
@@ -54,6 +73,10 @@ customer_tiers
   id, user_id, tier (e.g. bronze/silver/gold by lifetime spend),
   lifetime_spend_cents, updated_at
 ```
+
+> These tables exist for planning purposes — they document the normalized
+> schema that will be introduced in Phase 3+ once Phase 2 is shipped and
+> stable. Do not implement them in Phase 2.
 
 ## Reasoning notes
 

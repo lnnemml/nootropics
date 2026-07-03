@@ -773,3 +773,47 @@ Implemented the complete MDX pipeline for `/blog` (NORA Journal).
 - `src/app/(blog)/blog/page.tsx` — article listing with category badge, date, read-time, description
 
 Build clean: 18 static pages including `/blog` and `/blog/what-is-an-actoprotector`.
+
+## [2026-07-03] phase | Phase 1.5 closed — all items complete
+
+Phase 1.5 ("Site completeness") is done. Anton called it externally
+presentable. Final state of all items:
+
+| Item | Status |
+|------|--------|
+| Header (SVG logo, nav restructure, cart icon) | ✅ Done |
+| Home page (ReleaseCatalog, ContrastCardPair, citation footnote, CTA) | ✅ Done |
+| Product page (ProductHero, quantity selector, trust signals, PuritySection, FAQAccordion) | ✅ Done |
+| Checkout (two-column layout, payment method selector, dynamic pricing, promo stub) | ✅ Done |
+| About page | ✅ Done |
+| Contact page | ✅ Done |
+| Footer (Company + Legal columns) | ✅ Done |
+| Legal pages × 4 (LegalPageShell, /legal/terms, /legal/privacy, /legal/research-use, /legal/disclaimer) | ✅ Done ⚠ legal review required (ADR 0011) |
+| Journal MDX pipeline | ✅ Done |
+| Journal writing rules | ✅ Done |
+| Journal articles (8) | ✅ Done |
+| Mobile responsiveness pass | ✅ Done |
+
+**Phase 2 begins next session.**
+
+## [2026-07-03] setup | Phase 2 planning — wiki scaffolded
+
+- Created `docs/wiki/phase-2-implementation-plan.md` — 5-task breakdown
+  for Phase 2 (DB, checkout action, email, NowPayments, admin panel).
+- Created ADR 0012 — confirms Neon + Drizzle choice.
+- Updated `docs/wiki/roadmap.md` — Phase 1.5 marked done; Phases 2/3/4
+  merged into a single Phase 2 "Backend MVP"; Phase numbering updated.
+- Updated `docs/wiki/architecture/data-model.md` — Phase 2 MVP schema
+  documented; future normalized schema demoted to Phase 3+ planning section.
+- Updated `docs/wiki/index.md` — planning section updated.
+- Updated `CLAUDE.md` — active task pointer changed from Phase 1.5 to Phase 2.
+
+**Already done before Phase 2 coding begins:**
+- Resend domain `noraalliance.com` verified (us-east-1 region).
+- `RESEND_API_KEY` in Vercel env (Production + Preview + Development).
+
+**Not done — Anton's prerequisites before certain tasks:**
+- SPF/DKIM DNS records on Namecheap (needed before Task 2.3 email
+  delivery can be tested).
+- NowPayments account + `NOWPAYMENTS_API_KEY` (needed before Task 2.4).
+- `NEON_DATABASE_URL` in Vercel env (needed before Task 2.1).

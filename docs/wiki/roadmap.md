@@ -36,7 +36,7 @@
   generic, not a real e-commerce site yet." Correct assessment for a
   7-task structural pass; see Phase 1.5 below for what's actually missing.
 
-## Phase 1.5 — Site completeness *(current)*
+## Phase 1.5 — Site completeness *(done — 2026-07-03)*
 
 > Inserted 2026-06-29, before any database/auth work — see ADR 0008.
 > **Format (amended 2026-06-29):** open punch list, not a fixed task
@@ -49,39 +49,55 @@
 > decides when the site looks externally finished — that's "done" for
 > this phase, not a checklist.
 
-## Phase 2 — Database & product catalog
-- Implement Drizzle schema per
-  [`architecture/data-model.md`](./architecture/data-model.md)
-- Neon connection, migrations
-- Product catalog driven by DB instead of hardcoded content
+## Phase 2 — Backend MVP *(current)*
 
-## Phase 3 — Optional auth
-- Auth.js setup, guest-checkout-compatible user model
-- Account page (order history placeholder)
+> Scope updated 2026-07-03 — old Phases 2 ("Database & product catalog"),
+> 3 ("Optional auth"), and 4 ("Cart + manual-confirmation checkout") from
+> the original roadmap are folded into this single phase. The checkout UI
+> and payment method selection already exist from Phase 1.5; Phase 2 wires
+> them to a real database, real emails, and the NowPayments crypto API.
+>
+> Full task breakdown in
+> [`phase-2-implementation-plan.md`](./phase-2-implementation-plan.md).
 
-## Phase 4 — Cart + manual-confirmation checkout
-- Cart state, checkout form (no payment fields — see
-  [`architecture/manual-payment-flow.md`](./architecture/manual-payment-flow.md))
-- Resend integration: order-received + internal new-order emails
-- `order_notes` table + minimal way for ops to mark orders paid/fulfilled
-- Multi-bottle / subscription upsell (per offer brief funnel architecture)
-  — subscription billing itself is blocked on a real payment processor;
-  ship the upsell *offer* in copy/UI now, automate billing later
+**Gate criteria:** a real order can be placed, saved to the DB, confirmed
+by two automatic emails (customer + ops), and optionally paid via crypto
+through a NowPayments hosted page — and Anton can view and update order
+statuses in a minimal admin panel.
 
-## Phase 5 — Referral & cumulative discount system
+**What's already done (before Phase 2 coding begins):**
+- Resend domain `noraalliance.com` verified (us-east-1)
+- `RESEND_API_KEY` in Vercel env (Production + Preview + Development)
+
+**What's NOT done yet (prerequisites Anton must complete before certain tasks):**
+- SPF/DKIM DNS records on Namecheap — required before email actually
+  delivers (Task 2.3 can be coded first, but won't pass delivery tests
+  until DNS is live)
+- NowPayments account + API key — required before Task 2.4 can be tested
+
+Tasks (one per Claude Code session):
+- **Task 2.1** — Neon + Drizzle foundation (schema, connection, migration)
+- **Task 2.2** — Checkout Server Action + order persistence
+- **Task 2.3** — Resend email templates (order-received + ops alert)
+- **Task 2.4** — NowPayments crypto invoice integration
+- **Task 2.5** — Auth.js + minimal admin panel (orders list + status update)
+
+## Phase 3 — Referral & cumulative discount system
+
+*(was Phase 5 — renumbered after Phases 2/3/4 merged)*
+
 - `referral_codes`, `discount_ledger`, `customer_tiers` tables live
 - Referral link generation + redemption flow
 - Resolve open questions flagged in
   [`architecture/data-model.md`](./architecture/data-model.md)
 
-## Phase 6 — Community/education layer
-- MDX blog live, first mechanism-explainer posts (dopamine, actoprotector
-  science, etc. — drawing on research doc science angles)
-- Social presence cadence (separate doc, not site code)
+## Phase 4 — Growth & optimization
 
-## Phase 7 — Growth & optimization
+*(was Phase 6/7 — renumbered)*
+
 - SEO pass, analytics, A/B testing infra for headlines/angles
 - Revisit ADR 0002 based on real performance data
+- Community/social presence cadence (separate doc, not site code)
 
 ## Related pages
 
