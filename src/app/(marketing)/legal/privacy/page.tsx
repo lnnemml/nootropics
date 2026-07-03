@@ -63,9 +63,15 @@ export default function PrivacyPage() {
         session while you browse. Cleared when you close the browser.
       </p>
       <p>
-        No advertising cookies, third-party tracking pixels, or
-        analytics services are used on this site. No data about your
-        browsing behavior is shared with any external party.
+        This site uses analytics and marketing tools that may set their
+        own cookies, including Google Analytics 4 (Google), Meta Pixel
+        (Meta), and Microsoft Clarity. These services collect anonymized
+        usage data — pages visited, session duration, and similar
+        interactions — to help us understand site performance. Data
+        collected by these services is governed by the respective
+        providers&apos; privacy policies. You can opt out via your
+        browser&apos;s cookie settings or through each provider&apos;s
+        opt-out mechanism.
       </p>
 
       <h2>6. Your Rights</h2>
