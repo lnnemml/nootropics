@@ -2,6 +2,7 @@
 
 import { db } from "@/lib/db";
 import { orders } from "@/lib/db/schema";
+import { sendOrderEmails } from "@/lib/email/send";
 import { nanoid } from "nanoid";
 import { redirect } from "next/navigation";
 
@@ -67,6 +68,31 @@ export async function submitOrder(formData: FormData): Promise<void> {
     totalPrice,
     promoCode:        raw.promoCode || null,
     note:             raw.note || null,
+  });
+
+  await sendOrderEmails({
+    id,
+    name: raw.name,
+    email: raw.email,
+    phone: raw.phone,
+    address: raw.address,
+    city: raw.city,
+    postalCode: raw.postalCode,
+    stateRegion: raw.stateRegion || null,
+    country: raw.country,
+    productSlug: "neurodrive",
+    quantity: qty,
+    basePrice: pricing.base,
+    paymentMethod: raw.paymentMethod,
+    cryptoDiscountPct,
+    totalPrice,
+    promoCode: raw.promoCode || null,
+    note: raw.note || null,
+    nowpaymentsInvoiceId: null,
+    nowpaymentsPaymentUrl: null,
+    confirmationEmailSentAt: null,
+    createdAt: new Date(),
+    status: "pending_payment_instructions",
   });
 
   redirect(`/checkout/success?ref=${id}`);

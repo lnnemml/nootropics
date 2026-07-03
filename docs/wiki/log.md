@@ -855,6 +855,24 @@ dotenv-cli needed. Intent of the plan preserved.
   redirect() on success) — required by form action prop type; HTML
   required attributes handle client-side validation
 
+## [2026-07-03] phase | Task 2.2 deviation — submitOrder returns void
+
+Server Action typed as (formData: FormData) => Promise<void> to satisfy
+Next.js form action prop typing. Early-return validation objects omitted;
+HTML required attributes guard normal users. useActionState in Task 2.5
+will add proper error feedback.
+
+## [2026-07-03] phase | Task 2.3 — Resend email templates
+
+- Installed: resend
+- Created src/lib/email/templates.ts — customer confirmation + ops alert HTML
+- Created src/lib/email/send.ts — sendOrderEmails() via Promise.allSettled
+- Wired into submitOrder.ts after DB insert (before redirect)
+- ADMIN_EMAIL env var already in .env.local; add to Vercel env
+  (Production + Preview + Development) before deploying
+- Note: emails won't deliver reliably until SPF/DKIM DNS records are live
+  on Namecheap (prerequisite documented in phase-2-implementation-plan.md)
+
 ## [2026-07-03] lint | Fix env var names in Phase 2 plan — Vercel Neon naming
 
 Corrected NEON_DATABASE_URL → POSTGRES_URL / POSTGRES_URL_NON_POOLING

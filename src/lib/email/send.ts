@@ -1,0 +1,22 @@
+import { Resend } from "resend";
+import type { NewOrder } from "@/lib/db/schema";
+import { orderConfirmationCustomer, orderAlertOps } from "./templates";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+export async function sendOrderEmails(order: NewOrder): Promise<void> {
+  await Promise.allSettled([
+    resend.emails.send({
+      from: "NORA Alliance <orders@noraalliance.com>",
+      to: order.email,
+      subject: "Your NORA order has been received",
+      html: orderConfirmationCustomer(order),
+    }),
+    resend.emails.send({
+      from: "NORA System <system@noraalliance.com>",
+      to: process.env.ADMIN_EMAIL!,
+      subject: `[NORA] New order — ${order.name} — ${order.paymentMethod} — $${(order.totalPrice / 100).toFixed(2)}`,
+      html: orderAlertOps(order),
+    }),
+  ]);
+}
