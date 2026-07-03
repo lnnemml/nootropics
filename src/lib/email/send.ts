@@ -5,6 +5,8 @@ import { orderConfirmationCustomer, orderAlertOps } from "./templates";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendOrderEmails(order: NewOrder): Promise<void> {
+  const adminEmails = (process.env.ADMIN_EMAIL ?? "").split(",").map(e => e.trim()).filter(Boolean);
+
   await Promise.allSettled([
     resend.emails.send({
       from: "NORA Alliance <orders@noraalliance.com>",
@@ -14,7 +16,7 @@ export async function sendOrderEmails(order: NewOrder): Promise<void> {
     }),
     resend.emails.send({
       from: "NORA System <system@noraalliance.com>",
-      to: process.env.ADMIN_EMAIL!,
+      to: adminEmails,
       subject: `[NORA] New order — ${order.name} — ${order.paymentMethod} — $${(order.totalPrice / 100).toFixed(2)}`,
       html: orderAlertOps(order),
     }),
