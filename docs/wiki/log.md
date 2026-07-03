@@ -754,3 +754,22 @@ Added four legal pages under `/legal/*` and a shared `LegalPageShell` component.
 
 **⚠ All legal pages require legal review before launch** — flagged in ADR 0011
 and in commit message. AI-drafted templates only.
+
+## [2026-07-03] setup | Journal MDX pipeline — full stack implementation
+
+Implemented the complete MDX pipeline for `/blog` (NORA Journal).
+
+**Packages installed:** `gray-matter`, `next-mdx-remote`, `rehype-slug`, `reading-time`
+
+**Files created:**
+- `content/journal/mechanism/what-is-an-actoprotector.mdx` — first article (test content)
+- `src/lib/journal.ts` — TypeScript library: recursive `.mdx` file walker, frontmatter parser, `getAllArticles()`, `getArticleBySlug()`, `getAllSlugs()`, `formatDate()`, `CATEGORY_LABELS`
+- `src/components/journal/StudyCite.tsx` — MDX component for inline study citations with PubMed links
+- `src/components/journal/ForumVoice.tsx` — MDX component for forum/community quotes
+- `srctml/components/journal/mdx-components.tsx` — central MDX component registry
+- `src/app/(blog)/blog/[slug]/page.tsx` — dynamic article page; `compileMDX` from `next-mdx-remote/rsc`; `rehype-slug`; `generateStaticParams`; OG metadata
+
+**Files updated:**
+- `src/app/(blog)/blog/page.tsx` — article listing with category badge, date, read-time, description
+
+Build clean: 18 static pages including `/blog` and `/blog/what-is-an-actoprotector`.
