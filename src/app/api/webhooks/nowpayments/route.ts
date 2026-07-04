@@ -1,7 +1,7 @@
 import { createHmac } from "node:crypto";
 import { db } from "@/lib/db";
 import { orders } from "@/lib/db/schema";
-import { sendPaymentConfirmedEmail } from "@/lib/email/send";
+import { sendPaymentConfirmedEmail, sendPaymentConfirmedOpsAlert } from "@/lib/email/send";
 import { eq } from "drizzle-orm";
 
 function sortObjectRecursive(obj: Record<string, unknown>): Record<string, unknown> {
@@ -64,7 +64,10 @@ export async function POST(req: Request): Promise<Response> {
     .set({ status: "paid" })
     .where(eq(orders.id, order.id));
 
-  await sendPaymentConfirmedEmail({ ...order, status: "paid" });
+  await Promise.allSettled([
+    sendPaymentConfirmedEmail({ ...order, status: "paid" }),
+    sendPaymentConfirmedOpsAlert({ ...order, status: "paid" }),
+  ]);
 
   return new Response("OK");
 }

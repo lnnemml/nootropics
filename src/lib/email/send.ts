@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 import type { NewOrder, Order } from "@/lib/db/schema";
-import { orderConfirmationCustomer, orderAlertOps, orderPaymentConfirmedCrypto } from "./templates";
+import { orderConfirmationCustomer, orderAlertOps, orderPaymentConfirmedCrypto, orderPaymentConfirmedOps } from "./templates";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -29,5 +29,15 @@ export async function sendPaymentConfirmedEmail(order: Order): Promise<void> {
     to: order.email,
     subject: `${order.orderNumber} — Payment confirmed`,
     html: orderPaymentConfirmedCrypto(order),
+  });
+}
+
+export async function sendPaymentConfirmedOpsAlert(order: Order): Promise<void> {
+  const adminEmails = (process.env.ADMIN_EMAIL ?? "").split(",").map(e => e.trim()).filter(Boolean);
+  await resend.emails.send({
+    from: "NORA System <system@noraalliance.com>",
+    to: adminEmails,
+    subject: `✓ [NORA] ${order.orderNumber} — Crypto payment confirmed — $${(order.totalPrice / 100).toFixed(2)}`,
+    html: orderPaymentConfirmedOps(order),
   });
 }

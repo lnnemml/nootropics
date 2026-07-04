@@ -75,6 +75,27 @@ export function orderPaymentConfirmedCrypto(order: Order): string {
 </html>`;
 }
 
+export function orderPaymentConfirmedOps(order: Order): string {
+  return `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family: monospace; color: #2E3A3C; max-width: 600px; margin: 0 auto; padding: 32px 24px;">
+  <h2 style="font-size: 18px; margin-bottom: 24px; color: #1E9C78;">✓ [NORA] Payment confirmed — ${order.orderNumber}</h2>
+  <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+    <tr><td style="padding: 6px 0; color: #666; width: 160px;">Order</td><td>${order.orderNumber}</td></tr>
+    <tr><td style="padding: 6px 0; color: #666;">Name</td><td>${order.name}</td></tr>
+    <tr><td style="padding: 6px 0; color: #666;">Email</td><td><a href="mailto:${order.email}">${order.email}</a></td></tr>
+    <tr><td style="padding: 6px 0; color: #666;">Product</td><td>${order.productSlug} × ${order.quantity}</td></tr>
+    <tr><td style="padding: 6px 0; color: #666;">Total paid</td><td style="font-weight: bold; color: #1E9C78;">$${(order.totalPrice / 100).toFixed(2)}</td></tr>
+    <tr><td style="padding: 6px 0; color: #666;">Address</td><td>${order.address}, ${order.city}${order.stateRegion ? ", " + order.stateRegion : ""}, ${order.postalCode}, ${order.country}</td></tr>
+    <tr><td style="padding: 6px 0; color: #666;">Phone</td><td>${order.phone}</td></tr>
+    ${order.note ? `<tr><td style="padding: 6px 0; color: #666;">Note</td><td>${order.note}</td></tr>` : ""}
+  </table>
+  <p style="margin-top: 24px; font-size: 12px; color: #999;">Action required: fulfil and ship this order.</p>
+</body>
+</html>`;
+}
+
 export function orderAlertOps(order: NewOrder): string {
   const trafficColor =
     order.trafficType === "paid" ? "#dc2626" :
