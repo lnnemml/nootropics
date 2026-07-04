@@ -896,3 +896,14 @@ No other files changed.
   first summary table row); ops email shows traffic type (colour-coded)
   + full UTM breakdown; ops subject includes order number
 - UTM convention: utm_campaign=campaign, utm_content=ad set, utm_term=creative
+
+## [2026-07-04] phase | Task 2.4 — NowPayments crypto invoice integration
+
+- Created src/lib/nowpayments.ts — createInvoice() via NowPayments REST API
+- submitOrder.ts: crypto path creates invoice after DB insert + emails,
+  updates order with invoice_id + payment_url, redirects to hosted page
+- Redirect error re-thrown in catch block (Next.js redirect() throws internally)
+- Fallback: if NowPayments API fails, order is already saved + ops alerted —
+  falls through to normal success page, ops arranges manually
+- NEXT_PUBLIC_BASE_URL env var added for success/cancel URL construction
+- Webhook (IPN) for automated status update → deferred to post-Phase 2

@@ -4,8 +4,11 @@ import { db } from "@/lib/db";
 import { orders } from "@/lib/db/schema";
 import { sendOrderEmails } from "@/lib/email/send";
 import { generateOrderNumber, deriveTrafficType } from "@/lib/order-number";
+import { createInvoice } from "@/lib/nowpayments";
+import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import { redirect } from "next/navigation";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 const QUANTITY_PRICES: Record<string, { base: number; total: number; discountPct: number }> = {
   "1": { base: 12000, total: 12000, discountPct: 0 },
@@ -116,6 +119,33 @@ export async function submitOrder(formData: FormData): Promise<void> {
     utmTerm:     raw.utmTerm     || null,
     trafficType,
   });
+
+  if (raw.paymentMethod === "crypto") {
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://noraalliance.com";
+      const invoice = await createInvoice({
+        orderId:    id,
+        orderNumber,
+        amountUsd:  totalPrice / 100,
+        successUrl: `${baseUrl}/checkout/success?ref=${id}&order=${orderNumber}`,
+        cancelUrl:  `${baseUrl}/checkout`,
+      });
+
+      await db
+        .update(orders)
+        .set({
+          nowpaymentsInvoiceId:  invoice.id,
+          nowpaymentsPaymentUrl: invoice.invoice_url,
+        })
+        .where(eq(orders.id, id));
+
+      redirect(invoice.invoice_url);
+    } catch (err) {
+      if (isRedirectError(err)) throw err;
+      console.error("NowPayments invoice creation failed:", err);
+      // Order is already saved + ops alerted — fall through to success page
+    }
+  }
 
   redirect(`/checkout/success?ref=${id}&order=${orderNumber}`);
 }
