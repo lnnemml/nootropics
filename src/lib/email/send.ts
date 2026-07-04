@@ -17,7 +17,7 @@ export async function sendOrderEmails(order: NewOrder): Promise<void> {
     resend.emails.send({
       from: "NORA System <system@noraalliance.com>",
       to: adminEmails,
-      subject: `[NORA] New order — ${order.name} — ${order.paymentMethod} — $${(order.totalPrice / 100).toFixed(2)}`,
+      subject: `[NORA] ${order.orderNumber} — ${order.name} — ${order.paymentMethod} — $${(order.totalPrice / 100).toFixed(2)}`,
       html: orderAlertOps(order),
     }),
   ]);

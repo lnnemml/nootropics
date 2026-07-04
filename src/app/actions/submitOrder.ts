@@ -3,6 +3,7 @@
 import { db } from "@/lib/db";
 import { orders } from "@/lib/db/schema";
 import { sendOrderEmails } from "@/lib/email/send";
+import { generateOrderNumber, deriveTrafficType } from "@/lib/order-number";
 import { nanoid } from "nanoid";
 import { redirect } from "next/navigation";
 
@@ -28,6 +29,11 @@ export async function submitOrder(formData: FormData): Promise<void> {
     paymentMethod: formData.get("paymentMethod") as "crypto" | "manual",
     promoCode:     formData.get("promoCode") as string | null,
     note:          formData.get("note") as string | null,
+    utmSource:     formData.get("utmSource")   as string | null,
+    utmMedium:     formData.get("utmMedium")   as string | null,
+    utmCampaign:   formData.get("utmCampaign") as string | null,
+    utmContent:    formData.get("utmContent")  as string | null,
+    utmTerm:       formData.get("utmTerm")     as string | null,
   };
 
   // Validate required fields (HTML required handles client-side; this is server-side guard)
@@ -49,6 +55,8 @@ export async function submitOrder(formData: FormData): Promise<void> {
     : pricing.total;
 
   const id = nanoid();
+  const orderNumber = generateOrderNumber();
+  const trafficType = deriveTrafficType(raw.utmSource, raw.utmMedium);
 
   await db.insert(orders).values({
     id,
@@ -68,6 +76,13 @@ export async function submitOrder(formData: FormData): Promise<void> {
     totalPrice,
     promoCode:        raw.promoCode || null,
     note:             raw.note || null,
+    orderNumber,
+    utmSource:        raw.utmSource   || null,
+    utmMedium:        raw.utmMedium   || null,
+    utmCampaign:      raw.utmCampaign || null,
+    utmContent:       raw.utmContent  || null,
+    utmTerm:          raw.utmTerm     || null,
+    trafficType,
   });
 
   await sendOrderEmails({
@@ -93,7 +108,14 @@ export async function submitOrder(formData: FormData): Promise<void> {
     confirmationEmailSentAt: null,
     createdAt: new Date(),
     status: "pending_payment_instructions",
+    orderNumber,
+    utmSource:   raw.utmSource   || null,
+    utmMedium:   raw.utmMedium   || null,
+    utmCampaign: raw.utmCampaign || null,
+    utmContent:  raw.utmContent  || null,
+    utmTerm:     raw.utmTerm     || null,
+    trafficType,
   });
 
-  redirect(`/checkout/success?ref=${id}`);
+  redirect(`/checkout/success?ref=${id}&order=${orderNumber}`);
 }

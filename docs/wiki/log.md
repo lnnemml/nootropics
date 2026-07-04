@@ -879,3 +879,20 @@ Corrected NEON_DATABASE_URL → POSTGRES_URL / POSTGRES_URL_NON_POOLING
 throughout phase-2-implementation-plan.md to match what Vercel's Neon
 integration actually creates. Added RESEND_API_KEY to .env.local.example.
 No other files changed.
+
+## [2026-07-04] phase | Task 2.3b — order number + UTM tracking
+
+- Schema: added order_number (unique, NR-XXXXXXXX format), utm_source,
+  utm_medium, utm_campaign, utm_content, utm_term, traffic_type columns
+- src/lib/order-number.ts: generateOrderNumber() via nanoid custom alphabet,
+  deriveTrafficType() → "paid" | "referral" | "direct"
+- src/components/UTMCapture.tsx: client component, reads searchParams,
+  stores to sessionStorage on any page with UTM params
+- src/app/layout.tsx: UTMCapture wrapped in Suspense, rendered before NavBar
+- Checkout page reads sessionStorage UTM on mount, passes via hidden inputs
+- submitOrder.ts: generates order number + traffic type server-side,
+  stores all UTM fields in DB; redirect now includes ?order= param
+- Email templates: order number prominent in customer email (below h1 +
+  first summary table row); ops email shows traffic type (colour-coded)
+  + full UTM breakdown; ops subject includes order number
+- UTM convention: utm_campaign=campaign, utm_content=ad set, utm_term=creative

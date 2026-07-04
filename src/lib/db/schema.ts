@@ -48,6 +48,19 @@ export const orders = pgTable("orders", {
 
   // housekeeping
   confirmationEmailSentAt:  timestamp("confirmation_email_sent_at"),
+
+  // order number — human-readable, generated server-side
+  orderNumber:  text("order_number").notNull().unique(),
+
+  // UTM tracking
+  utmSource:    text("utm_source"),
+  utmMedium:    text("utm_medium"),
+  utmCampaign:  text("utm_campaign"),
+  utmContent:   text("utm_content"),
+  utmTerm:      text("utm_term"),
+
+  // derived from UTM — "paid" | "referral" | "direct"
+  trafficType:  text("traffic_type"),
 });
 
 export type Order = typeof orders.$inferSelect;

@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Suspense } from "react";
 import { NavBar } from "@/components/layout/NavBar";
 import { Footer } from "@/components/layout/Footer";
+import UTMCapture from "@/components/UTMCapture";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -39,6 +41,9 @@ export default function RootLayout({
             __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}})()`,
           }}
         />
+        <Suspense fallback={null}>
+          <UTMCapture />
+        </Suspense>
         <NavBar />
         <main className="flex-1">{children}</main>
         <Footer />

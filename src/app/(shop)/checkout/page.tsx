@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Container } from "@/components/layout/Container";
@@ -335,6 +335,14 @@ function CheckoutInner() {
   });
   const [qty, setQty] = useState<1 | 2 | 3>(initialQty);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("crypto");
+  const [utm, setUtm] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    try {
+      const stored = sessionStorage.getItem("nora_utm");
+      if (stored) setUtm(JSON.parse(stored));
+    } catch {}
+  }, []);
   const [promoCode, setPromoCode] = useState("");
 
   const PRICES: Record<1 | 2 | 3, number> = { 1: 120, 2: 220, 3: 300 };
@@ -381,6 +389,11 @@ function CheckoutInner() {
             <form action={submitOrder} className="flex flex-col">
                 <input type="hidden" name="qty" value={String(qty)} />
                 <input type="hidden" name="paymentMethod" value={paymentMethod} />
+                <input type="hidden" name="utmSource"   value={utm.utm_source   ?? ""} />
+                <input type="hidden" name="utmMedium"   value={utm.utm_medium   ?? ""} />
+                <input type="hidden" name="utmCampaign" value={utm.utm_campaign ?? ""} />
+                <input type="hidden" name="utmContent"  value={utm.utm_content  ?? ""} />
+                <input type="hidden" name="utmTerm"     value={utm.utm_term     ?? ""} />
               {/* Contact */}
               <div className="border-t border-border pt-6 pb-7 flex flex-col gap-4">
                 <SectionLabel>{"Contact"}</SectionLabel>

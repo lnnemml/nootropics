@@ -17,8 +17,13 @@ export function orderConfirmationCustomer(order: NewOrder): string {
 <body style="font-family: 'Space Grotesk', Arial, sans-serif; color: #2E3A3C; max-width: 560px; margin: 0 auto; padding: 40px 24px;">
   <p style="font-family: monospace; font-size: 11px; color: #1E9C78; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px;">NORA Alliance</p>
   <h1 style="font-size: 28px; font-weight: 600; margin-bottom: 16px; line-height: 1.2;">Order received.</h1>
+  <p style="font-family: monospace; font-size: 13px; color: #1E9C78; margin-bottom: 24px;">Order ${order.orderNumber}</p>
   <p style="color: #2E3A3C; margin-bottom: 24px;">Thank you for your order, ${order.name}. Here is your summary:</p>
   <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+    <tr style="border-bottom: 1px solid #e5e5e0;">
+      <td style="padding: 10px 0; color: #666;">Order number</td>
+      <td style="padding: 10px 0; text-align: right; font-family: monospace;">${order.orderNumber}</td>
+    </tr>
     <tr style="border-bottom: 1px solid #e5e5e0;">
       <td style="padding: 10px 0; color: #666;">Product</td>
       <td style="padding: 10px 0; text-align: right;">NeuroDrive × ${order.quantity}</td>
@@ -41,13 +46,29 @@ export function orderConfirmationCustomer(order: NewOrder): string {
 }
 
 export function orderAlertOps(order: NewOrder): string {
+  const trafficColor =
+    order.trafficType === "paid" ? "#dc2626" :
+    order.trafficType === "referral" ? "#1E9C78" :
+    "#666";
+
+  const trafficBlock = `
+    <tr><td colspan="2" style="padding: 16px 0 6px; font-weight: bold; border-top: 1px solid #e5e5e0;">Traffic</td></tr>
+    <tr><td style="padding: 4px 0; color: #666; width: 160px;">Type</td><td style="font-weight: bold; color: ${trafficColor};">${(order.trafficType ?? "direct").toUpperCase()}</td></tr>
+    ${order.utmSource   ? `<tr><td style="padding: 4px 0; color: #666;">Source</td><td>${order.utmSource}</td></tr>` : ""}
+    ${order.utmMedium   ? `<tr><td style="padding: 4px 0; color: #666;">Medium</td><td>${order.utmMedium}</td></tr>` : ""}
+    ${order.utmCampaign ? `<tr><td style="padding: 4px 0; color: #666;">Campaign</td><td>${order.utmCampaign}</td></tr>` : ""}
+    ${order.utmContent  ? `<tr><td style="padding: 4px 0; color: #666;">Ad set</td><td>${order.utmContent}</td></tr>` : ""}
+    ${order.utmTerm     ? `<tr><td style="padding: 4px 0; color: #666;">Creative</td><td>${order.utmTerm}</td></tr>` : ""}
+  `;
+
   return `<!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"></head>
 <body style="font-family: monospace; color: #2E3A3C; max-width: 600px; margin: 0 auto; padding: 32px 24px;">
   <h2 style="font-size: 18px; margin-bottom: 24px;">[NORA] New order — ${order.paymentMethod.toUpperCase()}</h2>
   <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
-    <tr><td style="padding: 6px 0; color: #666; width: 160px;">Ref</td><td>${order.id}</td></tr>
+    <tr><td style="padding: 6px 0; color: #666; width: 160px;">Order number</td><td style="font-weight: bold;">${order.orderNumber}</td></tr>
+    <tr><td style="padding: 6px 0; color: #666;">Ref</td><td>${order.id}</td></tr>
     <tr><td style="padding: 6px 0; color: #666;">Time</td><td>${new Date().toISOString()}</td></tr>
     <tr><td style="padding: 6px 0; color: #666;">Name</td><td>${order.name}</td></tr>
     <tr><td style="padding: 6px 0; color: #666;">Email</td><td><a href="mailto:${order.email}">${order.email}</a></td></tr>
@@ -58,6 +79,7 @@ export function orderAlertOps(order: NewOrder): string {
     <tr><td style="padding: 6px 0; color: #666;">Total</td><td style="font-weight: bold;">${formatPrice(order.totalPrice)}</td></tr>
     ${order.promoCode ? `<tr><td style="padding: 6px 0; color: #666;">Promo code</td><td>${order.promoCode}</td></tr>` : ""}
     ${order.note ? `<tr><td style="padding: 6px 0; color: #666;">Note</td><td>${order.note}</td></tr>` : ""}
+    ${trafficBlock}
   </table>
 </body>
 </html>`;
