@@ -916,3 +916,18 @@ Added to createInvoice params and wired from submitOrder.ts using NEXT_PUBLIC_BA
 
 Bug 2: HMAC signature verification used shallow Object.entries sort instead of
 recursive sortObject as specified in NowPayments docs. Fixed with sortObjectRecursive().
+
+## [2026-07-04] phase | Task 2.5 — Auth.js + admin panel
+
+- Installed: next-auth@beta, bcryptjs
+- src/lib/auth.ts — NextAuth v5, Credentials provider, bcrypt verify,
+  JWT sessions, supports comma-separated ADMIN_EMAIL
+- src/app/api/auth/[...nextauth]/route.ts — handlers export
+- proxy.ts (project root) — protects /admin/* routes (Next.js 16: middleware.ts
+  renamed to proxy.ts), redirects unauthenticated requests to /admin/login
+- src/app/(admin)/admin/login/page.tsx — client login form
+- src/app/(admin)/admin/page.tsx — orders list table, sign out
+- src/app/(admin)/admin/orders/[id]/page.tsx — order detail + status update
+- src/app/actions/updateOrderStatus.ts — Server Action with revalidatePath
+- New env vars: NEXTAUTH_SECRET, NEXTAUTH_URL, ADMIN_PASSWORD_HASH
+- docs/wiki/roadmap.md — Phase 2 marked done

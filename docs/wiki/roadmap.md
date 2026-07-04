@@ -49,7 +49,7 @@
 > decides when the site looks externally finished — that's "done" for
 > this phase, not a checklist.
 
-## Phase 2 — Backend MVP *(current)*
+## Phase 2 — Backend MVP *(done — 2026-07-04)*
 
 > Scope updated 2026-07-03 — old Phases 2 ("Database & product catalog"),
 > 3 ("Optional auth"), and 4 ("Cart + manual-confirmation checkout") from
