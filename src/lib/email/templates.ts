@@ -1,4 +1,4 @@
-import type { NewOrder } from "@/lib/db/schema";
+import type { NewOrder, Order } from "@/lib/db/schema";
 
 function formatPrice(cents: number): string {
   return `$${(cents / 100).toFixed(2)}`;
@@ -39,6 +39,36 @@ export function orderConfirmationCustomer(order: NewOrder): string {
   </table>
   ${paymentMessage}
   <p style="font-family: monospace; font-size: 11px; color: #999; margin-top: 32px;">Order ref: ${order.id}</p>
+  <hr style="border: none; border-top: 1px solid #e5e5e0; margin: 24px 0;">
+  <p style="font-size: 12px; color: #999;">NORA Alliance · noraalliance.com</p>
+</body>
+</html>`;
+}
+
+export function orderPaymentConfirmedCrypto(order: Order): string {
+  return `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family: 'Space Grotesk', Arial, sans-serif; color: #2E3A3C; max-width: 560px; margin: 0 auto; padding: 40px 24px;">
+  <p style="font-family: monospace; font-size: 11px; color: #1E9C78; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px;">NORA Alliance</p>
+  <h1 style="font-size: 28px; font-weight: 600; margin-bottom: 16px; line-height: 1.2;">Payment confirmed.</h1>
+  <p style="font-family: monospace; font-size: 13px; color: #1E9C78; margin-bottom: 24px;">Order ${order.orderNumber}</p>
+  <p style="color: #2E3A3C; margin-bottom: 24px;">Your crypto payment has been confirmed, ${order.name}. We'll ship your NeuroDrive within 24 hours and email a tracking number to <strong>${order.email}</strong>.</p>
+  <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+    <tr style="border-bottom: 1px solid #e5e5e0;">
+      <td style="padding: 10px 0; color: #666;">Order number</td>
+      <td style="padding: 10px 0; text-align: right; font-family: monospace;">${order.orderNumber}</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #e5e5e0;">
+      <td style="padding: 10px 0; color: #666;">Product</td>
+      <td style="padding: 10px 0; text-align: right;">NeuroDrive × ${order.quantity}</td>
+    </tr>
+    <tr>
+      <td style="padding: 10px 0; font-weight: 600;">Total paid</td>
+      <td style="padding: 10px 0; text-align: right; font-weight: 600; color: #1E9C78;">${formatPrice(order.totalPrice)}</td>
+    </tr>
+  </table>
+  <p style="color: #2E3A3C; margin-bottom: 32px;">If you have any questions, reach us at <a href="mailto:orders@noraalliance.com" style="color: #1E9C78;">orders@noraalliance.com</a>.</p>
   <hr style="border: none; border-top: 1px solid #e5e5e0; margin: 24px 0;">
   <p style="font-size: 12px; color: #999;">NORA Alliance · noraalliance.com</p>
 </body>

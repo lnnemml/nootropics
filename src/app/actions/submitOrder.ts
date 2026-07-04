@@ -127,7 +127,7 @@ export async function submitOrder(formData: FormData): Promise<void> {
         orderId:    id,
         orderNumber,
         amountUsd:  totalPrice / 100,
-        successUrl: `${baseUrl}/checkout/success?ref=${id}&order=${orderNumber}`,
+        successUrl: `${baseUrl}/checkout/success?ref=${id}&order=${orderNumber}&method=crypto`,
         cancelUrl:  `${baseUrl}/checkout`,
       });
 
