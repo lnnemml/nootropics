@@ -907,3 +907,12 @@ No other files changed.
   falls through to normal success page, ops arranges manually
 - NEXT_PUBLIC_BASE_URL env var added for success/cancel URL construction
 - Webhook (IPN) for automated status update → deferred to post-Phase 2
+
+## [2026-07-04] fix | NowPayments webhook — ipn_callback_url + recursive HMAC sort
+
+Bug 1: ipn_callback_url was missing from createInvoice() body — NowPayments
+requires it per-invoice (dashboard URL alone is not sufficient for Invoice API).
+Added to createInvoice params and wired from submitOrder.ts using NEXT_PUBLIC_BASE_URL.
+
+Bug 2: HMAC signature verification used shallow Object.entries sort instead of
+recursive sortObject as specified in NowPayments docs. Fixed with sortObjectRecursive().

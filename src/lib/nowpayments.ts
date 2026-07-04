@@ -11,6 +11,7 @@ export async function createInvoice(params: {
   amountUsd: number;
   successUrl: string;
   cancelUrl: string;
+  ipnCallbackUrl: string;
 }): Promise<NowPaymentsInvoice> {
   const res = await fetch(`${API_BASE}/invoice`, {
     method: "POST",
@@ -25,6 +26,7 @@ export async function createInvoice(params: {
       order_description:   `NORA — NeuroDrive × ${params.orderId}`,
       success_url:         params.successUrl,
       cancel_url:          params.cancelUrl,
+      ipn_callback_url:    params.ipnCallbackUrl,
       is_fixed_rate:       true,
       is_fee_paid_by_user: false,
     }),

@@ -4,6 +4,20 @@ import { orders } from "@/lib/db/schema";
 import { sendPaymentConfirmedEmail } from "@/lib/email/send";
 import { eq } from "drizzle-orm";
 
+function sortObjectRecursive(obj: Record<string, unknown>): Record<string, unknown> {
+  return Object.keys(obj).sort().reduce(
+    (result: Record<string, unknown>, key: string) => {
+      const val = obj[key];
+      result[key] =
+        val !== null && typeof val === "object" && !Array.isArray(val)
+          ? sortObjectRecursive(val as Record<string, unknown>)
+          : val;
+      return result;
+    },
+    {}
+  );
+}
+
 export async function POST(req: Request): Promise<Response> {
   const body = await req.text();
   const sig = req.headers.get("x-nowpayments-sig");
@@ -16,7 +30,7 @@ export async function POST(req: Request): Promise<Response> {
   }
 
   const data = JSON.parse(body) as Record<string, unknown>;
-  const sorted = Object.fromEntries(Object.entries(data).sort());
+  const sorted = sortObjectRecursive(data);
   const expected = createHmac("sha512", secret)
     .update(JSON.stringify(sorted))
     .digest("hex");

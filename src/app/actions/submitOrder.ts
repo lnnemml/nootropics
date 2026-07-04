@@ -124,11 +124,12 @@ export async function submitOrder(formData: FormData): Promise<void> {
     try {
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://noraalliance.com";
       const invoice = await createInvoice({
-        orderId:    id,
+        orderId:        id,
         orderNumber,
-        amountUsd:  totalPrice / 100,
-        successUrl: `${baseUrl}/checkout/success?ref=${id}&order=${orderNumber}&method=crypto`,
-        cancelUrl:  `${baseUrl}/checkout`,
+        amountUsd:      totalPrice / 100,
+        successUrl:     `${baseUrl}/checkout/success?ref=${id}&order=${orderNumber}&method=crypto`,
+        cancelUrl:      `${baseUrl}/checkout`,
+        ipnCallbackUrl: `${baseUrl}/api/webhooks/nowpayments`,
       });
 
       await db
