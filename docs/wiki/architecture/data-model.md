@@ -1,8 +1,9 @@
 # Architecture — Data Model
 
-> **Phase 2 status:** MVP schema confirmed 2026-07-03. The `orders` table
-> below is what gets built in Phase 2. The fuller normalized schema
-> (users, products, product_variants, order_items, referral_codes,
+> **Phase 2 + 3.1 status:** `orders` table confirmed 2026-07-03 (Phase 2).
+> `users`, `verification_tokens`, and `user_id` FK on `orders` added and
+> pushed to Neon 2026-07-07 (Task 3.1). The fuller normalized schema
+> (products, product_variants, order_items, referral_codes,
 > discount_ledger, customer_tiers) is deferred to Phase 3+. The Phase 2
 > implementation plan is the authoritative task-level spec —
 > [`phase-2-implementation-plan.md`](../phase-2-implementation-plan.md).
@@ -11,11 +12,24 @@ This page documents the schema shape and the *why* behind each decision.
 It should be updated whenever the live schema changes. `src/lib/db/schema.ts`
 is the ground truth for Drizzle types; this file explains intent.
 
-## Phase 2 schema (MVP — being built now)
+## Phase 2 + 3.1 schema (live in Neon)
 
-Single `orders` table. Denormalized: product slug and quantity live
-directly on the order row (no `products`, `order_items`, or `users` yet).
-See `src/lib/db/schema.ts` for the Drizzle definition.
+### `users` (added Task 3.1)
+
+Fields: `id` (nanoid PK), `email` (unique, not null), `name` (nullable),
+`email_verified_at` (nullable timestamp), `created_at` (defaultNow).
+No auth logic yet — table exists for Auth.js Email provider wiring in Task 3.2.
+
+### `verification_tokens` (added Task 3.1)
+
+Fields: `identifier` (email address), `token` (unique), `expires` (timestamp).
+Required by Auth.js Email provider magic-link flow.
+
+### `orders`
+
+Single denormalized table — product slug and quantity live directly on the row
+(no `products` or `order_items` yet). See `src/lib/db/schema.ts` for the
+Drizzle definition.
 
 Fields: `id` (nanoid), `created_at`, `status` (enum), `name`, `email`,
 `phone`, `address`, `city`, `postal_code`, `state_region` (nullable),
@@ -24,7 +38,12 @@ Fields: `id` (nanoid), `created_at`, `status` (enum), `name`, `email`,
 (nullable int), `total_price` (cents), `promo_code` (nullable),
 `note` (nullable), `nowpayments_invoice_id` (nullable),
 `nowpayments_payment_url` (nullable), `confirmation_email_sent_at`
-(nullable timestamp).
+(nullable timestamp), `order_number` (unique text), UTM fields,
+`traffic_type`, **`user_id` (nullable FK → users.id, added Task 3.1)**.
+
+`user_id` is nullable — guest checkout stays fully supported. It provides a
+soft link between a guest order and a user account created later (post-checkout
+upsell, matched by email).
 
 Status enum: `pending_payment_instructions → awaiting_payment → paid →
 fulfilled`, or any → `cancelled`.

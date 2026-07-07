@@ -1,5 +1,27 @@
 import { pgTable, text, integer, timestamp, pgEnum } from "drizzle-orm/pg-core";
 
+export const users = pgTable("users", {
+  id:              text("id").primaryKey(),         // nanoid
+  email:           text("email").notNull().unique(),
+  name:            text("name"),
+  emailVerifiedAt: timestamp("email_verified_at"),
+  createdAt:       timestamp("created_at").defaultNow().notNull(),
+});
+
+export type User = typeof users.$inferSelect;
+export type NewUser = typeof users.$inferInsert;
+
+export const verificationTokens = pgTable(
+  "verification_tokens",
+  {
+    identifier: text("identifier").notNull(),  // email address
+    token:      text("token").notNull().unique(),
+    expires:    timestamp("expires").notNull(),
+  }
+);
+
+export type VerificationToken = typeof verificationTokens.$inferSelect;
+
 export const orderStatusEnum = pgEnum("order_status", [
   "pending_payment_instructions",
   "awaiting_payment",
@@ -45,6 +67,9 @@ export const orders = pgTable("orders", {
   // nowpayments (crypto path only)
   nowpaymentsInvoiceId:     text("nowpayments_invoice_id"),
   nowpaymentsPaymentUrl:    text("nowpayments_payment_url"),
+
+  // account link (nullable — guest checkout stays supported)
+  userId:                   text("user_id").references(() => users.id),
 
   // housekeeping
   confirmationEmailSentAt:  timestamp("confirmation_email_sent_at"),

@@ -971,3 +971,12 @@ pasted into Vercel env vars makes bcrypt.compare() silently return false;
 (b) email match is now case-insensitive (both sides lowercased). Correct
 ADMIN_PASSWORD_HASH generated via bcryptjs in project node_modules,
 pasted into Vercel Production env, redeployed. Login now works.
+
+## [2026-07-07] phase | Task 3.1 — Customer accounts DB schema
+
+Added: `users` table (id nanoid PK, email unique, name, email_verified_at,
+created_at), `verification_tokens` table (identifier, token unique, expires —
+Auth.js Email provider compatibility), and `user_id` nullable FK column on
+`orders` (references users.id — guest checkout stays supported; enables soft
+link between guest order and later-created account by same email). `db:push`
+verified clean — three changes applied against Neon DB.
