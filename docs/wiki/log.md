@@ -931,3 +931,13 @@ recursive sortObject as specified in NowPayments docs. Fixed with sortObjectRecu
 - src/app/actions/updateOrderStatus.ts — Server Action with revalidatePath
 - New env vars: NEXTAUTH_SECRET, NEXTAUTH_URL, ADMIN_PASSWORD_HASH
 - docs/wiki/roadmap.md — Phase 2 marked done
+
+## [2026-07-07] decision | Task 2.5 fix — middleware naming bug
+
+Root cause: In Next.js 16, `proxy.ts` is the network-boundary Node.js proxy file —
+NOT for auth/redirects. Auth interception belongs in `middleware.ts` (Vercel Routing
+Middleware, platform-level, Edge-compatible). The original proxy.ts was using the
+wrong file type for auth. Additionally fixed two matcher bugs: `/admin/:path*` did not
+protect the `/admin` index route, and `/admin/login` was matched causing an infinite
+redirect loop. New matcher: `["/admin", "/admin/((?!login$).*)"]`. AUTH_SECRET
+documented in .env.local.example. Admin auth now functional. Phase 2 complete.
