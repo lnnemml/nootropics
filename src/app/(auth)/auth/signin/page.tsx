@@ -1,6 +1,7 @@
 import { customerSignIn } from "@/lib/customer-auth";
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function SignInPage({
   searchParams,
@@ -11,17 +12,20 @@ export default async function SignInPage({
 
   async function handleSignIn(formData: FormData) {
     "use server";
-    const email = formData.get("email") as string;
     const redirectTo = (formData.get("callbackUrl") as string) || "/account";
     try {
-      await customerSignIn("resend", { email, redirectTo });
+      await customerSignIn("credentials", {
+        email:    formData.get("email"),
+        password: formData.get("password"),
+        redirectTo,
+      });
     } catch (err) {
       if (err instanceof AuthError) {
         redirect(
-          `/auth/signin?error=send_failed&callbackUrl=${encodeURIComponent(redirectTo)}`
+          `/auth/signin?error=invalid&callbackUrl=${encodeURIComponent(redirectTo)}`
         );
       }
-      throw err; // NEXT_REDIRECT is a throw — must re-throw
+      throw err; // NEXT_REDIRECT must be re-thrown
     }
   }
 
@@ -35,30 +39,43 @@ export default async function SignInPage({
           Sign in
         </h1>
         <p className="text-sm text-secondary mb-8">
-          Enter your email — we&apos;ll send you a sign-in link.
+          Don&apos;t have an account?{" "}
+          <Link href="/auth/register" className="text-ink underline underline-offset-2">
+            Create one
+          </Link>
         </p>
         <form action={handleSignIn} className="flex flex-col gap-4">
           <input type="hidden" name="callbackUrl" value={callbackUrl ?? "/account"} />
           <input
-            name="email"
-            type="email"
-            placeholder="you@example.com"
-            required
-            autoComplete="email"
+            name="email" type="email" placeholder="Email"
+            required autoComplete="email"
             className="border border-border bg-card text-ink font-mono text-sm px-4 py-3 rounded-[2px] outline-none focus:border-ink"
           />
-          {error && (
-            <p className="font-mono text-xs text-red-500">
-              {error === "send_failed"
-                ? "Failed to send email — try again."
-                : "Something went wrong — try again."}
+          <div className="flex flex-col gap-1">
+            <input
+              name="password" type="password" placeholder="Password"
+              required autoComplete="current-password"
+              className="border border-border bg-card text-ink font-mono text-sm px-4 py-3 rounded-[2px] outline-none focus:border-ink"
+            />
+            <div className="flex justify-end">
+              <Link href="/auth/reset-password" className="font-mono text-xs text-secondary hover:text-ink">
+                Forgot password?
+              </Link>
+            </div>
+          </div>
+          {error === "invalid" && (
+            <p className="font-mono text-xs text-red-500">Invalid email or password.</p>
+          )}
+          {error === "exists" && (
+            <p className="font-mono text-xs text-secondary">
+              An account with that email already exists — sign in below.
             </p>
           )}
           <button
             type="submit"
             className="bg-ink text-page font-mono text-sm py-3 rounded-[2px] hover:opacity-90 transition-opacity"
           >
-            Send sign-in link →
+            Sign in →
           </button>
         </form>
       </div>

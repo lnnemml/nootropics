@@ -4,14 +4,17 @@ export const users = pgTable("users", {
   id:            text("id").primaryKey(),         // nanoid
   email:         text("email").notNull().unique(),
   name:          text("name"),
-  image:         text("image"),                  // required by Auth.js adapter interface
-  emailVerified: timestamp("email_verified_at"), // property name matches Auth.js adapter
+  image:         text("image"),
+  emailVerified: timestamp("email_verified_at"),
+  passwordHash:  text("password_hash"),           // nullable — guest/social users have none
   createdAt:     timestamp("created_at").defaultNow().notNull(),
 });
 
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 
+// verificationTokens — used for password reset (one-time expiring tokens).
+// Magic-link auth was removed in Task 3.2b.
 export const verificationTokens = pgTable(
   "verification_tokens",
   {

@@ -972,6 +972,16 @@ pasted into Vercel env vars makes bcrypt.compare() silently return false;
 ADMIN_PASSWORD_HASH generated via bcryptjs in project node_modules,
 pasted into Vercel Production env, redeployed. Login now works.
 
+## [2026-07-07] decision | Task 3.2b — Customer auth switched to email + password
+
+Magic-link (Resend Email provider + custom Drizzle adapter) replaced with
+Credentials + bcrypt. `customer-auth-adapter.ts` deleted — Credentials provider
+needs no adapter. `verificationTokens` repurposed for password reset tokens
+(one-time, 1-hour expiry). `users.passwordHash` column added (nullable), `db:push`
+clean. Auth emails now from `auth@noraalliance.com`. Pages: `/auth/signin` (updated
+with password field + forgot-password link), `/auth/register`, `/auth/reset-password`,
+`/auth/reset-password/[token]`. `verify-request` page deleted. ADR 0013 updated.
+
 ## [2026-07-07] phase | Task 3.2 — Customer auth: magic link via Resend
 
 Separate NextAuth instance (`basePath: /api/auth/customer`, custom cookie
