@@ -972,6 +972,18 @@ pasted into Vercel env vars makes bcrypt.compare() silently return false;
 ADMIN_PASSWORD_HASH generated via bcryptjs in project node_modules,
 pasted into Vercel Production env, redeployed. Login now works.
 
+## [2026-07-07] phase | Task 3.2 — Customer auth: magic link via Resend
+
+Separate NextAuth instance (`basePath: /api/auth/customer`, custom cookie
+`nora-customer-session` — prevents overwriting admin's `next-auth.session-token`).
+Resend Email provider with branded magic-link HTML email. Custom Drizzle adapter
+(`src/lib/customer-auth-adapter.ts`) — no `@auth/drizzle-adapter` to avoid schema
+mismatch; adapter interface met directly via `emailVerified` + `image` property names
+on users table. Schema: `emailVerifiedAt` → `emailVerified` property rename (no DB
+diff) + `image` column added, `db:push` clean. Sign-in page at `/auth/signin`,
+verify-request at `/auth/verify-request`. Session type augmented in
+`src/types/next-auth.d.ts`. ADR 0013 written.
+
 ## [2026-07-07] phase | Task 3.1 — Customer accounts DB schema
 
 Added: `users` table (id nanoid PK, email unique, name, email_verified_at,

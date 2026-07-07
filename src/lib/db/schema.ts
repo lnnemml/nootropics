@@ -1,11 +1,12 @@
 import { pgTable, text, integer, timestamp, pgEnum } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
-  id:              text("id").primaryKey(),         // nanoid
-  email:           text("email").notNull().unique(),
-  name:            text("name"),
-  emailVerifiedAt: timestamp("email_verified_at"),
-  createdAt:       timestamp("created_at").defaultNow().notNull(),
+  id:            text("id").primaryKey(),         // nanoid
+  email:         text("email").notNull().unique(),
+  name:          text("name"),
+  image:         text("image"),                  // required by Auth.js adapter interface
+  emailVerified: timestamp("email_verified_at"), // property name matches Auth.js adapter
+  createdAt:     timestamp("created_at").defaultNow().notNull(),
 });
 
 export type User = typeof users.$inferSelect;
