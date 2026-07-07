@@ -17,19 +17,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           typeof credentials?.password !== "string"
         ) return null;
 
+        // Email match is case-insensitive — emails are case-insensitive in
+        // practice, and a casing mismatch between ADMIN_EMAIL and the typed
+        // value is an easy, silent login failure otherwise.
+        const email = credentials.email.trim().toLowerCase();
         const adminEmails = (process.env.ADMIN_EMAIL ?? "")
           .split(",")
-          .map(e => e.trim());
+          .map(e => e.trim().toLowerCase())
+          .filter(Boolean);
 
-        if (!adminEmails.includes(credentials.email)) return null;
+        if (!adminEmails.includes(email)) return null;
 
-        const valid = await bcrypt.compare(
-          credentials.password,
-          process.env.ADMIN_PASSWORD_HASH ?? ""
-        );
+        // Trim the hash — a bcrypt hash never contains whitespace, but a
+        // trailing newline/space pasted into the env var makes compare()
+        // silently return false (verified: hash + "\n" → false).
+        const hash = (process.env.ADMIN_PASSWORD_HASH ?? "").trim();
+        const valid = await bcrypt.compare(credentials.password, hash);
         if (!valid) return null;
 
-        return { id: "admin", email: credentials.email };
+        return { id: "admin", email };
       },
     }),
   ],
