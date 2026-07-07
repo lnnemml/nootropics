@@ -1,29 +1,27 @@
-"use client";
+import { signIn } from "@/lib/auth";
+import { AuthError } from "next-auth";
+import { redirect } from "next/navigation";
 
-import { useState } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+export default async function AdminLoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const { error } = await searchParams;
 
-export default function AdminLoginPage() {
-  const router = useRouter();
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    const form = new FormData(e.currentTarget);
-    const result = await signIn("credentials", {
-      email:    form.get("email"),
-      password: form.get("password"),
-      redirect: false,
-    });
-    if (result?.error) {
-      setError("Invalid credentials");
-      setLoading(false);
-    } else {
-      router.push("/admin");
+  async function handleLogin(formData: FormData) {
+    "use server";
+    try {
+      await signIn("credentials", {
+        email: formData.get("email"),
+        password: formData.get("password"),
+        redirectTo: "/admin",
+      });
+    } catch (err) {
+      if (err instanceof AuthError) {
+        redirect("/admin/login?error=invalid");
+      }
+      throw err;
     }
   }
 
@@ -33,7 +31,7 @@ export default function AdminLoginPage() {
         <p className="font-mono text-xs text-accent uppercase tracking-widest mb-6">
           NORA Admin
         </p>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form action={handleLogin} className="flex flex-col gap-4">
           <input
             name="email"
             type="email"
@@ -49,14 +47,13 @@ export default function AdminLoginPage() {
             className="border border-border bg-card text-ink font-mono text-sm px-4 py-3 rounded-[2px] outline-none focus:border-ink"
           />
           {error && (
-            <p className="font-mono text-xs text-red-500">{error}</p>
+            <p className="font-mono text-xs text-red-500">Invalid credentials</p>
           )}
           <button
             type="submit"
-            disabled={loading}
-            className="bg-ink text-page font-mono text-sm py-3 rounded-[2px] hover:opacity-90 transition-opacity disabled:opacity-50"
+            className="bg-ink text-page font-mono text-sm py-3 rounded-[2px] hover:opacity-90 transition-opacity"
           >
-            {loading ? "Signing in..." : "Sign in"}
+            Sign in
           </button>
         </form>
       </div>
