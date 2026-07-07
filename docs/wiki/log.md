@@ -941,3 +941,33 @@ wrong file type for auth. Additionally fixed two matcher bugs: `/admin/:path*` d
 protect the `/admin` index route, and `/admin/login` was matched causing an infinite
 redirect loop. New matcher: `["/admin", "/admin/((?!login$).*)"]`. AUTH_SECRET
 documented in .env.local.example. Admin auth now functional. Phase 2 complete.
+
+## [2026-07-07] fix | Admin login debugging session — three bugs fixed, auth confirmed working
+
+Three separate issues diagnosed and resolved in one session:
+
+**Bug 1 — Login page freeze on password field (Chrome only)**
+Root cause: `"use client"` + `signIn` from `next-auth/react` initialises
+client-side session polling without a SessionProvider present in the tree.
+Browser password-manager detection on the password field tipped the pending
+async work into a visible freeze. Firefox was unaffected (different
+extension/clipboard handling). Fix: converted login/page.tsx to a Server
+Component + Server Action using `signIn` from `@/lib/auth` — same pattern
+already used in admin/page.tsx for signOut. Zero client-side auth JS remains.
+
+**Bug 2 — Marketing shell loaded on admin pages**
+NavBar (with CartIcon/useCart), UTMCapture (useSearchParams), and Footer
+were rendering on every /admin/* page because no (admin)/layout.tsx existed.
+Fix: created MarketingShell client component that checks usePathname() and
+skips rendering Nav/Footer/UTMCapture when pathname starts with /admin.
+Live DOM confirmed: 39 total nodes on login page, no injected extension nodes.
+
+**Bug 3 — ADMIN_PASSWORD_HASH mismatch / silent login failure**
+Root cause diagnosed via live browser test: wrong creds → ?error=invalid
+(proving NEXTAUTH_SECRET + full auth path work); therefore real-login
+failure was a credential-value mismatch. Two hardening fixes added to
+authorize() in auth.ts: (a) hash is .trim()'d — a trailing newline/space
+pasted into Vercel env vars makes bcrypt.compare() silently return false;
+(b) email match is now case-insensitive (both sides lowercased). Correct
+ADMIN_PASSWORD_HASH generated via bcryptjs in project node_modules,
+pasted into Vercel Production env, redeployed. Login now works.
