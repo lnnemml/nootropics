@@ -1037,3 +1037,16 @@ once a user registers with the same email. Ownership check on the detail page
 (`WHERE id = ? AND email = ?`) prevents cross-user access. `STATUS_LABELS` and
 `STATUS_COLORS` extracted to `src/lib/order-status.ts` and shared across all
 three pages.
+
+## [2026-07-09] phase | Task 3.6 — Edge middleware protection for /account/* routes
+
+`authorized` callback in `auth.config.ts` scoped to admin routes only (was:
+all matched routes) — prevents unauthenticated `/account` visitors being
+redirected to `/admin/login`. `middleware.ts` switched from bare `auth` export
+to `auth(handler)` form so customer-session check runs inside the same function.
+`/account/*` now protected via `getToken` against the `nora-customer-session`
+cookie. Matcher expanded to include `/account` and `/account/:path*`.
+
+Also migrated `middleware.ts` → `proxy.ts` per Next.js 16 deprecation (`edge`
+runtime dropped; proxy defaults to Node.js). Default export from `auth(handler)`
+is valid per proxy.ts file convention.
