@@ -1017,3 +1017,12 @@ mobile) — user icon with accent dot when logged in, plain icon linking to sign
 logged out; invisible placeholder during session load prevents layout shift.
 `CustomerSessionProvider` wraps the layout so `useSession` works client-side with
 `basePath=/api/auth/customer`.
+
+## [2026-07-09] phase | Task 3.4 — Sign-in popover on AccountButton
+
+AccountButton now renders an inline sign-in popover when not authenticated.
+`signIn()` from `next-auth/react` uses the `SessionProvider` basePath
+(`/api/auth/customer`) automatically — no manual basePath needed at the call
+site. `redirect: false` returns a result object for in-place error handling
+without a full-page navigation. The standalone `/auth/signin` page is retained
+as a fallback for status banners (registered, verified, reset).
