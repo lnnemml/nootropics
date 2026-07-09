@@ -1,5 +1,4 @@
 import { resetPassword } from "@/app/actions/customerAuth";
-import { redirect } from "next/navigation";
 
 export default async function ResetPasswordTokenPage({
   params,
@@ -13,13 +12,7 @@ export default async function ResetPasswordTokenPage({
 
   async function handleReset(formData: FormData) {
     "use server";
-    const result = await resetPassword(token, formData);
-    if (result?.error) {
-      redirect(
-        `/auth/reset-password/${token}?error=${encodeURIComponent(result.error)}`
-      );
-    }
-    // resetPassword calls customerSignIn which throws NEXT_REDIRECT — propagates here
+    await resetPassword(token, formData);
   }
 
   return (

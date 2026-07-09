@@ -6,6 +6,7 @@ import { ThemeToggle } from "./ThemeToggle";
 import { Container } from "./Container";
 import { Logo } from "@/components/ui/Logo";
 import { CartIcon } from "@/components/ui/CartIcon";
+import { AccountButton } from "@/components/ui/AccountButton";
 
 const NAV_LINKS = [
   { label: "Products", href: "/products/neurodrive" },
@@ -68,12 +69,14 @@ export function NavBar() {
         {/* Desktop right — hidden below md */}
         <div className="hidden md:flex items-center gap-2 shrink-0">
           <ThemeToggle />
+          <AccountButton />
           <CartIcon />
         </div>
 
         {/* Mobile right — always visible, outside hamburger */}
         <div className="flex md:hidden items-center gap-1 shrink-0">
           <ThemeToggle />
+          <AccountButton />
           <CartIcon />
           <button
             onClick={() => setOpen((v) => !v)}

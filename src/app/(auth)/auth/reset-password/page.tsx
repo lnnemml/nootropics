@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { requestPasswordReset } from "@/app/actions/customerAuth";
 import Link from "next/link";
 
@@ -12,7 +11,6 @@ export default async function ResetPasswordPage({
   async function handleRequest(formData: FormData) {
     "use server";
     await requestPasswordReset(formData);
-    redirect("/auth/reset-password?sent=1");
   }
 
   if (sent) {

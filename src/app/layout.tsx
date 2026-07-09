@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { MarketingShell } from "@/components/layout/MarketingShell";
+import { CustomerSessionProvider } from "@/components/auth/CustomerSessionProvider";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -38,7 +39,9 @@ export default function RootLayout({
             __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}})()`,
           }}
         />
-        <MarketingShell>{children}</MarketingShell>
+        <CustomerSessionProvider>
+          <MarketingShell>{children}</MarketingShell>
+        </CustomerSessionProvider>
       </body>
     </html>
   );

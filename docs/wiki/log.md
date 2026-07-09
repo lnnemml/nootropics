@@ -1002,3 +1002,18 @@ Auth.js Email provider compatibility), and `user_id` nullable FK column on
 `orders` (references users.id — guest checkout stays supported; enables soft
 link between guest order and later-created account by same email). `db:push`
 verified clean — three changes applied against Neon DB.
+
+## [2026-07-09] phase | Task 3.3 — Email verification, auth redirect fixes, account button
+
+Email verification on registration: `verificationTokens` reused with `verify:` prefix
+on the identifier to distinguish from password-reset tokens. `registerCustomer` and
+`resetPassword` no longer auto sign-in — both redirect to `/auth/signin` with
+contextual banners (`registered=1`, `reset=1`, `verified=1`). New `verifyEmail`
+and `resendVerificationEmail` server actions. New route `/auth/verify-email/[token]`
+— server component that calls `verifyEmail` and immediately redirects. Sign-in page
+now pre-checks `emailVerified` before calling `customerSignIn` and shows a resend
+form on `EMAIL_NOT_VERIFIED`. `AccountButton` added to NavBar (both desktop and
+mobile) — user icon with accent dot when logged in, plain icon linking to signin when
+logged out; invisible placeholder during session load prevents layout shift.
+`CustomerSessionProvider` wraps the layout so `useSession` works client-side with
+`basePath=/api/auth/customer`.
