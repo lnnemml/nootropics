@@ -5,13 +5,7 @@ export const authConfig: NextAuthConfig = {
   session:  { strategy: "jwt" },
   providers: [],
   callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
-      // Admin routes only — redirect to /admin/login if no admin session.
-      // Non-admin routes (including /account/*) return true so the custom
-      // middleware handler can inspect them independently.
-      if (nextUrl.pathname.startsWith("/admin")) {
-        return !!auth?.user;
-      }
+    authorized() {
       return true;
     },
   },

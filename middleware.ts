@@ -8,8 +8,16 @@ const { auth } = NextAuth(authConfig);
 export default auth(async (req) => {
   const { pathname } = req.nextUrl;
 
+  // ── Admin routes: check admin session via req.auth ──────────────────────
+  if (pathname.startsWith("/admin")) {
+    if (!req.auth?.user) {
+      const url = new URL("/admin/login", req.url);
+      return NextResponse.redirect(url);
+    }
+  }
+
+  // ── Customer routes: check customer JWT from custom cookie ──────────────
   if (pathname.startsWith("/account")) {
-    // Verify the customer session JWT from the custom cookie.
     const token = await getToken({
       req,
       secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET ?? "",
@@ -22,8 +30,6 @@ export default auth(async (req) => {
       return NextResponse.redirect(url);
     }
   }
-
-  // Admin routes: handled entirely by the authorized callback in authConfig.
 });
 
 export const config = {
