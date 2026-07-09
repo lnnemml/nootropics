@@ -1,3 +1,4 @@
+import { customerAuth } from "@/lib/customer-auth";
 import { Container } from "@/components/layout/Container";
 import Link from "next/link";
 
@@ -8,6 +9,7 @@ export default async function CheckoutSuccessPage({
 }) {
   const { ref, order, method } = await searchParams;
   const isCrypto = method === "crypto";
+  const session  = await customerAuth();
 
   return (
     <main className="py-24">
@@ -40,6 +42,37 @@ export default async function CheckoutSuccessPage({
           >
             ← Back to home
           </Link>
+
+          {/* ── Account upsell — only when not signed in ──────────────── */}
+          {!session?.user && (
+            <div className="mt-12 border border-border rounded-[2px] p-6 bg-card">
+              <p className="font-mono text-[10px] text-ink/40 uppercase tracking-widest mb-3">
+                Track your order
+              </p>
+              <p className="text-sm text-secondary mb-4 leading-relaxed">
+                Create a free account to track order status, view history, and
+                speed up future checkouts.
+              </p>
+              <Link
+                href="/auth/register"
+                className="inline-block bg-ink text-page font-mono text-sm py-2.5 px-5 rounded-[2px] hover:opacity-90 transition-opacity"
+              >
+                Create account →
+              </Link>
+            </div>
+          )}
+
+          {/* ── Signed-in — link to account ───────────────────────────── */}
+          {session?.user && (
+            <div className="mt-12">
+              <Link
+                href="/account/orders"
+                className="font-mono text-sm text-accent hover:text-ink transition-colors"
+              >
+                View in my orders →
+              </Link>
+            </div>
+          )}
         </div>
       </Container>
     </main>

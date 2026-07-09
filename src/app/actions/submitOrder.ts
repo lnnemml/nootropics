@@ -5,6 +5,7 @@ import { orders } from "@/lib/db/schema";
 import { sendOrderEmails } from "@/lib/email/send";
 import { generateOrderNumber, deriveTrafficType } from "@/lib/order-number";
 import { createInvoice } from "@/lib/nowpayments";
+import { customerAuth } from "@/lib/customer-auth";
 import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import { redirect } from "next/navigation";
@@ -61,8 +62,13 @@ export async function submitOrder(formData: FormData): Promise<void> {
   const orderNumber = generateOrderNumber();
   const trafficType = deriveTrafficType(raw.utmSource, raw.utmMedium);
 
+  // Link order to account if customer is signed in
+  const session = await customerAuth();
+  const userId = session?.user?.id ?? null;
+
   await db.insert(orders).values({
     id,
+    userId,
     name:             raw.name,
     email:            raw.email,
     phone:            raw.phone,

@@ -1050,3 +1050,13 @@ cookie. Matcher expanded to include `/account` and `/account/:path*`.
 Also migrated `middleware.ts` → `proxy.ts` per Next.js 16 deprecation (`edge`
 runtime dropped; proxy defaults to Node.js). Default export from `auth(handler)`
 is valid per proxy.ts file convention.
+
+## [2026-07-09] phase | Task 3.7 — Post-checkout account upsell + order-user linking
+
+`submitOrder` now calls `customerAuth()` and sets `userId` on the order row
+when a session exists. `registerCustomer` extracts the nanoid into `newUserId`
+and runs a bulk `UPDATE orders SET user_id = ? WHERE email = ? AND user_id IS NULL`
+immediately after user creation — retroactively linking all guest orders placed
+with that email. Checkout success page now branches on session: guests see a
+"Create account" upsell card; signed-in users see a "View in my orders" link.
+Phase 3 complete. Roadmap updated.

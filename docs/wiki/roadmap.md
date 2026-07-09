@@ -82,9 +82,16 @@ Tasks (one per Claude Code session):
 - **Task 2.4** — NowPayments crypto invoice integration
 - **Task 2.5** — Auth.js + minimal admin panel (orders list + status update)
 
-## Phase 3 — Referral & cumulative discount system
+## Phase 3 — Customer accounts *(done — 2026-07-09)*
 
-*(was Phase 5 — renumbered after Phases 2/3/4 merged)*
+Email+password auth, email verification, account dashboard (/account,
+/account/orders, /account/orders/[id]), edge middleware protection,
+post-checkout upsell, and order-user linking (guest orders retroactively
+linked on registration). Tasks 3.1–3.7.
+
+## Phase 4 — Referral & cumulative discount system
+
+*(was Phase 3/5 — renumbered)*
 
 - `referral_codes`, `discount_ledger`, `customer_tiers` tables live
 - Referral link generation + redemption flow

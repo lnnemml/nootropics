@@ -6,8 +6,8 @@ import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 import { Resend } from "resend";
 import { db } from "@/lib/db";
-import { users, verificationTokens } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
+import { users, verificationTokens, orders } from "@/lib/db/schema";
+import { eq, and, isNull } from "drizzle-orm";
 import { customerSignIn } from "@/lib/customer-auth";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -123,7 +123,13 @@ export async function registerCustomer(formData: FormData) {
   }
 
   const passwordHash = await bcrypt.hash(password, 12);
-  await db.insert(users).values({ id: nanoid(), email, name, passwordHash });
+  const newUserId = nanoid();
+  await db.insert(users).values({ id: newUserId, email, name, passwordHash });
+
+  // Retroactively link guest orders placed with this email
+  await db.update(orders)
+    .set({ userId: newUserId })
+    .where(and(eq(orders.email, email), isNull(orders.userId)));
 
   await sendVerificationEmail(email);
 
