@@ -1026,3 +1026,14 @@ AccountButton now renders an inline sign-in popover when not authenticated.
 site. `redirect: false` returns a result object for in-place error handling
 without a full-page navigation. The standalone `/auth/signin` page is retained
 as a fallback for status banners (registered, verified, reset).
+
+## [2026-07-09] phase | Task 3.5 — Customer account pages
+
+`/account`, `/account/orders`, `/account/orders/[id]` implemented under the
+`(customer)` route group. Auth gate in `account/layout.tsx` — unauthenticated
+requests redirect to `/auth/signin?callbackUrl=/account`. Orders matched by
+`session.user.email` so guest orders placed before account creation are visible
+once a user registers with the same email. Ownership check on the detail page
+(`WHERE id = ? AND email = ?`) prevents cross-user access. `STATUS_LABELS` and
+`STATUS_COLORS` extracted to `src/lib/order-status.ts` and shared across all
+three pages.
