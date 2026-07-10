@@ -5,6 +5,125 @@ import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { submitOrder } from "@/app/actions/submitOrder";
+import { isValidPhoneNumber, getCountryCallingCode } from "libphonenumber-js";
+import type { CountryCode } from "libphonenumber-js";
+
+// ── Country data ──────────────────────────────────────────────────────────────
+
+const PRIMARY_MARKETS = [
+  { code: "US", name: "United States" },
+  { code: "CA", name: "Canada" },
+  { code: "GB", name: "United Kingdom" },
+  { code: "DE", name: "Germany" },
+  { code: "FR", name: "France" },
+  { code: "NL", name: "Netherlands" },
+  { code: "AU", name: "Australia" },
+  { code: "UA", name: "Ukraine" },
+];
+
+const OTHER_COUNTRIES = [
+  { code: "AR", name: "Argentina" },
+  { code: "AT", name: "Austria" },
+  { code: "AZ", name: "Azerbaijan" },
+  { code: "BY", name: "Belarus" },
+  { code: "BE", name: "Belgium" },
+  { code: "BA", name: "Bosnia and Herzegovina" },
+  { code: "BR", name: "Brazil" },
+  { code: "BG", name: "Bulgaria" },
+  { code: "CN", name: "China" },
+  { code: "CL", name: "Chile" },
+  { code: "CO", name: "Colombia" },
+  { code: "HR", name: "Croatia" },
+  { code: "CY", name: "Cyprus" },
+  { code: "CZ", name: "Czech Republic" },
+  { code: "DK", name: "Denmark" },
+  { code: "EG", name: "Egypt" },
+  { code: "EE", name: "Estonia" },
+  { code: "FI", name: "Finland" },
+  { code: "GE", name: "Georgia" },
+  { code: "GR", name: "Greece" },
+  { code: "HK", name: "Hong Kong" },
+  { code: "HU", name: "Hungary" },
+  { code: "IS", name: "Iceland" },
+  { code: "IN", name: "India" },
+  { code: "ID", name: "Indonesia" },
+  { code: "IE", name: "Ireland" },
+  { code: "IL", name: "Israel" },
+  { code: "IT", name: "Italy" },
+  { code: "JP", name: "Japan" },
+  { code: "KZ", name: "Kazakhstan" },
+  { code: "KR", name: "South Korea" },
+  { code: "LV", name: "Latvia" },
+  { code: "LT", name: "Lithuania" },
+  { code: "LU", name: "Luxembourg" },
+  { code: "MY", name: "Malaysia" },
+  { code: "MT", name: "Malta" },
+  { code: "MX", name: "Mexico" },
+  { code: "MD", name: "Moldova" },
+  { code: "ME", name: "Montenegro" },
+  { code: "MK", name: "North Macedonia" },
+  { code: "NO", name: "Norway" },
+  { code: "NZ", name: "New Zealand" },
+  { code: "PE", name: "Peru" },
+  { code: "PH", name: "Philippines" },
+  { code: "PL", name: "Poland" },
+  { code: "PT", name: "Portugal" },
+  { code: "RO", name: "Romania" },
+  { code: "RU", name: "Russia" },
+  { code: "SA", name: "Saudi Arabia" },
+  { code: "RS", name: "Serbia" },
+  { code: "SG", name: "Singapore" },
+  { code: "SK", name: "Slovakia" },
+  { code: "SI", name: "Slovenia" },
+  { code: "ZA", name: "South Africa" },
+  { code: "ES", name: "Spain" },
+  { code: "SE", name: "Sweden" },
+  { code: "CH", name: "Switzerland" },
+  { code: "TW", name: "Taiwan" },
+  { code: "TH", name: "Thailand" },
+  { code: "TR", name: "Turkey" },
+  { code: "VN", name: "Vietnam" },
+].sort((a, b) => a.name.localeCompare(b.name));
+
+// ── Validation helpers ────────────────────────────────────────────────────────
+
+const POSTAL_PATTERNS: Partial<Record<string, RegExp>> = {
+  US: /^\d{5}(-\d{4})?$/,
+  CA: /^[A-Z]\d[A-Z][ -]?\d[A-Z]\d$/i,
+  GB: /^[A-Z]{1,2}\d{1,2}[A-Z]?\s?\d[A-Z]{2}$/i,
+  AU: /^\d{4}$/,
+  DE: /^\d{5}$/,
+  FR: /^\d{5}$/,
+  UA: /^\d{5}$/,
+  NL: /^\d{4}\s?[A-Z]{2}$/i,
+};
+
+const STATE_COUNTRIES = ["US", "CA", "AU", "MX", "BR", "IN"];
+
+function getStateLabel(country: string): string {
+  if (country === "US" || country === "AU") return "State";
+  if (country === "CA") return "Province";
+  return "State/Region";
+}
+
+function getCallingCode(country: string): string | null {
+  try {
+    return String(getCountryCallingCode(country as CountryCode));
+  } catch {
+    return null;
+  }
+}
+
+function validatePhoneValue(phone: string, country: string): string | undefined {
+  if (!phone.trim() || !country) return undefined;
+  try {
+    return isValidPhoneNumber(phone, country as CountryCode)
+      ? undefined
+      : "Invalid phone number for this country";
+  } catch {
+    return undefined;
+  }
+}
 
 // ── Field primitives ──────────────────────────────────────────────────────────
 
@@ -16,12 +135,20 @@ function SectionLabel({ children }: { children: string }) {
   );
 }
 
+function FieldError({ message }: { message?: string }) {
+  if (!message) return null;
+  return (
+    <p className="font-mono text-[10px] text-red-500 mt-0.5">{message}</p>
+  );
+}
+
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label: string;
   id: string;
+  error?: string;
 };
 
-function Field({ label, id, ...props }: InputProps) {
+function Field({ label, id, error, ...props }: InputProps) {
   return (
     <div className="flex flex-col gap-1.5">
       <label
@@ -32,9 +159,87 @@ function Field({ label, id, ...props }: InputProps) {
       </label>
       <input
         id={id}
-        className="border border-border rounded-[2px] px-3.5 py-2.5 font-sans text-[15px] bg-card text-primary placeholder:text-secondary focus:outline-none focus:border-accent transition-colors"
+        className={`border rounded-[2px] px-3.5 py-2.5 font-sans text-[15px] bg-card text-primary placeholder:text-secondary focus:outline-none transition-colors ${
+          error ? "border-red-400 focus:border-red-400" : "border-border focus:border-accent"
+        }`}
         {...props}
       />
+      <FieldError message={error} />
+    </div>
+  );
+}
+
+type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
+  label: string;
+  id: string;
+  error?: string;
+  children: React.ReactNode;
+};
+
+function SelectField({ label, id, error, children, ...props }: SelectProps) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label
+        htmlFor={id}
+        className="font-mono text-[10px] uppercase tracking-[0.12em] text-secondary"
+      >
+        {label}
+      </label>
+      <select
+        id={id}
+        className={`border rounded-[2px] px-3.5 py-2.5 font-sans text-[15px] bg-card text-primary focus:outline-none transition-colors appearance-none ${
+          error ? "border-red-400 focus:border-red-400" : "border-border focus:border-accent"
+        }`}
+        {...props}
+      >
+        {children}
+      </select>
+      <FieldError message={error} />
+    </div>
+  );
+}
+
+interface PhoneFieldProps {
+  value: string;
+  callingCode: string | null;
+  error?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: () => void;
+}
+
+function PhoneField({ value, callingCode, error, onChange, onBlur }: PhoneFieldProps) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label
+        htmlFor="phone"
+        className="font-mono text-[10px] uppercase tracking-[0.12em] text-secondary"
+      >
+        Phone
+      </label>
+      <div className="flex">
+        {callingCode && (
+          <span className="flex items-center border border-border border-r-0 rounded-l-[2px] px-3 bg-raised font-mono text-[13px] text-secondary select-none whitespace-nowrap">
+            +{callingCode}
+          </span>
+        )}
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+          required
+          autoComplete="tel"
+          placeholder={callingCode ? "" : "+1 555 000 0000"}
+          className={`flex-1 border rounded-[2px] px-3.5 py-2.5 font-sans text-[15px] bg-card text-primary placeholder:text-secondary focus:outline-none transition-colors ${
+            callingCode ? "rounded-l-none border-l-0 focus:border-l focus:pl-[13px]" : ""
+          } ${
+            error ? "border-red-400 focus:border-red-400" : "border-border focus:border-accent"
+          }`}
+        />
+      </div>
+      <FieldError message={error} />
     </div>
   );
 }
@@ -77,6 +282,11 @@ interface FormFields {
 }
 
 type PaymentMethod = "crypto" | "manual";
+
+interface FormErrors {
+  phone?: string;
+  postalCode?: string;
+}
 
 // ── PaymentOption ─────────────────────────────────────────────────────────────
 
@@ -333,6 +543,7 @@ function CheckoutInner() {
     country: "",
     note: "",
   });
+  const [errors, setErrors] = useState<FormErrors>({});
   const [qty, setQty] = useState<1 | 2 | 3>(initialQty);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("crypto");
   const [utm, setUtm] = useState<Record<string, string>>({});
@@ -354,11 +565,62 @@ function CheckoutInner() {
     paymentMethod === "crypto" ? Math.round(basePrice * 0.1) : 0;
   const total = basePrice - cryptoDiscount;
 
+  const callingCode = form.country ? getCallingCode(form.country) : null;
+
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    // Clear the field's validation error as the user types
+    if (name === "phone" || name === "postalCode") {
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
+  }
+
+  function handleCountryChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    const newCountry = e.target.value;
+    setForm((prev) => ({
+      ...prev,
+      country: newCountry,
+      // Clear state/region when switching to a country that doesn't use it
+      stateRegion: STATE_COUNTRIES.includes(newCountry) ? prev.stateRegion : "",
+    }));
+    // Re-evaluate phone validity in new country context
+    const phoneError = form.phone.trim()
+      ? validatePhoneValue(form.phone, newCountry)
+      : undefined;
+    setErrors({ phone: phoneError });
+  }
+
+  function handlePhoneBlur() {
+    const phoneError = validatePhoneValue(form.phone, form.country);
+    setErrors((prev) => ({ ...prev, phone: phoneError }));
+  }
+
+  function handlePostalBlur() {
+    const pattern = POSTAL_PATTERNS[form.country];
+    if (!pattern || !form.postalCode.trim()) {
+      setErrors((prev) => ({ ...prev, postalCode: undefined }));
+      return;
+    }
+    setErrors((prev) => ({
+      ...prev,
+      postalCode: pattern.test(form.postalCode.trim())
+        ? undefined
+        : "Invalid postal code format",
+    }));
+  }
+
+  function runValidation(): boolean {
+    const phoneError = validatePhoneValue(form.phone, form.country);
+    const pattern = POSTAL_PATTERNS[form.country];
+    const postalError =
+      pattern && form.postalCode.trim() && !pattern.test(form.postalCode.trim())
+        ? "Invalid postal code format"
+        : undefined;
+    setErrors({ phone: phoneError, postalCode: postalError });
+    return !phoneError && !postalError;
   }
 
   return (
@@ -386,14 +648,21 @@ function CheckoutInner() {
 
           {/* FORM — source-second (mobile bottom), desktop left */}
           <div className="lg:order-first">
-            <form action={submitOrder} className="flex flex-col">
-                <input type="hidden" name="qty" value={String(qty)} />
-                <input type="hidden" name="paymentMethod" value={paymentMethod} />
-                <input type="hidden" name="utmSource"   value={utm.utm_source   ?? ""} />
-                <input type="hidden" name="utmMedium"   value={utm.utm_medium   ?? ""} />
-                <input type="hidden" name="utmCampaign" value={utm.utm_campaign ?? ""} />
-                <input type="hidden" name="utmContent"  value={utm.utm_content  ?? ""} />
-                <input type="hidden" name="utmTerm"     value={utm.utm_term     ?? ""} />
+            <form
+              action={submitOrder}
+              onSubmit={(e) => {
+                if (!runValidation()) e.preventDefault();
+              }}
+              className="flex flex-col"
+            >
+              <input type="hidden" name="qty" value={String(qty)} />
+              <input type="hidden" name="paymentMethod" value={paymentMethod} />
+              <input type="hidden" name="utmSource"   value={utm.utm_source   ?? ""} />
+              <input type="hidden" name="utmMedium"   value={utm.utm_medium   ?? ""} />
+              <input type="hidden" name="utmCampaign" value={utm.utm_campaign ?? ""} />
+              <input type="hidden" name="utmContent"  value={utm.utm_content  ?? ""} />
+              <input type="hidden" name="utmTerm"     value={utm.utm_term     ?? ""} />
+
               {/* Contact */}
               <div className="border-t border-border pt-6 pb-7 flex flex-col gap-4">
                 <SectionLabel>{"Contact"}</SectionLabel>
@@ -417,21 +686,42 @@ function CheckoutInner() {
                   required
                   autoComplete="email"
                 />
-                <Field
-                  label="Phone"
-                  id="phone"
-                  name="phone"
-                  type="tel"
+                <PhoneField
                   value={form.phone}
+                  callingCode={callingCode}
+                  error={errors.phone}
                   onChange={handleChange}
-                  required
-                  autoComplete="tel"
+                  onBlur={handlePhoneBlur}
                 />
               </div>
 
               {/* Shipping address */}
               <div className="border-t border-border pt-6 pb-7 flex flex-col gap-4">
                 <SectionLabel>{"Shipping address"}</SectionLabel>
+
+                {/* Country first */}
+                <SelectField
+                  label="Country"
+                  id="country"
+                  name="country"
+                  value={form.country}
+                  onChange={handleCountryChange}
+                  required
+                  autoComplete="country"
+                >
+                  <option value="">Select country…</option>
+                  <optgroup label="Primary markets">
+                    {PRIMARY_MARKETS.map((c) => (
+                      <option key={c.code} value={c.code}>{c.name}</option>
+                    ))}
+                  </optgroup>
+                  <optgroup label="All countries">
+                    {OTHER_COUNTRIES.map((c) => (
+                      <option key={c.code} value={c.code}>{c.name}</option>
+                    ))}
+                  </optgroup>
+                </SelectField>
+
                 <Field
                   label="Address"
                   id="address"
@@ -461,32 +751,25 @@ function CheckoutInner() {
                     type="text"
                     value={form.postalCode}
                     onChange={handleChange}
+                    onBlur={handlePostalBlur}
                     required
                     autoComplete="postal-code"
+                    error={errors.postalCode}
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+
+                {/* State/Province — only for relevant countries */}
+                {STATE_COUNTRIES.includes(form.country) && (
                   <Field
-                    label="State / Region"
+                    label={getStateLabel(form.country)}
                     id="stateRegion"
                     name="stateRegion"
                     type="text"
                     value={form.stateRegion}
                     onChange={handleChange}
-                    placeholder="NY (optional)"
                     autoComplete="address-level1"
                   />
-                  <Field
-                    label="Country"
-                    id="country"
-                    name="country"
-                    type="text"
-                    value={form.country}
-                    onChange={handleChange}
-                    required
-                    autoComplete="country-name"
-                  />
-                </div>
+                )}
               </div>
 
               {/* Payment method */}
