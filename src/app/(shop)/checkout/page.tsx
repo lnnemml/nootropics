@@ -570,22 +570,25 @@ function CheckoutInner() {
 
   const callingCode = form.country ? getCallingCode(form.country) : null;
 
-  const addressRef = useRef<HTMLInputElement>(null);
-  // Persists the Autocomplete instance — guards against React Strict Mode double-invoke
-  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [addressValue, setAddressValue] = useState("");
   const { isLoaded } = useGooglePlaces();
 
   useEffect(() => {
-    if (!isLoaded || !addressRef.current || autocompleteRef.current) return;
+    if (!isLoaded || !containerRef.current) return;
+    if (containerRef.current.childElementCount > 0) return;
 
-    autocompleteRef.current = new google.maps.places.Autocomplete(
-      addressRef.current,
-      { types: ["address"] }
-    );
+    const placeAutocomplete = new google.maps.places.PlaceAutocompleteElement({
+      types: ["address"],
+    });
 
-    autocompleteRef.current.addListener("place_changed", () => {
-      const place = autocompleteRef.current?.getPlace();
-      if (!place?.address_components) return;
+    containerRef.current.appendChild(placeAutocomplete);
+
+    placeAutocomplete.addEventListener("gmp-select", async (event) => {
+      const place = event.placePrediction.toPlace();
+      await place.fetchFields({ fields: ["addressComponents"] });
+
+      if (!place.addressComponents) return;
 
       let streetNumber = "";
       let route = "";
@@ -594,19 +597,16 @@ function CheckoutInner() {
       let postalCode = "";
       let country = "";
 
-      for (const comp of place.address_components) {
-        if (comp.types.includes("street_number"))               streetNumber = comp.long_name;
-        if (comp.types.includes("route"))                       route        = comp.long_name;
-        if (comp.types.includes("locality"))                    city         = comp.long_name;
-        if (comp.types.includes("administrative_area_level_1")) state        = comp.short_name;
-        if (comp.types.includes("postal_code"))                 postalCode   = comp.long_name;
-        if (comp.types.includes("country"))                     country      = comp.short_name.toUpperCase();
+      for (const comp of place.addressComponents) {
+        if (comp.types.includes("street_number"))               streetNumber = comp.longText  ?? "";
+        if (comp.types.includes("route"))                       route        = comp.longText  ?? "";
+        if (comp.types.includes("locality"))                    city         = comp.longText  ?? "";
+        if (comp.types.includes("administrative_area_level_1")) state        = comp.shortText ?? "";
+        if (comp.types.includes("postal_code"))                 postalCode   = comp.longText  ?? "";
+        if (comp.types.includes("country"))                     country      = (comp.shortText ?? "").toUpperCase();
       }
 
-      // Set the address input directly — it is uncontrolled, so React won't fight us
-      if (addressRef.current) {
-        addressRef.current.value = [streetNumber, route].filter(Boolean).join(" ");
-      }
+      setAddressValue([streetNumber, route].filter(Boolean).join(" "));
 
       setForm((prev) => ({
         ...prev,
@@ -774,17 +774,13 @@ function CheckoutInner() {
                   </optgroup>
                 </SelectField>
 
-                <Field
-                  ref={addressRef}
-                  label="Address"
-                  id="address"
-                  name="address"
-                  type="text"
-                  onKeyDown={(e) => { if (e.key === "Enter") e.preventDefault(); }}
-                  required
-                  placeholder="Street address"
-                  autoComplete="off"
-                />
+                <div className="flex flex-col gap-1.5">
+                  <label className="font-mono text-[10px] uppercase tracking-[0.12em] text-secondary">
+                    Address
+                  </label>
+                  <div ref={containerRef} />
+                  <input type="hidden" name="address" value={addressValue} />
+                </div>
                 <div className="grid grid-cols-2 gap-3">
                   <Field
                     label="City"

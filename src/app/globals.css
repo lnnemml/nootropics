@@ -44,3 +44,18 @@ body {
   background-color: var(--color-page);
   color: var(--color-primary);
 }
+
+/* Google Places Web Component — match our Field design system */
+gmp-placeautocomplete {
+  width: 100%;
+}
+gmp-placeautocomplete input {
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
+  padding: 10px 14px;
+  font-family: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  width: 100%;
+  background-color: var(--color-card);
+  color: var(--color-primary);
+}
