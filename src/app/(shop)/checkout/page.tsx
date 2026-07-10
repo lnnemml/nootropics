@@ -81,6 +81,7 @@ const OTHER_COUNTRIES = [
   { code: "TW", name: "Taiwan" },
   { code: "TH", name: "Thailand" },
   { code: "TR", name: "Turkey" },
+  { code: "UA", name: "Ukraine" },
   { code: "VN", name: "Vietnam" },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
