@@ -6,6 +6,8 @@ import { notFound } from "next/navigation";
 import { Container } from "@/components/layout/Container";
 import { STATUS_LABELS, STATUS_COLORS } from "@/lib/order-status";
 import Link from "next/link";
+import { TrackingCard } from "./TrackingCard";
+import { CARRIER_LABELS, getTrackingUrl } from "@/lib/tracking";
 
 export default async function OrderDetailPage({
   params,
@@ -108,6 +110,20 @@ export default async function OrderDetailPage({
           </div>
         </div>
       </div>
+
+      {/* Tracking */}
+      {order.trackingNumber && (
+        <TrackingCard
+          trackingNumber={order.trackingNumber}
+          carrierLabel={CARRIER_LABELS[order.trackingCarrier ?? ""] ?? (order.trackingCarrier ?? "")}
+          trackingUrl={
+            order.trackingCarrier && order.trackingCarrier !== "other"
+              ? getTrackingUrl(order.trackingCarrier, order.trackingNumber)
+              : null
+          }
+          shippedAt={order.shippedAt}
+        />
+      )}
 
       {/* Note */}
       {order.note && (
