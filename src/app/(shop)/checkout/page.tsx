@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, useRef, forwardRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { submitOrder } from "@/app/actions/submitOrder";
 import { isValidPhoneNumber, getCountryCallingCode } from "libphonenumber-js";
 import type { CountryCode } from "libphonenumber-js";
+import { useGooglePlaces } from "@/hooks/useGooglePlaces";
 
 // ── Country data ──────────────────────────────────────────────────────────────
 
@@ -148,26 +149,29 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   error?: string;
 };
 
-function Field({ label, id, error, ...props }: InputProps) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <label
-        htmlFor={id}
-        className="font-mono text-[10px] uppercase tracking-[0.12em] text-secondary"
-      >
-        {label}
-      </label>
-      <input
-        id={id}
-        className={`border rounded-[2px] px-3.5 py-2.5 font-sans text-[15px] bg-card text-primary placeholder:text-secondary focus:outline-none transition-colors ${
-          error ? "border-red-400 focus:border-red-400" : "border-border focus:border-accent"
-        }`}
-        {...props}
-      />
-      <FieldError message={error} />
-    </div>
-  );
-}
+const Field = forwardRef<HTMLInputElement, InputProps>(
+  function Field({ label, id, error, ...props }, ref) {
+    return (
+      <div className="flex flex-col gap-1.5">
+        <label
+          htmlFor={id}
+          className="font-mono text-[10px] uppercase tracking-[0.12em] text-secondary"
+        >
+          {label}
+        </label>
+        <input
+          id={id}
+          ref={ref}
+          className={`border rounded-[2px] px-3.5 py-2.5 font-sans text-[15px] bg-card text-primary placeholder:text-secondary focus:outline-none transition-colors ${
+            error ? "border-red-400 focus:border-red-400" : "border-border focus:border-accent"
+          }`}
+          {...props}
+        />
+        <FieldError message={error} />
+      </div>
+    );
+  }
+);
 
 type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
   label: string;
@@ -567,6 +571,52 @@ function CheckoutInner() {
 
   const callingCode = form.country ? getCallingCode(form.country) : null;
 
+  const addressRef = useRef<HTMLInputElement>(null);
+  const { isLoaded } = useGooglePlaces();
+
+  useEffect(() => {
+    if (!isLoaded || !addressRef.current) return;
+
+    const autocomplete = new google.maps.places.Autocomplete(addressRef.current, {
+      types: ["address"],
+    });
+
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      if (!place.address_components) return;
+
+      let streetNumber = "";
+      let route = "";
+      let city = "";
+      let state = "";
+      let postalCode = "";
+      let country = "";
+
+      for (const comp of place.address_components) {
+        if (comp.types.includes("street_number"))             streetNumber = comp.long_name;
+        if (comp.types.includes("route"))                     route        = comp.long_name;
+        if (comp.types.includes("locality"))                  city         = comp.long_name;
+        if (comp.types.includes("administrative_area_level_1")) state      = comp.short_name;
+        if (comp.types.includes("postal_code"))               postalCode   = comp.long_name;
+        if (comp.types.includes("country"))                   country      = comp.short_name.toUpperCase();
+      }
+
+      setForm((prev) => ({
+        ...prev,
+        address:     [streetNumber, route].filter(Boolean).join(" "),
+        city,
+        stateRegion: STATE_COUNTRIES.includes(country) ? state : "",
+        postalCode,
+        country,
+      }));
+      setErrors({});
+    });
+
+    return () => {
+      google.maps.event.clearInstanceListeners(autocomplete);
+    };
+  }, [isLoaded]);
+
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
@@ -723,6 +773,7 @@ function CheckoutInner() {
                 </SelectField>
 
                 <Field
+                  ref={addressRef}
                   label="Address"
                   id="address"
                   name="address"
@@ -731,7 +782,7 @@ function CheckoutInner() {
                   onChange={handleChange}
                   required
                   placeholder="Street address"
-                  autoComplete="address-line1"
+                  autoComplete="off"
                 />
                 <div className="grid grid-cols-2 gap-3">
                   <Field
