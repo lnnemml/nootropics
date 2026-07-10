@@ -89,22 +89,37 @@ Email+password auth, email verification, account dashboard (/account,
 post-checkout upsell, and order-user linking (guest orders retroactively
 linked on registration). Tasks 3.1–3.7.
 
-## Phase 4 — Referral & cumulative discount system
+## Phase 4 — Fulfilment & checkout validation *(done — 2026-07-10)*
 
-*(was Phase 3/5 — renumbered)*
+Manual tracking flow (no external tracking API), checkout address/phone
+validation, Google Places address autocomplete. Tasks 4.1–4.6.
 
-- `referral_codes`, `discount_ledger`, `customer_tiers` tables live
+Key decisions:
+- Укрпошта as primary carrier; admin enters tracking number manually
+- AfterShip live tracking deferred — overkill at launch volume
+- Google Places API (New) for address autocomplete at checkout
+- Post-delivery follow-up cron deferred (no Vercel Pro, no community destination)
+- ADRs 0014–0016
+
+## Phase 5 — Referral & affiliate system
+
+*(was Phase 4 in older roadmap — pushed back, fulfillment prioritized)*
+
+- `referral_codes`, `discount_ledger`, `customer_tiers` tables
 - Referral link generation + redemption flow
+- Cumulative discount / loyalty mechanics
 - Resolve open questions flagged in
   [`architecture/data-model.md`](./architecture/data-model.md)
 
-## Phase 4 — Growth & optimization
+## Phase 6 — Growth & optimization
 
-*(was Phase 6/7 — renumbered)*
+*(was "Phase 4 — Growth & optimization" in older roadmap)*
 
 - SEO pass, analytics, A/B testing infra for headlines/angles
 - Revisit ADR 0002 based on real performance data
 - Community/social presence cadence (separate doc, not site code)
+- Reddit community creation + seeding strategy
+- Post-delivery follow-up email (requires Vercel Pro or external cron)
 
 ## Related pages
 

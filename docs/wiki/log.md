@@ -1060,3 +1060,45 @@ immediately after user creation — retroactively linking all guest orders place
 with that email. Checkout success page now branches on session: guests see a
 "Create account" upsell card; signed-in users see a "View in my orders" link.
 Phase 3 complete. Roadmap updated.
+
+## [2026-07-10] phase | Phase 4 — Fulfilment & checkout validation complete
+
+Six tasks completed across multiple Claude Code sessions:
+
+**Task 4.1** — Schema: added `trackingNumber`, `trackingCarrier`, `shippedAt`,
+`followUpSentAt` columns to orders table. `db:push` clean.
+
+**Task 4.2** — Admin shipping: carrier dropdown (Укрпошта default) + tracking
+number input on admin order detail page. `markOrderShipped` Server Action sets
+status to `fulfilled`, saves tracking data, sends shipping confirmation email
+via Resend (from orders@noraalliance.com) with tracking link.
+
+**Task 4.3** — Customer tracking card on `/account/orders/[id]` — shows carrier,
+tracking number (with copy button), external tracking link, shipped date.
+Rendered only when trackingNumber is set.
+
+**Task 4.4** — Phone validation at checkout using `libphonenumber-js`. Country
+calling code prefix displayed. Validates on blur against selected country.
+
+**Task 4.5** — Country dropdown (primary markets first, then alphabetical) +
+postal code regex validation per country + conditional State/Province field.
+
+**Task 4.6** — Google Places Autocomplete for checkout address. Uses
+`PlaceAutocompleteElement` (new API, March 2025+). Lazy-loaded via
+`@googlemaps/js-api-loader`. Auto-fills city, state, postal code, country on
+place selection. Required enabling both Maps JavaScript API and Places API (New)
+in Google Cloud Console.
+
+**Hotfix** — Migrated from deprecated `google.maps.places.Autocomplete` to
+`PlaceAutocompleteElement` after discovering new API keys (post March 2025) are
+blocked from using the legacy Autocomplete class. Also fixed RefererNotAllowed
+error by correcting HTTP referrer restrictions in Google Cloud Console.
+
+**Scope decisions:**
+- AfterShip webhook integration removed from scope (overkill at launch volume)
+- Post-delivery follow-up cron deferred (Vercel free plan, no community)
+- `followUpSentAt` column added proactively to avoid future migration
+
+ADRs 0014 (manual tracking approach), 0015 (Google Places), 0016 (follow-up
+cron deferred) recorded. Roadmap updated: old Phase 4 (referral system) pushed
+to Phase 5; growth/optimization pushed to Phase 6.

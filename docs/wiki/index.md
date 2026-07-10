@@ -83,6 +83,14 @@ whole wiki.
   — **⚠ requires legal review** — four legal pages + LegalPageShell; key positions encoded
 - [`decisions/0012-neon-drizzle-phase2.md`](./decisions/0012-neon-drizzle-phase2.md)
   — Neon Postgres + Drizzle ORM confirmed as Phase 2 DB layer; MVP schema denormalized
+- [`decisions/0013-customer-auth-architecture.md`](./decisions/0013-customer-auth-architecture.md)
+  — customer auth: separate NextAuth instance, Credentials provider, email+password
+- [`decisions/0014-manual-tracking.md`](./decisions/0014-manual-tracking.md)
+  — manual tracking only, no AfterShip at launch
+- [`decisions/0015-google-places-autocomplete.md`](./decisions/0015-google-places-autocomplete.md)
+  — Google Places for checkout address autocomplete
+- [`decisions/0016-followup-cron-deferred.md`](./decisions/0016-followup-cron-deferred.md)
+  — post-delivery follow-up cron deferred (no Vercel Pro, no community)
 
 ## Planning
 
@@ -92,8 +100,9 @@ whole wiki.
 - [`phase-1.5-implementation-plan.md`](./phase-1.5-implementation-plan.md) —
   Phase 1.5 task list *(done — 2026-07-03)*
 - [`phase-2-implementation-plan.md`](./phase-2-implementation-plan.md) —
-  **active task list for Phase 2** (backend MVP: DB, email, NowPayments,
-  admin) — one task per session
+  Phase 2 task list *(done)*
+- [`nora-phase4-plan.md`](./nora-phase4-plan.md) —
+  Phase 4 task list *(done — 2026-07-10)*
 
 ## Backlog (sources not yet ingested / pages not yet written)
 
