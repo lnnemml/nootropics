@@ -4,6 +4,8 @@ import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { updateOrderStatus } from "@/app/actions/updateOrderStatus";
+import { ShippingForm } from "./ShippingForm";
+import { CARRIER_LABELS, getTrackingUrl } from "@/lib/tracking";
 
 const ALL_STATUSES = [
   "pending_payment_instructions",
@@ -94,6 +96,47 @@ export default async function OrderDetailPage({
               Save
             </button>
           </form>
+        </div>
+
+        {/* Shipping */}
+        <div className="border border-border rounded-[2px] p-6 mb-6 bg-card">
+          <p className="font-mono text-xs text-ink/50 mb-3 uppercase tracking-widest">
+            Shipping
+          </p>
+          {order.shippedAt ? (
+            <div className="space-y-2">
+              <div className="flex gap-6 flex-wrap">
+                <div>
+                  <p className="font-mono text-xs text-ink/40 mb-1">Carrier</p>
+                  <p className="font-mono text-sm text-ink">
+                    {CARRIER_LABELS[order.trackingCarrier ?? ""] ?? order.trackingCarrier}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-mono text-xs text-ink/40 mb-1">Tracking number</p>
+                  <p className="font-mono text-sm text-ink">{order.trackingNumber}</p>
+                </div>
+                <div>
+                  <p className="font-mono text-xs text-ink/40 mb-1">Shipped at</p>
+                  <p className="font-mono text-sm text-ink">
+                    {new Date(order.shippedAt).toISOString()}
+                  </p>
+                </div>
+              </div>
+              {order.trackingCarrier && order.trackingCarrier !== "other" && order.trackingNumber && (
+                <a
+                  href={getTrackingUrl(order.trackingCarrier, order.trackingNumber) ?? "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-xs text-accent hover:underline inline-block mt-2"
+                >
+                  Track parcel →
+                </a>
+              )}
+            </div>
+          ) : (
+            <ShippingForm orderId={order.id} />
+          )}
         </div>
 
         {/* Order details */}

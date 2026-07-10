@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 import type { NewOrder, Order } from "@/lib/db/schema";
-import { orderConfirmationCustomer, orderAlertOps, orderPaymentConfirmedCrypto, orderPaymentConfirmedOps } from "./templates";
+import { orderConfirmationCustomer, orderAlertOps, orderPaymentConfirmedCrypto, orderPaymentConfirmedOps, orderShippedCustomer } from "./templates";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -29,6 +29,19 @@ export async function sendPaymentConfirmedEmail(order: Order): Promise<void> {
     to: order.email,
     subject: `${order.orderNumber} — Payment confirmed`,
     html: orderPaymentConfirmedCrypto(order),
+  });
+}
+
+export async function sendOrderShippedEmail(
+  order: Order,
+  carrierLabel: string,
+  trackingUrl: string | null
+): Promise<void> {
+  await resend.emails.send({
+    from: "NORA Alliance <orders@noraalliance.com>",
+    to: order.email,
+    subject: `Your NeuroDrive order #${order.orderNumber} has shipped`,
+    html: orderShippedCustomer(order, carrierLabel, trackingUrl),
   });
 }
 
