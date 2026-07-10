@@ -781,6 +781,7 @@ function CheckoutInner() {
                   name="address"
                   type="text"
                   onChange={handleChange}
+                  onKeyDown={(e) => { if (e.key === "Enter") e.preventDefault(); }}
                   required
                   placeholder="Street address"
                   autoComplete="off"
