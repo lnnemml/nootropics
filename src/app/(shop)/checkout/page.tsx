@@ -579,7 +579,7 @@ function CheckoutInner() {
     if (containerRef.current.childElementCount > 0) return;
 
     const placeAutocomplete = new google.maps.places.PlaceAutocompleteElement({
-      types: ["address"],
+      placeholder: "Street address",
     });
 
     containerRef.current.appendChild(placeAutocomplete);
