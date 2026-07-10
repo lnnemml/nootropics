@@ -90,6 +90,12 @@ export const orders = pgTable("orders", {
 
   // derived from UTM — "paid" | "referral" | "direct"
   trafficType:  text("traffic_type"),
+
+  // shipping / fulfillment tracking
+  trackingNumber:   text("tracking_number"),
+  trackingCarrier:  text("tracking_carrier"),
+  shippedAt:        timestamp("shipped_at"),
+  followUpSentAt:   timestamp("follow_up_sent_at"),  // reserved for future cron
 });
 
 export type Order = typeof orders.$inferSelect;
