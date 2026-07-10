@@ -19,7 +19,6 @@ const PRIMARY_MARKETS = [
   { code: "FR", name: "France" },
   { code: "NL", name: "Netherlands" },
   { code: "AU", name: "Australia" },
-  { code: "UA", name: "Ukraine" },
 ];
 
 const OTHER_COUNTRIES = [
@@ -70,7 +69,6 @@ const OTHER_COUNTRIES = [
   { code: "PL", name: "Poland" },
   { code: "PT", name: "Portugal" },
   { code: "RO", name: "Romania" },
-  { code: "RU", name: "Russia" },
   { code: "SA", name: "Saudi Arabia" },
   { code: "RS", name: "Serbia" },
   { code: "SG", name: "Singapore" },
@@ -572,18 +570,21 @@ function CheckoutInner() {
   const callingCode = form.country ? getCallingCode(form.country) : null;
 
   const addressRef = useRef<HTMLInputElement>(null);
+  // Persists the Autocomplete instance — guards against React Strict Mode double-invoke
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const { isLoaded } = useGooglePlaces();
 
   useEffect(() => {
-    if (!isLoaded || !addressRef.current) return;
+    if (!isLoaded || !addressRef.current || autocompleteRef.current) return;
 
-    const autocomplete = new google.maps.places.Autocomplete(addressRef.current, {
-      types: ["address"],
-    });
+    autocompleteRef.current = new google.maps.places.Autocomplete(
+      addressRef.current,
+      { types: ["address"] }
+    );
 
-    autocomplete.addListener("place_changed", () => {
-      const place = autocomplete.getPlace();
-      if (!place.address_components) return;
+    autocompleteRef.current.addListener("place_changed", () => {
+      const place = autocompleteRef.current?.getPlace();
+      if (!place?.address_components) return;
 
       let streetNumber = "";
       let route = "";
@@ -593,17 +594,21 @@ function CheckoutInner() {
       let country = "";
 
       for (const comp of place.address_components) {
-        if (comp.types.includes("street_number"))             streetNumber = comp.long_name;
-        if (comp.types.includes("route"))                     route        = comp.long_name;
-        if (comp.types.includes("locality"))                  city         = comp.long_name;
-        if (comp.types.includes("administrative_area_level_1")) state      = comp.short_name;
-        if (comp.types.includes("postal_code"))               postalCode   = comp.long_name;
-        if (comp.types.includes("country"))                   country      = comp.short_name.toUpperCase();
+        if (comp.types.includes("street_number"))               streetNumber = comp.long_name;
+        if (comp.types.includes("route"))                       route        = comp.long_name;
+        if (comp.types.includes("locality"))                    city         = comp.long_name;
+        if (comp.types.includes("administrative_area_level_1")) state        = comp.short_name;
+        if (comp.types.includes("postal_code"))                 postalCode   = comp.long_name;
+        if (comp.types.includes("country"))                     country      = comp.short_name.toUpperCase();
+      }
+
+      // Set the address input directly — it is uncontrolled, so React won't fight us
+      if (addressRef.current) {
+        addressRef.current.value = [streetNumber, route].filter(Boolean).join(" ");
       }
 
       setForm((prev) => ({
         ...prev,
-        address:     [streetNumber, route].filter(Boolean).join(" "),
         city,
         stateRegion: STATE_COUNTRIES.includes(country) ? state : "",
         postalCode,
@@ -611,10 +616,6 @@ function CheckoutInner() {
       }));
       setErrors({});
     });
-
-    return () => {
-      google.maps.event.clearInstanceListeners(autocomplete);
-    };
   }, [isLoaded]);
 
   function handleChange(
@@ -778,7 +779,6 @@ function CheckoutInner() {
                   id="address"
                   name="address"
                   type="text"
-                  value={form.address}
                   onChange={handleChange}
                   required
                   placeholder="Street address"
