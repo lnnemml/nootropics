@@ -2,6 +2,7 @@ import { createHmac } from "node:crypto";
 import { db } from "@/lib/db";
 import { orders } from "@/lib/db/schema";
 import { sendPaymentConfirmedEmail, sendPaymentConfirmedOpsAlert } from "@/lib/email/send";
+import { createReferrerReward } from "@/lib/referral-reward";
 import { eq } from "drizzle-orm";
 
 function sortObjectRecursive(obj: Record<string, unknown>): Record<string, unknown> {
@@ -65,6 +66,7 @@ export async function POST(req: Request): Promise<Response> {
     .where(eq(orders.id, order.id));
 
   await Promise.allSettled([
+    createReferrerReward(order.id),
     sendPaymentConfirmedEmail({ ...order, status: "paid" }),
     sendPaymentConfirmedOpsAlert({ ...order, status: "paid" }),
   ]);

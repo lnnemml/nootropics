@@ -1139,3 +1139,11 @@ happens at checkout (Task 5.4). No new files or components.
 - `checkout/page.tsx` — reads `nora_referral_code` from sessionStorage on mount; validates via API route on email blur; shows "Referral discount (10%)" line in `OrderSummary` when valid; shows "Invalid referral code" when invalid. Hidden input sends code only when `referralValid === true`.
 - `submitOrder.ts` — server-side re-validates code against DB (self-referral check via session `userId`); computes `referralDiscount = pricing.total * 10%`; stores `referralCodeUsed` and `referralDiscountPct` on order. Referrer reward creation deferred to Task 5.5.
 - TypeScript: clean.
+
+## [2026-07-11] decision | Phase 5 Task 5.5 — Referrer reward on order payment
+
+- `src/lib/referral-reward.ts` — `createReferrerReward(orderId)`: looks up `referralCodeUsed` on order, finds code record, checks idempotency via `referrals.referredOrderId`, then inserts `discount_ledger` entry (10%, "available", no expiry) and `referrals` record. Returns early if already processed.
+- `updateOrderStatus.ts` — calls `createReferrerReward` with a catch guard when status transitions to "paid" or "fulfilled". Admin setting fulfilled directly (skipping paid) also triggers reward.
+- `nowpayments/route.ts` — `createReferrerReward` added to `Promise.allSettled` alongside the confirmation emails. Failures are swallowed and don't block webhook response.
+- Referrer notification email deferred (outside Phase 5 scope).
+- TypeScript: clean.
