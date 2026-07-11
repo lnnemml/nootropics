@@ -101,7 +101,7 @@ Key decisions:
 - Post-delivery follow-up cron deferred (no Vercel Pro, no community destination)
 - ADRs 0014–0016
 
-## Phase 5 — Referral & affiliate system *(in progress — Task 5.1 done 2026-07-11)*
+## Phase 5 — Referral & affiliate system *(done — 2026-07-11)*
 
 *(was Phase 4 in older roadmap — pushed back, fulfillment prioritized)*
 
@@ -109,10 +109,12 @@ Key decisions: symmetrical 10%/10% referral model; `discount_ledger` for
 reward lifecycle; no loyalty tiers at launch. ADR 0017.
 
 - **Task 5.1** *(done)* — `referral_codes`, `referrals`, `discount_ledger` schema + three new order columns; `db:push` clean
-- **Task 5.2** — Referral code generation (lazy, on /account first load); display in account dashboard
-- **Task 5.3** — Checkout redemption: validate code at submission, apply `referral_discount_pct`, record `referral_code_used`
-- **Task 5.4** — Referrer reward creation on `paid` status: create `discount_ledger` entry + `referrals.referrer_reward_id`
-- **Task 5.5** — Account dashboard: referral stats card (code, share link, reward balance)
+- **Task 5.2** *(done)* — Referral code generation on registration + backfill script
+- **Task 5.3** *(done)* — `?ref=` param captured to sessionStorage via UTMCapture
+- **Task 5.4** *(done)* — Checkout validates referral code via API route + applies 10% discount; server-side re-validation in submitOrder
+- **Task 5.5** *(done)* — Referrer reward created on order `paid` (idempotent, hooked into admin status update + NowPayments webhook)
+- **Task 5.6** *(done)* — Rewards auto-applied at checkout (mutual exclusivity with referral discount; ledger marked redeemed before redirect)
+- **Task 5.7** *(done)* — `/account/referrals` dashboard: code + share link, how it works, available rewards, referral history
 
 ## Phase 6 — Growth & optimization
 

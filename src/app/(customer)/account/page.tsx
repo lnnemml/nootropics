@@ -48,6 +48,22 @@ export default async function AccountPage() {
         </form>
       </div>
 
+      {/* Referral quick link */}
+      <Link
+        href="/account/referrals"
+        className="flex items-center justify-between border border-border rounded-[2px] px-5 py-4 mb-8 hover:border-accent/50 transition-colors"
+      >
+        <div>
+          <p className="font-mono text-xs text-accent uppercase tracking-widest mb-0.5">
+            Referrals
+          </p>
+          <p className="font-sans text-[14px] text-secondary">
+            Share your code · earn 10% off your next order
+          </p>
+        </div>
+        <span className="font-mono text-xs text-ink/30 ml-4">{"→"}</span>
+      </Link>
+
       {/* Recent orders */}
       <div>
         <div className="flex items-center justify-between mb-4">

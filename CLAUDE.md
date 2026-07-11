@@ -110,11 +110,9 @@ an architecture analysis, a copywriting rationale.
   before writing copy.** Platform pages (home, mission, nav, footer)
   speak as **NORA**. Product pages (`(shop)/neurodrive`, future product
   pages) speak as the product, inside NORA's visual system.
-- **Active task list:** Phase 1.5 is done. Now in **Phase 2 — Backend
-  MVP**. Follow
-  [`docs/wiki/phase-2-implementation-plan.md`](docs/wiki/phase-2-implementation-plan.md)
-  task-by-task — one task per session/commit. Start with Task 2.1 (Neon +
-  Drizzle) only after Anton confirms `NEON_DATABASE_URL` is available.
+- **Active task list:** Phases 1–5 are complete. Now in **Phase 6 — Growth
+  & optimization**. See [`docs/wiki/roadmap.md`](docs/wiki/roadmap.md) for
+  Phase 6 scope.
 - **Never invent a real product price.** The price is explicitly blocked
   on Anton supplying real numbers — build the UI slot with an
   obviously-fake placeholder and flag back if no real number has been

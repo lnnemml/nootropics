@@ -1155,3 +1155,17 @@ happens at checkout (Task 5.4). No new files or components.
 - `submitOrder.ts` — reads `rewardId`; server-validates against DB (ownership + status="available"); marks ledger "redeemed" with `redeemedOrderId` BEFORE order insert; applies `rewardDiscount = discountPct% of pricing.total`; saves `discountLedgerId` on order row.
 - Stacking: crypto + (referral XOR reward) = max 20%. Referral takes precedence if both present.
 - TypeScript: clean.
+
+## [2026-07-11] phase | Phase 5 complete — Referral System
+
+All seven tasks shipped in one session:
+
+**5.1** Schema — `referral_codes`, `referrals`, `discount_ledger` tables + three `orders` columns. `db:push` clean.
+**5.2** Code generation — `generateReferralCode()` (NORA-XXXXXX, 32-char unambiguous alphabet); hooked into `registerCustomer`; backfill script for existing users.
+**5.3** Capture — `UTMCapture.tsx` extended to write `?ref=` to `sessionStorage["nora_referral_code"]`.
+**5.4** Checkout discount — `/api/referral/validate` route; email-blur validation; 10% discount line in `OrderSummary`; server-side re-validation + `referralCodeUsed`/`referralDiscountPct` saved on order.
+**5.5** Referrer reward — `createReferrerReward()` idempotent; fires on `paid`/`fulfilled` via `updateOrderStatus` and NowPayments webhook (`Promise.allSettled`).
+**5.6** Reward auto-apply — `/api/referral/rewards` route; auto-applied at checkout; ledger marked "redeemed" before insert; mutual exclusivity with referral discount enforced client + server.
+**5.7** Dashboard — `/account/referrals`: code + share link with copy buttons, how-it-works steps, available rewards, referral history table (masked emails, order/reward status). `CopyButton` client component. Referral card added to `/account`.
+
+Phase 5 marked complete in roadmap. CLAUDE.md updated to Phase 6.
