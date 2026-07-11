@@ -1,12 +1,12 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { orders } from "@/lib/db/schema";
+import { orders, referralCodes } from "@/lib/db/schema";
 import { sendOrderEmails } from "@/lib/email/send";
 import { generateOrderNumber, deriveTrafficType } from "@/lib/order-number";
 import { createInvoice } from "@/lib/nowpayments";
 import { customerAuth } from "@/lib/customer-auth";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import { redirect } from "next/navigation";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
@@ -38,6 +38,7 @@ export async function submitOrder(formData: FormData): Promise<void> {
     utmCampaign:   formData.get("utmCampaign") as string | null,
     utmContent:    formData.get("utmContent")  as string | null,
     utmTerm:       formData.get("utmTerm")     as string | null,
+    referralCode:  (formData.get("referralCode") as string | null)?.trim().toUpperCase() || null,
   };
 
   // Validate required fields (HTML required handles client-side; this is server-side guard)
@@ -54,17 +55,34 @@ export async function submitOrder(formData: FormData): Promise<void> {
   const qty = parseInt(raw.qty);
   const isCrypto = raw.paymentMethod === "crypto";
   const cryptoDiscountPct = isCrypto ? CRYPTO_DISCOUNT_PCT : null;
-  const totalPrice = isCrypto
-    ? Math.round(pricing.total * (1 - CRYPTO_DISCOUNT_PCT / 100))
-    : pricing.total;
-
-  const id = nanoid();
-  const orderNumber = generateOrderNumber();
-  const trafficType = deriveTrafficType(raw.utmSource, raw.utmMedium);
 
   // Link order to account if customer is signed in
   const session = await customerAuth();
   const userId = session?.user?.id ?? null;
+
+  // Server-side referral validation — silently ignored if invalid
+  let referralCodeUsed: string | null = null;
+  let referralDiscountPct: number | null = null;
+  if (raw.referralCode) {
+    const codeRecord = await db.query.referralCodes.findFirst({
+      where: and(eq(referralCodes.code, raw.referralCode), eq(referralCodes.active, true)),
+    });
+    if (codeRecord) {
+      const isSelfReferral = userId !== null && codeRecord.userId === userId;
+      if (!isSelfReferral) {
+        referralCodeUsed = raw.referralCode;
+        referralDiscountPct = 10;
+      }
+    }
+  }
+
+  const cryptoDiscount = isCrypto ? Math.round(pricing.total * CRYPTO_DISCOUNT_PCT / 100) : 0;
+  const referralDiscount = referralDiscountPct ? Math.round(pricing.total * referralDiscountPct / 100) : 0;
+  const totalPrice = pricing.total - cryptoDiscount - referralDiscount;
+
+  const id = nanoid();
+  const orderNumber = generateOrderNumber();
+  const trafficType = deriveTrafficType(raw.utmSource, raw.utmMedium);
 
   await db.insert(orders).values({
     id,
@@ -83,8 +101,10 @@ export async function submitOrder(formData: FormData): Promise<void> {
     paymentMethod:    raw.paymentMethod,
     cryptoDiscountPct,
     totalPrice,
-    promoCode:        raw.promoCode || null,
-    note:             raw.note || null,
+    promoCode:           raw.promoCode || null,
+    note:                raw.note || null,
+    referralCodeUsed,
+    referralDiscountPct,
     orderNumber,
     utmSource:        raw.utmSource   || null,
     utmMedium:        raw.utmMedium   || null,
@@ -112,6 +132,8 @@ export async function submitOrder(formData: FormData): Promise<void> {
     totalPrice,
     promoCode: raw.promoCode || null,
     note: raw.note || null,
+    referralCodeUsed,
+    referralDiscountPct,
     nowpaymentsInvoiceId: null,
     nowpaymentsPaymentUrl: null,
     confirmationEmailSentAt: null,

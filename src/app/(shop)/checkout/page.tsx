@@ -368,6 +368,9 @@ interface OrderSummaryProps {
   basePrice: number;
   bundleSaving: number;
   cryptoDiscount: number;
+  referralDiscount: number;
+  referralCode: string;
+  referralValid: boolean | null;
   total: number;
   promoCode: string;
   setPromoCode: (v: string) => void;
@@ -380,6 +383,9 @@ function OrderSummary({
   basePrice,
   bundleSaving,
   cryptoDiscount,
+  referralDiscount,
+  referralCode,
+  referralValid,
   total,
   promoCode,
   setPromoCode,
@@ -454,6 +460,17 @@ function OrderSummary({
         </button>
       </div>
 
+      {referralCode && referralValid === false && (
+        <p className="font-mono text-[10px] text-red-400 -mt-2">
+          Invalid referral code
+        </p>
+      )}
+      {referralCode && referralValid === true && (
+        <p className="font-mono text-[10px] text-accent -mt-2">
+          Referral code applied
+        </p>
+      )}
+
       <div className="border-t border-border" />
 
       {/* Price breakdown */}
@@ -485,6 +502,17 @@ function OrderSummary({
             </span>
             <span className="font-sans text-[14px] text-accent">
               –${cryptoDiscount}
+            </span>
+          </div>
+        )}
+
+        {referralValid === true && (
+          <div className="flex justify-between items-baseline">
+            <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-accent">
+              Referral discount (10%)
+            </span>
+            <span className="font-sans text-[14px] text-accent">
+              –${referralDiscount}
             </span>
           </div>
         )}
@@ -556,8 +584,14 @@ function CheckoutInner() {
       const stored = sessionStorage.getItem("nora_utm");
       if (stored) setUtm(JSON.parse(stored));
     } catch {}
+    try {
+      const storedRef = sessionStorage.getItem("nora_referral_code");
+      if (storedRef) setReferralCode(storedRef);
+    } catch {}
   }, []);
   const [promoCode, setPromoCode] = useState("");
+  const [referralCode, setReferralCode] = useState("");
+  const [referralValid, setReferralValid] = useState<boolean | null>(null);
 
   const PRICES: Record<1 | 2 | 3, number> = { 1: 120, 2: 220, 3: 300 };
   const BUNDLE_SAVINGS: Record<1 | 2 | 3, number> = { 1: 0, 2: 20, 3: 60 };
@@ -566,7 +600,8 @@ function CheckoutInner() {
   const bundleSaving = BUNDLE_SAVINGS[qty];
   const cryptoDiscount =
     paymentMethod === "crypto" ? Math.round(basePrice * 0.1) : 0;
-  const total = basePrice - cryptoDiscount;
+  const referralDiscount = referralValid === true ? Math.round(basePrice * 0.1) : 0;
+  const total = basePrice - cryptoDiscount - referralDiscount;
 
   const callingCode = form.country ? getCallingCode(form.country) : null;
 
@@ -627,6 +662,23 @@ function CheckoutInner() {
     // Clear the field's validation error as the user types
     if (name === "phone" || name === "postalCode") {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
+    // Re-validate referral on next email blur when email changes
+    if (name === "email") {
+      setReferralValid(null);
+    }
+  }
+
+  async function handleEmailBlur() {
+    if (!referralCode || !form.email.trim()) return;
+    try {
+      const res = await fetch(
+        `/api/referral/validate?code=${encodeURIComponent(referralCode)}&email=${encodeURIComponent(form.email.trim())}`
+      );
+      const data = await res.json() as { valid: boolean };
+      setReferralValid(data.valid === true);
+    } catch {
+      setReferralValid(null);
     }
   }
 
@@ -692,6 +744,9 @@ function CheckoutInner() {
               basePrice={basePrice}
               bundleSaving={bundleSaving}
               cryptoDiscount={cryptoDiscount}
+              referralDiscount={referralDiscount}
+              referralCode={referralCode}
+              referralValid={referralValid}
               total={total}
               promoCode={promoCode}
               setPromoCode={(v) => setPromoCode(v)}
@@ -714,6 +769,7 @@ function CheckoutInner() {
               <input type="hidden" name="utmCampaign" value={utm.utm_campaign ?? ""} />
               <input type="hidden" name="utmContent"  value={utm.utm_content  ?? ""} />
               <input type="hidden" name="utmTerm"     value={utm.utm_term     ?? ""} />
+              <input type="hidden" name="referralCode" value={referralValid === true ? referralCode : ""} />
 
               {/* Contact */}
               <div className="border-t border-border pt-6 pb-7 flex flex-col gap-4">
@@ -735,6 +791,7 @@ function CheckoutInner() {
                   type="email"
                   value={form.email}
                   onChange={handleChange}
+                  onBlur={handleEmailBlur}
                   required
                   autoComplete="email"
                 />

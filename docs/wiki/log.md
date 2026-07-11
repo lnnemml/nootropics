@@ -1132,3 +1132,10 @@ Extended `UTMCapture.tsx` to also read `?ref=` from the URL and store it in
 `sessionStorage` as `nora_referral_code`. Three lines added to the existing
 `useEffect` — same pattern as UTM capture. No validation on capture; validation
 happens at checkout (Task 5.4). No new files or components.
+
+## [2026-07-11] decision | Phase 5 Task 5.4 — Checkout referral discount
+
+- `src/app/api/referral/validate/route.ts` — `GET ?code=&email=` returns `{ valid: boolean }`. No auth required. Checks `referral_codes.active=true`, rejects self-referral via email comparison against code owner.
+- `checkout/page.tsx` — reads `nora_referral_code` from sessionStorage on mount; validates via API route on email blur; shows "Referral discount (10%)" line in `OrderSummary` when valid; shows "Invalid referral code" when invalid. Hidden input sends code only when `referralValid === true`.
+- `submitOrder.ts` — server-side re-validates code against DB (self-referral check via session `userId`); computes `referralDiscount = pricing.total * 10%`; stores `referralCodeUsed` and `referralDiscountPct` on order. Referrer reward creation deferred to Task 5.5.
+- TypeScript: clean.
