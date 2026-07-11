@@ -1102,3 +1102,18 @@ error by correcting HTTP referrer restrictions in Google Cloud Console.
 ADRs 0014 (manual tracking approach), 0015 (Google Places), 0016 (follow-up
 cron deferred) recorded. Roadmap updated: old Phase 4 (referral system) pushed
 to Phase 5; growth/optimization pushed to Phase 6.
+
+## [2026-07-11] phase | Phase 5 Task 5.1 — Referral schema
+
+Schema additions only — no UI or logic.
+
+**New tables:**
+- `referral_codes` — one row per user; `code` unique ("NORA-XXXXXX"); `active` bool.
+- `discount_ledger` — reward/credit lifecycle per user; `source` ("referral_reward" | "promo"); `status` ("available" | "redeemed" | "expired"); `expires_at` nullable; `discount_pct` int.
+- `referrals` — junction: referral_code → referred order → referrer reward. `referrer_reward_id` set when reward entry created on `paid`.
+
+**New `orders` columns:** `referral_code_used` (text snapshot), `referral_discount_pct` (int), `discount_ledger_id` (FK → discount_ledger.id).
+
+**Import:** added `boolean` to `drizzle-orm/pg-core` imports.
+
+`drizzle-kit push` run clean against Neon. ADR 0017 recorded (symmetrical 10%/10% model, no customer_tiers at launch). Data model wiki updated. Roadmap updated.

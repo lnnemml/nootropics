@@ -91,6 +91,8 @@ whole wiki.
   — Google Places for checkout address autocomplete
 - [`decisions/0016-followup-cron-deferred.md`](./decisions/0016-followup-cron-deferred.md)
   — post-delivery follow-up cron deferred (no Vercel Pro, no community)
+- [`decisions/0017-referral-system.md`](./decisions/0017-referral-system.md)
+  — symmetrical 10%/10% referral model; `discount_ledger` lifecycle; no tiers at launch
 
 ## Planning
 
@@ -103,6 +105,8 @@ whole wiki.
   Phase 2 task list *(done)*
 - [`nora-phase4-plan.md`](./nora-phase4-plan.md) —
   Phase 4 task list *(done — 2026-07-10)*
+- [`nora-phase5-plan.md`](./nora-phase5-plan.md) —
+  Phase 5 task list *(in progress — Task 5.1 done 2026-07-11)*
 
 ## Backlog (sources not yet ingested / pages not yet written)
 

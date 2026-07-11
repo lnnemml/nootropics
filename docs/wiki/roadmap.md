@@ -101,15 +101,18 @@ Key decisions:
 - Post-delivery follow-up cron deferred (no Vercel Pro, no community destination)
 - ADRs 0014–0016
 
-## Phase 5 — Referral & affiliate system
+## Phase 5 — Referral & affiliate system *(in progress — Task 5.1 done 2026-07-11)*
 
 *(was Phase 4 in older roadmap — pushed back, fulfillment prioritized)*
 
-- `referral_codes`, `discount_ledger`, `customer_tiers` tables
-- Referral link generation + redemption flow
-- Cumulative discount / loyalty mechanics
-- Resolve open questions flagged in
-  [`architecture/data-model.md`](./architecture/data-model.md)
+Key decisions: symmetrical 10%/10% referral model; `discount_ledger` for
+reward lifecycle; no loyalty tiers at launch. ADR 0017.
+
+- **Task 5.1** *(done)* — `referral_codes`, `referrals`, `discount_ledger` schema + three new order columns; `db:push` clean
+- **Task 5.2** — Referral code generation (lazy, on /account first load); display in account dashboard
+- **Task 5.3** — Checkout redemption: validate code at submission, apply `referral_discount_pct`, record `referral_code_used`
+- **Task 5.4** — Referrer reward creation on `paid` status: create `discount_ledger` entry + `referrals.referrer_reward_id`
+- **Task 5.5** — Account dashboard: referral stats card (code, share link, reward balance)
 
 ## Phase 6 — Growth & optimization
 

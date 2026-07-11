@@ -1,4 +1,4 @@
-import { pgTable, text, integer, timestamp, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, text, integer, timestamp, pgEnum, boolean } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id:            text("id").primaryKey(),         // nanoid
@@ -96,7 +96,46 @@ export const orders = pgTable("orders", {
   trackingCarrier:  text("tracking_carrier"),
   shippedAt:        timestamp("shipped_at"),
   followUpSentAt:   timestamp("follow_up_sent_at"),  // reserved for future cron
+
+  // referral — populated at checkout when a referral code or reward is applied
+  referralCodeUsed:    text("referral_code_used"),    // snapshot of code string at purchase
+  referralDiscountPct: integer("referral_discount_pct"), // 10 when referral applied
+  discountLedgerId:    text("discount_ledger_id"),    // FK → discountLedger.id if reward used
 });
 
 export type Order = typeof orders.$inferSelect;
 export type NewOrder = typeof orders.$inferInsert;
+
+export const referralCodes = pgTable("referral_codes", {
+  id:        text("id").primaryKey(),                                          // nanoid
+  userId:    text("user_id").references(() => users.id).notNull().unique(),
+  code:      text("code").notNull().unique(),                                  // "NORA-K7BM2P"
+  active:    boolean("active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type ReferralCode = typeof referralCodes.$inferSelect;
+
+export const discountLedger = pgTable("discount_ledger", {
+  id:              text("id").primaryKey(),                                    // nanoid
+  userId:          text("user_id").references(() => users.id).notNull(),
+  source:          text("source").notNull(),                                   // "referral_reward" | "promo"
+  discountPct:     integer("discount_pct").notNull(),                          // 10 = 10%
+  status:          text("status").default("available").notNull(),              // "available" | "redeemed" | "expired"
+  redeemedOrderId: text("redeemed_order_id"),                                  // set on use
+  expiresAt:       timestamp("expires_at"),                                    // null = never expires
+  createdAt:       timestamp("created_at").defaultNow().notNull(),
+});
+
+export type DiscountLedgerEntry = typeof discountLedger.$inferSelect;
+
+export const referrals = pgTable("referrals", {
+  id:               text("id").primaryKey(),                                   // nanoid
+  referralCodeId:   text("referral_code_id").references(() => referralCodes.id).notNull(),
+  referredOrderId:  text("referred_order_id").references(() => orders.id).notNull(),
+  referredEmail:    text("referred_email").notNull(),
+  referrerRewardId: text("referrer_reward_id"),                                // FK → discountLedger.id, set when reward created
+  createdAt:        timestamp("created_at").defaultNow().notNull(),
+});
+
+export type Referral = typeof referrals.$inferSelect;
