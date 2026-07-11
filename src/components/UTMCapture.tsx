@@ -18,6 +18,11 @@ export default function UTMCapture() {
     if (Object.values(utm).some(Boolean)) {
       sessionStorage.setItem("nora_utm", JSON.stringify(utm));
     }
+
+    const ref = searchParams.get("ref");
+    if (ref) {
+      sessionStorage.setItem("nora_referral_code", ref);
+    }
   }, [searchParams]);
 
   return null;

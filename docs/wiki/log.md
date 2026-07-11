@@ -1125,3 +1125,10 @@ Schema additions only — no UI or logic.
 - `scripts/backfill-referral-codes.ts` — one-time script to generate codes for existing users; run with `npx tsx --env-file=.env.local scripts/backfill-referral-codes.ts`.
 - Removed `src/lib/referrals/.gitkeep` (placeholder from Phase 0 scaffold).
 - TypeScript: clean (no errors).
+
+## [2026-07-11] decision | Phase 5 Task 5.3 — Capture ?ref= param to sessionStorage
+
+Extended `UTMCapture.tsx` to also read `?ref=` from the URL and store it in
+`sessionStorage` as `nora_referral_code`. Three lines added to the existing
+`useEffect` — same pattern as UTM capture. No validation on capture; validation
+happens at checkout (Task 5.4). No new files or components.
