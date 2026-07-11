@@ -1117,3 +1117,11 @@ Schema additions only — no UI or logic.
 **Import:** added `boolean` to `drizzle-orm/pg-core` imports.
 
 `drizzle-kit push` run clean against Neon. ADR 0017 recorded (symmetrical 10%/10% model, no customer_tiers at launch). Data model wiki updated. Roadmap updated.
+
+## [2026-07-11] decision | Phase 5 Task 5.2 — Referral code generation on registration
+
+- `src/lib/referral.ts` — `generateReferralCode()` produces "NORA-XXXXXX" codes from a 32-char alphabet (I/O/0/1 excluded to avoid visual ambiguity).
+- `registerCustomer` (customerAuth.ts) — after user insert, generates a code with up to 5 collision retries and inserts into `referral_codes`. One code per user, created at registration time.
+- `scripts/backfill-referral-codes.ts` — one-time script to generate codes for existing users; run with `npx tsx --env-file=.env.local scripts/backfill-referral-codes.ts`.
+- Removed `src/lib/referrals/.gitkeep` (placeholder from Phase 0 scaffold).
+- TypeScript: clean (no errors).

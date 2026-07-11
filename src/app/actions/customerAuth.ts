@@ -6,8 +6,9 @@ import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 import { Resend } from "resend";
 import { db } from "@/lib/db";
-import { users, verificationTokens, orders } from "@/lib/db/schema";
+import { users, verificationTokens, orders, referralCodes } from "@/lib/db/schema";
 import { eq, and, isNull } from "drizzle-orm";
+import { generateReferralCode } from "@/lib/referral";
 import { customerSignIn } from "@/lib/customer-auth";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -125,6 +126,17 @@ export async function registerCustomer(formData: FormData) {
   const passwordHash = await bcrypt.hash(password, 12);
   const newUserId = nanoid();
   await db.insert(users).values({ id: newUserId, email, name, passwordHash });
+
+  // Generate referral code for new user (collision retry — 30^6 space makes this extremely rare)
+  let code = generateReferralCode();
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const exists = await db.query.referralCodes.findFirst({
+      where: eq(referralCodes.code, code),
+    });
+    if (!exists) break;
+    code = generateReferralCode();
+  }
+  await db.insert(referralCodes).values({ id: nanoid(), userId: newUserId, code });
 
   // Retroactively link guest orders placed with this email
   await db.update(orders)
