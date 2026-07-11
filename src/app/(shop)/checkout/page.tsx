@@ -272,6 +272,8 @@ function TextArea({ label, id, ...props }: TextAreaProps) {
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
+type AvailableReward = { id: string; discountPct: number };
+
 interface FormFields {
   name: string;
   email: string;
@@ -371,6 +373,8 @@ interface OrderSummaryProps {
   referralDiscount: number;
   referralCode: string;
   referralValid: boolean | null;
+  rewardDiscount: number;
+  availableReward: AvailableReward | null;
   total: number;
   promoCode: string;
   setPromoCode: (v: string) => void;
@@ -386,6 +390,8 @@ function OrderSummary({
   referralDiscount,
   referralCode,
   referralValid,
+  rewardDiscount,
+  availableReward,
   total,
   promoCode,
   setPromoCode,
@@ -517,6 +523,17 @@ function OrderSummary({
           </div>
         )}
 
+        {availableReward !== null && referralValid !== true && (
+          <div className="flex justify-between items-baseline">
+            <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-accent">
+              Referral reward (10%)
+            </span>
+            <span className="font-sans text-[14px] text-accent">
+              –${rewardDiscount}
+            </span>
+          </div>
+        )}
+
         <div className="flex justify-between items-baseline">
           <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-secondary">
             Shipping
@@ -592,6 +609,16 @@ function CheckoutInner() {
   const [promoCode, setPromoCode] = useState("");
   const [referralCode, setReferralCode] = useState("");
   const [referralValid, setReferralValid] = useState<boolean | null>(null);
+  const [availableReward, setAvailableReward] = useState<AvailableReward | null>(null);
+
+  useEffect(() => {
+    fetch("/api/referral/rewards")
+      .then((res) => res.json())
+      .then((data: { rewards: AvailableReward[] }) => {
+        if (data.rewards.length > 0) setAvailableReward(data.rewards[0]);
+      })
+      .catch(() => {});
+  }, []);
 
   const PRICES: Record<1 | 2 | 3, number> = { 1: 120, 2: 220, 3: 300 };
   const BUNDLE_SAVINGS: Record<1 | 2 | 3, number> = { 1: 0, 2: 20, 3: 60 };
@@ -601,7 +628,9 @@ function CheckoutInner() {
   const cryptoDiscount =
     paymentMethod === "crypto" ? Math.round(basePrice * 0.1) : 0;
   const referralDiscount = referralValid === true ? Math.round(basePrice * 0.1) : 0;
-  const total = basePrice - cryptoDiscount - referralDiscount;
+  // Reward is mutually exclusive with referral discount (max 20% total per task spec)
+  const rewardDiscount = (availableReward !== null && referralValid !== true) ? Math.round(basePrice * 0.1) : 0;
+  const total = basePrice - cryptoDiscount - referralDiscount - rewardDiscount;
 
   const callingCode = form.country ? getCallingCode(form.country) : null;
 
@@ -747,6 +776,8 @@ function CheckoutInner() {
               referralDiscount={referralDiscount}
               referralCode={referralCode}
               referralValid={referralValid}
+              rewardDiscount={rewardDiscount}
+              availableReward={availableReward}
               total={total}
               promoCode={promoCode}
               setPromoCode={(v) => setPromoCode(v)}
@@ -770,6 +801,7 @@ function CheckoutInner() {
               <input type="hidden" name="utmContent"  value={utm.utm_content  ?? ""} />
               <input type="hidden" name="utmTerm"     value={utm.utm_term     ?? ""} />
               <input type="hidden" name="referralCode" value={referralValid === true ? referralCode : ""} />
+              <input type="hidden" name="rewardId" value={availableReward && referralValid !== true ? availableReward.id : ""} />
 
               {/* Contact */}
               <div className="border-t border-border pt-6 pb-7 flex flex-col gap-4">

@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { orders, referralCodes } from "@/lib/db/schema";
+import { orders, referralCodes, discountLedger } from "@/lib/db/schema";
 import { sendOrderEmails } from "@/lib/email/send";
 import { generateOrderNumber, deriveTrafficType } from "@/lib/order-number";
 import { createInvoice } from "@/lib/nowpayments";
@@ -39,6 +39,7 @@ export async function submitOrder(formData: FormData): Promise<void> {
     utmContent:    formData.get("utmContent")  as string | null,
     utmTerm:       formData.get("utmTerm")     as string | null,
     referralCode:  (formData.get("referralCode") as string | null)?.trim().toUpperCase() || null,
+    rewardId:      formData.get("rewardId") as string | null,
   };
 
   // Validate required fields (HTML required handles client-side; this is server-side guard)
@@ -76,13 +77,38 @@ export async function submitOrder(formData: FormData): Promise<void> {
     }
   }
 
+  // Reward validation — only for signed-in users, only if no referral discount (mutual exclusivity)
+  let discountLedgerId: string | null = null;
+  let rewardDiscountPct: number | null = null;
+  if (raw.rewardId && userId && !referralCodeUsed) {
+    const entry = await db.query.discountLedger.findFirst({
+      where: and(
+        eq(discountLedger.id, raw.rewardId),
+        eq(discountLedger.userId, userId),
+        eq(discountLedger.status, "available")
+      ),
+    });
+    if (entry) {
+      discountLedgerId = entry.id;
+      rewardDiscountPct = entry.discountPct;
+    }
+  }
+
   const cryptoDiscount = isCrypto ? Math.round(pricing.total * CRYPTO_DISCOUNT_PCT / 100) : 0;
   const referralDiscount = referralDiscountPct ? Math.round(pricing.total * referralDiscountPct / 100) : 0;
-  const totalPrice = pricing.total - cryptoDiscount - referralDiscount;
+  const rewardDiscount = rewardDiscountPct ? Math.round(pricing.total * rewardDiscountPct / 100) : 0;
+  const totalPrice = pricing.total - cryptoDiscount - referralDiscount - rewardDiscount;
 
   const id = nanoid();
   const orderNumber = generateOrderNumber();
   const trafficType = deriveTrafficType(raw.utmSource, raw.utmMedium);
+
+  // Mark reward redeemed before order insert — prevents double-use if redirect fires early
+  if (discountLedgerId) {
+    await db.update(discountLedger)
+      .set({ status: "redeemed", redeemedOrderId: id })
+      .where(eq(discountLedger.id, discountLedgerId));
+  }
 
   await db.insert(orders).values({
     id,
@@ -105,6 +131,7 @@ export async function submitOrder(formData: FormData): Promise<void> {
     note:                raw.note || null,
     referralCodeUsed,
     referralDiscountPct,
+    discountLedgerId,
     orderNumber,
     utmSource:        raw.utmSource   || null,
     utmMedium:        raw.utmMedium   || null,
@@ -134,6 +161,7 @@ export async function submitOrder(formData: FormData): Promise<void> {
     note: raw.note || null,
     referralCodeUsed,
     referralDiscountPct,
+    discountLedgerId,
     nowpaymentsInvoiceId: null,
     nowpaymentsPaymentUrl: null,
     confirmationEmailSentAt: null,

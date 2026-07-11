@@ -1147,3 +1147,11 @@ happens at checkout (Task 5.4). No new files or components.
 - `nowpayments/route.ts` — `createReferrerReward` added to `Promise.allSettled` alongside the confirmation emails. Failures are swallowed and don't block webhook response.
 - Referrer notification email deferred (outside Phase 5 scope).
 - TypeScript: clean.
+
+## [2026-07-11] decision | Phase 5 Task 5.6 — Auto-apply referrer reward at checkout
+
+- `src/app/api/referral/rewards/route.ts` — `GET /api/referral/rewards` returns available `discount_ledger` entries for the logged-in customer (empty list for guests).
+- `checkout/page.tsx` — fetches rewards on mount (separate `useEffect`); stores first available reward as `availableReward` state; shows "Referral reward (10%)" line in `OrderSummary` when applicable; hidden input `rewardId` sent only when reward is active and no referral discount applies (mutual exclusivity). `rewardDiscount = 10% of basePrice`, drops to 0 when `referralValid === true`. Total stays stable during email-blur referral validation.
+- `submitOrder.ts` — reads `rewardId`; server-validates against DB (ownership + status="available"); marks ledger "redeemed" with `redeemedOrderId` BEFORE order insert; applies `rewardDiscount = discountPct% of pricing.total`; saves `discountLedgerId` on order row.
+- Stacking: crypto + (referral XOR reward) = max 20%. Referral takes precedence if both present.
+- TypeScript: clean.
