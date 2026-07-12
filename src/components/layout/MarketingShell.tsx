@@ -9,10 +9,11 @@ import UTMCapture from "@/components/UTMCapture";
 export function MarketingShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
+  const isStandalone = isAdmin || pathname.startsWith("/go");
 
   return (
     <>
-      {!isAdmin && (
+      {!isStandalone && (
         <>
           <Suspense fallback={null}>
             <UTMCapture />
@@ -21,7 +22,7 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
         </>
       )}
       <main className="flex-1">{children}</main>
-      {!isAdmin && <Footer />}
+      {!isStandalone && <Footer />}
     </>
   );
 }
