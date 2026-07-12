@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { MarketingShell } from "@/components/layout/MarketingShell";
 import { CustomerSessionProvider } from "@/components/auth/CustomerSessionProvider";
+import { GoogleTagManagerScript, GoogleTagManagerNoscript } from "@/components/analytics/GoogleTagManager";
+import { ClarityScript } from "@/components/analytics/ClarityScript";
+import { MetaPixel } from "@/components/analytics/MetaPixel";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -33,6 +38,7 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-page text-primary">
+        <GoogleTagManagerNoscript />
         {/* Runs synchronously before body renders — prevents dark-mode flash */}
         <script
           dangerouslySetInnerHTML={{
@@ -42,6 +48,11 @@ export default function RootLayout({
         <CustomerSessionProvider>
           <MarketingShell>{children}</MarketingShell>
         </CustomerSessionProvider>
+        <GoogleTagManagerScript />
+        <ClarityScript />
+        <MetaPixel />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

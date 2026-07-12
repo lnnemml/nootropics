@@ -6,8 +6,10 @@ import { sendOrderEmails } from "@/lib/email/send";
 import { generateOrderNumber, deriveTrafficType } from "@/lib/order-number";
 import { createInvoice } from "@/lib/nowpayments";
 import { customerAuth } from "@/lib/customer-auth";
+import { trackServerEvent } from "@/lib/analytics/server";
 import { and, eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
@@ -40,6 +42,7 @@ export async function submitOrder(formData: FormData): Promise<void> {
     utmTerm:       formData.get("utmTerm")     as string | null,
     referralCode:  (formData.get("referralCode") as string | null)?.trim().toUpperCase() || null,
     rewardId:      formData.get("rewardId") as string | null,
+    eventId:       formData.get("eventId") as string | null,
   };
 
   // Validate required fields (HTML required handles client-side; this is server-side guard)
@@ -132,6 +135,18 @@ export async function submitOrder(formData: FormData): Promise<void> {
     utmContent:       raw.utmContent  || null,
     utmTerm:          raw.utmTerm     || null,
     trafficType,
+  });
+
+  const h = await headers();
+  await trackServerEvent({
+    eventName: "Purchase",
+    eventId: raw.eventId ?? undefined,
+    email: raw.email,
+    value: totalPrice / 100,
+    currency: "USD",
+    userAgent: h.get("user-agent") ?? undefined,
+    sourceUrl: h.get("referer") ?? undefined,
+    ip: h.get("x-forwarded-for")?.split(",")[0]?.trim() ?? undefined,
   });
 
   // Mark reward as redeemed AFTER order is persisted — if insert failed, reward stays available

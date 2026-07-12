@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { submitOrder } from "@/app/actions/submitOrder";
+import { generateEventId, trackEvent } from "@/lib/analytics/client";
 import { isValidPhoneNumber, getCountryCallingCode } from "libphonenumber-js";
 import type { CountryCode } from "libphonenumber-js";
 import { useGooglePlaces } from "@/hooks/useGooglePlaces";
@@ -580,6 +581,8 @@ function CheckoutInner() {
   const initialQty: 1 | 2 | 3 =
     ([1, 2, 3] as const).find((n) => String(n) === qtyParam) ?? 1;
 
+  const [eventId] = useState(() => generateEventId());
+
   const [form, setForm] = useState<FormFields>({
     name: "",
     email: "",
@@ -798,7 +801,11 @@ function CheckoutInner() {
             <form
               action={submitOrder}
               onSubmit={(e) => {
-                if (!runValidation()) e.preventDefault();
+                if (!runValidation()) {
+                  e.preventDefault();
+                  return;
+                }
+                trackEvent("order_placed", { value: total, currency: "USD" }, eventId);
               }}
               className="flex flex-col"
             >
@@ -811,6 +818,7 @@ function CheckoutInner() {
               <input type="hidden" name="utmTerm"     value={utm.utm_term     ?? ""} />
               <input type="hidden" name="referralCode" value={referralValid === true ? referralCode : ""} />
               <input type="hidden" name="rewardId" value={availableReward && referralValid !== true ? availableReward.id : ""} />
+              <input type="hidden" name="eventId" value={eventId} />
 
               {/* Contact */}
               <div className="border-t border-border pt-6 pb-7 flex flex-col gap-4">

@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { orders } from "@/lib/db/schema";
 import { sendPaymentConfirmedEmail, sendPaymentConfirmedOpsAlert } from "@/lib/email/send";
 import { createReferrerReward } from "@/lib/referral-reward";
+import { trackServerEvent } from "@/lib/analytics/server";
 import { eq } from "drizzle-orm";
 
 function sortObjectRecursive(obj: Record<string, unknown>): Record<string, unknown> {
@@ -69,6 +70,14 @@ export async function POST(req: Request): Promise<Response> {
     createReferrerReward(order.id),
     sendPaymentConfirmedEmail({ ...order, status: "paid" }),
     sendPaymentConfirmedOpsAlert({ ...order, status: "paid" }),
+    trackServerEvent({
+      eventName: "Purchase",
+      email: order.email,
+      value: order.totalPrice / 100,
+      currency: "USD",
+      userAgent: req.headers.get("user-agent") ?? undefined,
+      ip: req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? undefined,
+    }),
   ]);
 
   return new Response("OK");
