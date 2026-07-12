@@ -1168,4 +1168,14 @@ All seven tasks shipped in one session:
 **5.6** Reward auto-apply — `/api/referral/rewards` route; auto-applied at checkout; ledger marked "redeemed" before insert; mutual exclusivity with referral discount enforced client + server.
 **5.7** Dashboard — `/account/referrals`: code + share link with copy buttons, how-it-works steps, available rewards, referral history table (masked emails, order/reward status). `CopyButton` client component. Referral card added to `/account`.
 
+## [2026-07-12] lint | Phase 5 post-audit hotfix
+
+Five issues found and fixed in one session:
+
+1. **Dynamic reward %** (`checkout/page.tsx`) — `rewardDiscount` was hardcoded to `10%`; now uses `availableReward.discountPct / 100`. Reward label in `OrderSummary` updated to `{availableReward?.discountPct ?? 10}%`.
+2. **Race condition on direct `?ref=` nav** (`checkout/page.tsx`) — added URL fallback in mount `useEffect`: if `sessionStorage["nora_referral_code"]` is empty (UTMCapture parent effect hasn't run yet), reads `ref` directly from `searchParams`.
+3. **Collision retry exhaustion** (`customerAuth.ts`) — `db.insert(referralCodes)` moved inside the retry loop; a `codeInserted` flag guards the error log path. Previously the last colliding code was inserted unconditionally, causing a unique constraint violation.
+4. **Email discount breakdown** (`templates.ts`) — `orderConfirmationCustomer` now conditionally renders a "Referral discount" row and a "Reward applied" row before Total. `orderAlertOps` gets "Referral code" and "Reward used" rows after the promo code row.
+5. **Atomicity gap** (`submitOrder.ts`) — reward ledger is now marked `redeemed` AFTER `db.insert(orders)` succeeds, preventing reward loss on order-insert failure.
+
 Phase 5 marked complete in roadmap. CLAUDE.md updated to Phase 6.

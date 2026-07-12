@@ -32,6 +32,16 @@ export function orderConfirmationCustomer(order: NewOrder): string {
       <td style="padding: 10px 0; color: #666;">Payment method</td>
       <td style="padding: 10px 0; text-align: right;">${isCrypto ? "Crypto (10% discount applied)" : "Manual arrangement"}</td>
     </tr>
+    ${order.referralDiscountPct ? `
+    <tr style="border-bottom: 1px solid #e5e5e0;">
+      <td style="padding: 10px 0; color: #666;">Referral discount</td>
+      <td style="padding: 10px 0; text-align: right; color: #1E9C78;">${order.referralDiscountPct}% off${order.referralCodeUsed ? ` (${order.referralCodeUsed})` : ""}</td>
+    </tr>` : ""}
+    ${order.discountLedgerId ? `
+    <tr style="border-bottom: 1px solid #e5e5e0;">
+      <td style="padding: 10px 0; color: #666;">Reward applied</td>
+      <td style="padding: 10px 0; text-align: right; color: #1E9C78;">10% off</td>
+    </tr>` : ""}
     <tr>
       <td style="padding: 10px 0; font-weight: 600;">Total</td>
       <td style="padding: 10px 0; text-align: right; font-weight: 600; color: #1E9C78;">${formatPrice(order.totalPrice)}</td>
@@ -166,6 +176,8 @@ export function orderAlertOps(order: NewOrder): string {
     <tr><td style="padding: 6px 0; color: #666;">Payment</td><td>${order.paymentMethod}${order.cryptoDiscountPct ? ` (${order.cryptoDiscountPct}% discount)` : ""}</td></tr>
     <tr><td style="padding: 6px 0; color: #666;">Total</td><td style="font-weight: bold;">${formatPrice(order.totalPrice)}</td></tr>
     ${order.promoCode ? `<tr><td style="padding: 6px 0; color: #666;">Promo code</td><td>${order.promoCode}</td></tr>` : ""}
+    ${order.referralCodeUsed ? `<tr><td style="padding: 6px 0; color: #666;">Referral code</td><td style="color: #1E9C78;">${order.referralCodeUsed} (${order.referralDiscountPct}% off)</td></tr>` : ""}
+    ${order.discountLedgerId ? `<tr><td style="padding: 6px 0; color: #666;">Reward used</td><td style="color: #1E9C78;">${order.discountLedgerId}</td></tr>` : ""}
     ${order.note ? `<tr><td style="padding: 6px 0; color: #666;">Note</td><td>${order.note}</td></tr>` : ""}
     ${trafficBlock}
   </table>

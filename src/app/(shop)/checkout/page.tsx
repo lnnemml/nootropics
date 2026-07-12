@@ -526,7 +526,7 @@ function OrderSummary({
         {availableReward !== null && referralValid !== true && (
           <div className="flex justify-between items-baseline">
             <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-accent">
-              Referral reward (10%)
+              Referral reward ({availableReward?.discountPct ?? 10}%)
             </span>
             <span className="font-sans text-[14px] text-accent">
               –${rewardDiscount}
@@ -603,7 +603,14 @@ function CheckoutInner() {
     } catch {}
     try {
       const storedRef = sessionStorage.getItem("nora_referral_code");
-      if (storedRef) setReferralCode(storedRef);
+      if (storedRef) {
+        setReferralCode(storedRef);
+      } else {
+        // Fallback: read directly from URL in case UTMCapture hasn't
+        // written to sessionStorage yet (parent effects run after children)
+        const urlRef = searchParams.get("ref");
+        if (urlRef) setReferralCode(urlRef);
+      }
     } catch {}
   }, []);
   const [promoCode, setPromoCode] = useState("");
@@ -629,7 +636,9 @@ function CheckoutInner() {
     paymentMethod === "crypto" ? Math.round(basePrice * 0.1) : 0;
   const referralDiscount = referralValid === true ? Math.round(basePrice * 0.1) : 0;
   // Reward is mutually exclusive with referral discount (max 20% total per task spec)
-  const rewardDiscount = (availableReward !== null && referralValid !== true) ? Math.round(basePrice * 0.1) : 0;
+  const rewardDiscount = (availableReward !== null && referralValid !== true)
+    ? Math.round(basePrice * availableReward.discountPct / 100)
+    : 0;
   const total = basePrice - cryptoDiscount - referralDiscount - rewardDiscount;
 
   const callingCode = form.country ? getCallingCode(form.country) : null;

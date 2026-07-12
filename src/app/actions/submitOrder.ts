@@ -103,13 +103,6 @@ export async function submitOrder(formData: FormData): Promise<void> {
   const orderNumber = generateOrderNumber();
   const trafficType = deriveTrafficType(raw.utmSource, raw.utmMedium);
 
-  // Mark reward redeemed before order insert — prevents double-use if redirect fires early
-  if (discountLedgerId) {
-    await db.update(discountLedger)
-      .set({ status: "redeemed", redeemedOrderId: id })
-      .where(eq(discountLedger.id, discountLedgerId));
-  }
-
   await db.insert(orders).values({
     id,
     userId,
@@ -140,6 +133,13 @@ export async function submitOrder(formData: FormData): Promise<void> {
     utmTerm:          raw.utmTerm     || null,
     trafficType,
   });
+
+  // Mark reward as redeemed AFTER order is persisted — if insert failed, reward stays available
+  if (discountLedgerId) {
+    await db.update(discountLedger)
+      .set({ status: "redeemed", redeemedOrderId: id })
+      .where(eq(discountLedger.id, discountLedgerId));
+  }
 
   await sendOrderEmails({
     id,

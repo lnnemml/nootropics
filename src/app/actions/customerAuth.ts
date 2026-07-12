@@ -129,14 +129,23 @@ export async function registerCustomer(formData: FormData) {
 
   // Generate referral code for new user (collision retry — 30^6 space makes this extremely rare)
   let code = generateReferralCode();
+  let codeInserted = false;
   for (let attempt = 0; attempt < 5; attempt++) {
     const exists = await db.query.referralCodes.findFirst({
       where: eq(referralCodes.code, code),
     });
-    if (!exists) break;
+    if (!exists) {
+      await db.insert(referralCodes).values({ id: nanoid(), userId: newUserId, code });
+      codeInserted = true;
+      break;
+    }
     code = generateReferralCode();
   }
-  await db.insert(referralCodes).values({ id: nanoid(), userId: newUserId, code });
+  if (!codeInserted) {
+    // Extremely unlikely (5 collisions in 729M space) — log and continue
+    // User can still register; code can be generated later via backfill
+    console.error(`Failed to generate unique referral code for user ${newUserId} after 5 attempts`);
+  }
 
   // Retroactively link guest orders placed with this email
   await db.update(orders)
