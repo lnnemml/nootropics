@@ -1,46 +1,31 @@
 import { LpSection } from "../_components/LpSection";
 import { CtaButton } from "../_components/CtaButton";
-
-const BADGES = [
-  "Free worldwide shipping",
-  "NMR-verified purity",
-  "Legal in US · CA · EU",
-];
+import { ImagePlaceholder } from "../_components/ImagePlaceholder";
 
 export function S01Hero() {
   return (
-    <LpSection id="hero" variant="dark" className="pt-20 md:pt-28">
-      <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
-        <div className="flex flex-wrap justify-center gap-3 mb-10">
-          {BADGES.map((badge) => (
-            <span
-              key={badge}
-              className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/60 border border-white/20 px-3 py-1.5 rounded-[2px]"
-            >
-              {badge}
-            </span>
-          ))}
+    <LpSection id="hero" variant="dark" padding="pt-12 pb-16 md:pt-16 md:pb-24">
+      <div className="grid md:grid-cols-[60fr_40fr] gap-10 md:gap-14 items-center">
+        <div>
+          <p className="font-mono text-sm uppercase tracking-wider text-[#1e9c78] mb-5">
+            Dopamine support backed by 30+ years of research
+          </p>
+          <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.05] mb-6">
+            Stop Running on Empty and Feel Mentally Clear All Day in Under a Week Using the
+            Dopamine Synthesizer Trusted by 30+ Years of Clinical Use{" "}
+            <span className="text-white/50">(Zero Caffeine)</span>
+          </h1>
+          <p className="font-sans text-lg md:text-xl text-white/80 leading-relaxed mb-8 max-w-2xl">
+            {"Tired of caffeine crashes and afternoon brain fog? NeuroDrive is the only sublingual bromantane formula that restores your brain's dopamine production instead of depleting it, giving you calm, sustained focus and motivation within your first week."}
+          </p>
+          <CtaButton trackingLocation="hero" href="/checkout?qty=1" />
+          <p className="mt-5 font-mono text-xs text-white/60 uppercase tracking-wider">
+            80mg/ml · Pharmaceutical-Grade MCT Oil · Sublingual Drops · ~30 Day Supply
+          </p>
         </div>
-
-        <h1 className="font-sans text-5xl md:text-7xl font-bold text-white leading-[1.05] mb-6">
-          Feel Focused.{" "}
-          <span className="text-[#1e9c78]">Clear.</span>{" "}
-          Unshakably Driven.
-        </h1>
-
-        <p className="font-sans text-lg md:text-xl text-white/70 leading-relaxed mb-10 max-w-xl">
-          {"A dopamine stabilizer — not a stimulant. NeuroDrive restores your edge without the crash."}
-        </p>
-
-        <CtaButton
-          href="/checkout?qty=1"
-          trackingLocation="hero"
-          className="w-full sm:w-auto text-base px-10 py-4"
-        />
-
-        <p className="mt-6 font-mono text-[11px] text-white/40 uppercase tracking-[0.12em]">
-          {"80mg/ml · Pharmaceutical-grade · Sublingual drops · ~30 day supply"}
-        </p>
+        <div>
+          <ImagePlaceholder aspectRatio="3/4" label="Product Hero Shot" />
+        </div>
       </div>
     </LpSection>
   );

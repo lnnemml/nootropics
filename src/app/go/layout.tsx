@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "NeuroDrive — Dopamine Stabilizer for Deep Focus | NORA",
+  title: "NeuroDrive — Feel Mentally Clear All Day | NORA",
   description:
-    "Sublingual bromantane drops that restore motivation and clarity without stimulants. 80mg/ml, pharmaceutical-grade, NMR-verified purity.",
+    "Sublingual bromantane drops that restore focus and motivation through dopamine synthesis. Not a stimulant. 80mg/ml, NMR-verified purity. Free worldwide shipping.",
   alternates: {
     canonical: "https://www.noraalliance.com/go",
   },
   openGraph: {
-    title: "NeuroDrive — Dopamine Stabilizer for Deep Focus | NORA",
+    title: "NeuroDrive — Feel Mentally Clear All Day | NORA",
     description:
-      "Sublingual bromantane drops that restore motivation and clarity without stimulants. 80mg/ml, pharmaceutical-grade, NMR-verified purity.",
+      "Sublingual bromantane drops that restore focus and motivation through dopamine synthesis. Not a stimulant. 80mg/ml, NMR-verified purity. Free worldwide shipping.",
     url: "https://www.noraalliance.com/go",
     siteName: "NORA Alliance",
     type: "website",
