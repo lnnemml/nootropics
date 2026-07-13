@@ -1,6 +1,6 @@
 import { LpSection } from "../_components/LpSection";
 import { CtaButton } from "../_components/CtaButton";
-import { ImagePlaceholder } from "../_components/ImagePlaceholder";
+import { HeroCarousel } from "../_components/HeroCarousel";
 
 export function S01Hero() {
   return (
@@ -24,7 +24,7 @@ export function S01Hero() {
           </p>
         </div>
         <div>
-          <ImagePlaceholder aspectRatio="3/4" label="Product Hero Shot" />
+          <HeroCarousel />
         </div>
       </div>
     </LpSection>
