@@ -10,22 +10,24 @@ const QUOTES = [
 export function S13SocialProof4() {
   return (
     <LpSection variant="light">
-      <div className="grid md:grid-cols-3 gap-4 mb-10">
+      <div className="space-y-4 mb-10">
         {QUOTES.map((quote) => (
           <div
             key={quote}
-            className="bg-[#2b3235] rounded-[2px] px-6 py-5 flex items-start gap-4"
+            className="bg-[#2b3235] rounded-[2px] px-8 py-6 md:px-10 md:py-7 flex items-start gap-5"
           >
             <span
               className="leading-[0.8] text-[#1e9c78] flex-shrink-0 mt-1 opacity-85"
-              style={{ fontFamily: "Georgia, serif", fontSize: "48px" }}
+              style={{ fontFamily: "Georgia, serif", fontSize: "56px" }}
               aria-hidden="true"
             >
               &ldquo;
             </span>
             <div>
-              <p className="font-sans text-sm text-white leading-relaxed mb-3">{quote}</p>
-              <p className="font-mono text-[10px] text-[#6b8480] tracking-wide">
+              <p className="font-sans text-base md:text-lg text-white leading-relaxed mb-3">
+                {quote}
+              </p>
+              <p className="font-mono text-[11px] text-[#6b8480] tracking-wide">
                 — Bromantane community
               </p>
             </div>

@@ -52,7 +52,7 @@ export function HeroCarousel() {
   return (
     <div
       className="relative w-full overflow-hidden rounded-[2px] bg-[#4b5563]"
-      style={{ aspectRatio: "3/4" }}
+      style={{ aspectRatio: "4/5" }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >

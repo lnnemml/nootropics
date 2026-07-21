@@ -23,22 +23,22 @@ export function S09SocialProof3() {
         From the Bromantane Community
       </h2>
 
-      <div className="grid md:grid-cols-3 gap-4 mb-10">
+      <div className="space-y-4 mb-10">
         {QUOTES.map(({ text, attr }) => (
-          <div key={text} className="bg-[#2b3235] rounded-[2px] px-9 pt-8 pb-7 relative">
+          <div key={text} className="bg-[#2b3235] rounded-[2px] px-8 py-7 md:px-10 md:py-8 relative">
             <span
-              className="leading-none text-[#1e9c78] absolute top-2.5 left-6 opacity-85"
+              className="leading-none text-[#1e9c78] absolute top-2.5 left-6 md:left-8 opacity-85"
               style={{ fontFamily: "Georgia, serif", fontSize: "80px" }}
               aria-hidden="true"
             >
               &ldquo;
             </span>
-            <p className="font-sans text-base text-white leading-[1.7] pt-7 relative z-10 mb-5">
+            <p className="font-sans text-lg md:text-xl text-white leading-[1.7] pt-8 relative z-10 mb-5">
               {text}
             </p>
             <div className="flex items-center gap-3">
               <div className="w-8 h-px bg-[#1e9c78]" />
-              <p className="font-mono text-[11px] text-[#6b8480] tracking-wide">{attr}</p>
+              <p className="font-mono text-xs text-[#6b8480] tracking-wide">{attr}</p>
             </div>
           </div>
         ))}

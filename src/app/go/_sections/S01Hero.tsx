@@ -5,12 +5,12 @@ import { HeroCarousel } from "../_components/HeroCarousel";
 export function S01Hero() {
   return (
     <LpSection id="hero" variant="dark" padding="pt-12 pb-16 md:pt-16 md:pb-24">
-      <div className="grid md:grid-cols-[60fr_40fr] gap-10 md:gap-14 items-center">
+      <div className="grid md:grid-cols-[55fr_45fr] gap-8 md:gap-12 items-center">
         <div>
           <p className="font-mono text-sm uppercase tracking-wider text-[#1e9c78] mb-5">
             Dopamine support backed by 30+ years of research
           </p>
-          <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.05] mb-6">
+          <h1 className="font-sans text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-[1.08] mb-6">
             Stop Running on Empty and Feel Mentally Clear All Day in Under a Week Using the
             Dopamine Synthesizer Trusted by 30+ Years of Clinical Use{" "}
             <span className="text-white/50">(Zero Caffeine)</span>
