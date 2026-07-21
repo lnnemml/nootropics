@@ -29,11 +29,23 @@ export function S04UgcProof() {
 
       <div className="grid md:grid-cols-3 gap-4 mb-10">
         {QUOTES.map((quote) => (
-          <div key={quote} className="bg-white/5 border border-white/10 rounded-[2px] p-5">
-            <p className="font-sans text-sm text-white/80 leading-relaxed italic">
-              {`"${quote}"`}
+          <div
+            key={quote}
+            className="bg-white/[0.03] border border-white/[0.06] rounded-[2px] p-7 relative"
+          >
+            <span
+              className="text-7xl leading-none text-[#1e9c78] absolute top-3 left-6 opacity-90"
+              style={{ fontFamily: "Georgia, serif" }}
+              aria-hidden="true"
+            >
+              &ldquo;
+            </span>
+            <p className="font-sans text-[15px] text-white leading-relaxed pt-6 relative z-10 mb-4">
+              {quote}
             </p>
-            <p className="mt-3 font-mono text-xs text-white/40">— Bromantane community</p>
+            <p className="font-mono text-[11px] text-[#6b8480] tracking-wide">
+              — Bromantane community
+            </p>
           </div>
         ))}
       </div>

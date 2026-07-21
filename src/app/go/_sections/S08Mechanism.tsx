@@ -1,39 +1,6 @@
+import Image from "next/image";
 import { LpSection } from "../_components/LpSection";
 import { CtaButton } from "../_components/CtaButton";
-
-const STIMULANTS = [
-  "Force dopamine release",
-  "Temporary spike, then crash",
-  "Tolerance builds quickly",
-  "You need more to feel the same",
-  "Depletes your reserves over time",
-];
-
-const NEURODRIVE = [
-  "Upregulates tyrosine hydroxylase enzyme",
-  "Your brain produces more dopamine naturally",
-  "No tolerance, works better with consistent use",
-  "Steady baseline, not a spike",
-  "Restores what stimulants deplete",
-];
-
-const STEPS = [
-  {
-    num: "01",
-    title: "ABSORB",
-    body: "Sublingual drops enter your bloodstream in 15 to 30 minutes, bypassing digestion for faster onset and higher bioavailability.",
-  },
-  {
-    num: "02",
-    title: "SYNTHESIZE",
-    body: "Bromantane upregulates tyrosine hydroxylase, the rate-limiting enzyme in dopamine production. Your brain starts making more dopamine on its own.",
-  },
-  {
-    num: "03",
-    title: "PERFORM",
-    body: "Dopamine levels normalize over days. Focus sharpens. Motivation returns. Calm and clarity coexist without stimulant side effects.",
-  },
-];
 
 export function S08Mechanism() {
   return (
@@ -42,46 +9,24 @@ export function S08Mechanism() {
         Why NeuroDrive Works When Everything Else Failed
       </h2>
 
-      <div className="grid md:grid-cols-2 gap-4 mb-14">
-        <div className="border border-white/10 rounded-[2px] p-6">
-          <h3 className="font-mono text-xs uppercase tracking-wider text-red-400/70 mb-5">
-            STIMULANTS (Caffeine, Adderall)
-          </h3>
-          <ul className="space-y-3">
-            {STIMULANTS.map((item) => (
-              <li key={item} className="flex items-start gap-3">
-                <span className="text-white/30 flex-shrink-0 mt-0.5">→</span>
-                <span className="font-sans text-sm text-white/70">{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="border border-[#1e9c78]/40 rounded-[2px] p-6 bg-[#1e9c78]/5">
-          <h3 className="font-mono text-xs uppercase tracking-wider text-[#1e9c78] mb-5">
-            NEURODRIVE (Bromantane)
-          </h3>
-          <ul className="space-y-3">
-            {NEURODRIVE.map((item) => (
-              <li key={item} className="flex items-start gap-3">
-                <span className="text-[#1e9c78] flex-shrink-0 mt-0.5">→</span>
-                <span className="font-sans text-sm text-white/80">{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="mb-14">
+        <Image
+          src="/go/stimulants-vs.png"
+          alt="Comparison: Stimulants force dopamine release causing crashes. NeuroDrive upregulates dopamine synthesis for a stable baseline."
+          width={1200}
+          height={896}
+          className="w-full h-auto rounded-[2px]"
+        />
       </div>
 
-      <div className="grid md:grid-cols-3 gap-4 mb-10">
-        {STEPS.map((step) => (
-          <div key={step.num} className="border border-white/10 rounded-[2px] p-6">
-            <p className="font-mono text-3xl font-medium text-[#1e9c78]/40 mb-3">{step.num}</p>
-            <h3 className="font-mono text-xs uppercase tracking-wider text-white mb-3">
-              {step.title}
-            </h3>
-            <p className="font-sans text-sm text-white/70 leading-relaxed">{step.body}</p>
-          </div>
-        ))}
+      <div className="mb-10">
+        <Image
+          src="/go/how-it-works.png"
+          alt="How NeuroDrive works: Step 1 Absorb sublingually in 15-30 minutes. Step 2 Synthesize more dopamine via TH upregulation. Step 3 Perform with sustained focus and motivation."
+          width={1200}
+          height={896}
+          className="w-full h-auto rounded-[2px]"
+        />
       </div>
 
       <div className="flex justify-center">

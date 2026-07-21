@@ -1,6 +1,6 @@
+import Image from "next/image";
 import { LpSection } from "../_components/LpSection";
 import { CtaButton } from "../_components/CtaButton";
-import { ImagePlaceholder } from "../_components/ImagePlaceholder";
 import { FaqAccordion } from "../_components/FaqAccordion";
 
 const FAQ_ITEMS = [
@@ -36,7 +36,13 @@ export function S14Faq() {
     <LpSection id="faq" variant="dark">
       <div className="grid md:grid-cols-[35fr_65fr] gap-10 md:gap-14 items-start">
         <div className="hidden md:block">
-          <ImagePlaceholder aspectRatio="3/4" label="Product Detail Shot" />
+          <Image
+            src="/go/product-detail.png"
+            alt="NeuroDrive bottle product detail"
+            width={896}
+            height={1200}
+            className="w-full h-auto rounded-[2px]"
+          />
         </div>
         <div>
           <h2 className="font-sans text-2xl md:text-3xl font-bold text-white mb-8">Questions</h2>

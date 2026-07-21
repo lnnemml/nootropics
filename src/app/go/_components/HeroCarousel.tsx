@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
 const TOTAL = 4;
 const AUTO_MS = 4000;
@@ -64,11 +65,15 @@ export function HeroCarousel() {
         }}
       >
         {/* Slide 0 — What It Is */}
-        <div className="relative w-full h-full flex-shrink-0 bg-[#4b5563] flex flex-col items-center justify-center">
-          <div className="flex flex-col items-center gap-1">
-            <p className="font-mono text-xs uppercase text-white/40">PRODUCT SHOT</p>
-            <p className="font-mono text-xs uppercase text-white/40">Bottle + Dropper / Dark BG</p>
-          </div>
+        <div className="relative w-full h-full flex-shrink-0">
+          <Image
+            src="/go/hero-1.png"
+            alt="NeuroDrive sublingual bromantane drops bottle"
+            fill
+            className="object-cover"
+            priority
+            sizes="(max-width: 768px) 100vw, 40vw"
+          />
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-4 pb-4 pt-8">
             <p className="font-mono text-xs text-white/60">
               NEURODRIVE · Sublingual Bromantane · 80mg/ml
@@ -77,11 +82,14 @@ export function HeroCarousel() {
         </div>
 
         {/* Slide 1 — How To Use */}
-        <div className="relative w-full h-full flex-shrink-0 bg-[#4b5563] flex flex-col items-center justify-center">
-          <div className="flex flex-col items-center gap-1">
-            <p className="font-mono text-xs uppercase text-white/40">IN USE</p>
-            <p className="font-mono text-xs uppercase text-white/40">Dropper under tongue / Close-up</p>
-          </div>
+        <div className="relative w-full h-full flex-shrink-0">
+          <Image
+            src="/go/hero-2.png"
+            alt="Sublingual dropper application"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 40vw"
+          />
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-4 pb-4 pt-8">
             <p className="font-mono text-xs text-white/60">
               One dropper. Under the tongue. 15 min to onset.
@@ -90,11 +98,14 @@ export function HeroCarousel() {
         </div>
 
         {/* Slide 2 — Dream Outcome */}
-        <div className="relative w-full h-full flex-shrink-0 bg-[#4b5563] flex flex-col items-center justify-center">
-          <div className="flex flex-col items-center gap-1">
-            <p className="font-mono text-xs uppercase text-white/40">LIFESTYLE</p>
-            <p className="font-mono text-xs uppercase text-white/40">Developer in deep focus / Natural light</p>
-          </div>
+        <div className="relative w-full h-full flex-shrink-0">
+          <Image
+            src="/go/hero-3.png"
+            alt="Developer in deep focus state"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 40vw"
+          />
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-4 pb-4 pt-8">
             <p className="font-sans text-base font-bold text-white text-center">
               Calm Focus. All Day. No Crash.
@@ -102,53 +113,15 @@ export function HeroCarousel() {
           </div>
         </div>
 
-        {/* Slide 3 — Mechanism / Proof */}
-        <div className="relative w-full h-full flex-shrink-0 bg-[#2b3235] flex flex-col items-center justify-center px-6 gap-5">
-          <p className="font-mono text-xs uppercase text-[#1e9c78] text-center leading-relaxed">
-            NOT A STIMULANT. A DOPAMINE SYNTHESIZER.
-          </p>
-          <svg
-            viewBox="0 0 120 60"
-            className="w-full max-w-[180px]"
-            aria-hidden="true"
-          >
-            {/* Stimulants — spike then drop */}
-            <polyline
-              points="10,50 30,10 50,45 110,50"
-              fill="none"
-              stroke="#e57373"
-              strokeWidth="2"
-              strokeOpacity="0.6"
-              strokeLinejoin="round"
-            />
-            {/* NeuroDrive — gradual rise then plateau */}
-            <polyline
-              points="10,50 40,35 70,25 110,22"
-              fill="none"
-              stroke="#1e9c78"
-              strokeWidth="2"
-              strokeLinejoin="round"
-            />
-            <text x="52" y="8" fontFamily="monospace" fontSize="6" fill="#e57373" fillOpacity="0.7">
-              Stimulants
-            </text>
-            <text x="72" y="21" fontFamily="monospace" fontSize="6" fill="#1e9c78">
-              NeuroDrive
-            </text>
-          </svg>
-          <ul className="flex flex-col gap-2 self-start">
-            {[
-              "30+ years of clinical research",
-              "728-patient randomized trial",
-              "NMR-verified purity",
-              "Zero tolerance buildup",
-            ].map((item) => (
-              <li key={item} className="font-mono text-xs flex gap-2">
-                <span className="text-[#1e9c78]">✓</span>
-                <span className="text-white/80">{item}</span>
-              </li>
-            ))}
-          </ul>
+        {/* Slide 3 — Mechanism / Proof (designed card, not a photo) */}
+        <div className="relative w-full h-full flex-shrink-0">
+          <Image
+            src="/go/hero-4.png"
+            alt="NeuroDrive mechanism: not a stimulant, a dopamine synthesizer"
+            fill
+            className="object-contain bg-[#2b3235]"
+            sizes="(max-width: 768px) 100vw, 40vw"
+          />
         </div>
       </div>
 

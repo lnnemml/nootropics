@@ -3,16 +3,16 @@ import { CtaButton } from "../_components/CtaButton";
 
 const QUOTES = [
   {
-    text: "It's been a miracle worker for me. Great for energy, motivation, focus, mood. No side effects. Seriously underrated.",
-    attr: "— r/nootropics community",
+    text: "I felt just like when everything was new and exciting again. I was crying from burnout — now it's like I have color back in my world.",
+    attr: "Nootropics community",
   },
   {
-    text: "I was burnt out and had a resurgence of excitement. It felt like when everything was new and interesting again.",
-    attr: "— r/nootropics community",
+    text: "I was blown away by the effect on my mood and cognition. Conversations flow more easily, words come to mind effortlessly. Seriously underrated.",
+    attr: "Bromantane community",
   },
   {
-    text: "I get more out of my day. It reverses the irritability and flatness I used to get with stimulants. I don't even need coffee anymore.",
-    attr: "— r/nootropics community",
+    text: "I started finishing tasks quicker. The combination of focus plus calm felt oddly balanced. I actually stopped craving my afternoon coffee.",
+    attr: "Bromantane community",
   },
 ];
 
@@ -25,11 +25,21 @@ export function S09SocialProof3() {
 
       <div className="grid md:grid-cols-3 gap-4 mb-10">
         {QUOTES.map(({ text, attr }) => (
-          <div key={text} className="bg-white border border-[#2b3235]/10 rounded-[2px] p-5">
-            <p className="font-sans text-sm text-[#2b3235]/80 leading-relaxed italic">
-              {`"${text}"`}
+          <div key={text} className="bg-[#2b3235] rounded-[2px] px-9 pt-8 pb-7 relative">
+            <span
+              className="leading-none text-[#1e9c78] absolute top-2.5 left-6 opacity-85"
+              style={{ fontFamily: "Georgia, serif", fontSize: "80px" }}
+              aria-hidden="true"
+            >
+              &ldquo;
+            </span>
+            <p className="font-sans text-base text-white leading-[1.7] pt-7 relative z-10 mb-5">
+              {text}
             </p>
-            <p className="mt-3 font-mono text-xs text-[#2b3235]/40">{attr}</p>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-px bg-[#1e9c78]" />
+              <p className="font-mono text-[11px] text-[#6b8480] tracking-wide">{attr}</p>
+            </div>
           </div>
         ))}
       </div>

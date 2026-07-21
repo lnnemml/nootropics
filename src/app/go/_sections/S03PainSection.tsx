@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { LpSection } from "../_components/LpSection";
 
 const PAIN_POINTS = [
@@ -59,6 +60,16 @@ export function S03PainSection() {
           <p className="font-semibold text-[#1e9c78]">
             {"That's exactly what NeuroDrive does."}
           </p>
+        </div>
+
+        <div className="mt-10">
+          <Image
+            src="/go/before-after.png"
+            alt="Before: brain fog, caffeine crashes, scattered attention. After: clear thinking, steady energy, deep focus."
+            width={1024}
+            height={572}
+            className="w-full h-auto rounded-[2px]"
+          />
         </div>
       </div>
     </LpSection>

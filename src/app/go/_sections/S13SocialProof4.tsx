@@ -12,11 +12,23 @@ export function S13SocialProof4() {
     <LpSection variant="light">
       <div className="grid md:grid-cols-3 gap-4 mb-10">
         {QUOTES.map((quote) => (
-          <div key={quote} className="bg-white border border-[#2b3235]/10 rounded-[2px] p-5">
-            <p className="font-sans text-sm text-[#2b3235]/80 leading-relaxed italic">
-              {`"${quote}"`}
-            </p>
-            <p className="mt-3 font-mono text-xs text-[#2b3235]/40">— Bromantane community</p>
+          <div
+            key={quote}
+            className="bg-[#2b3235] rounded-[2px] px-6 py-5 flex items-start gap-4"
+          >
+            <span
+              className="leading-[0.8] text-[#1e9c78] flex-shrink-0 mt-1 opacity-85"
+              style={{ fontFamily: "Georgia, serif", fontSize: "48px" }}
+              aria-hidden="true"
+            >
+              &ldquo;
+            </span>
+            <div>
+              <p className="font-sans text-sm text-white leading-relaxed mb-3">{quote}</p>
+              <p className="font-mono text-[10px] text-[#6b8480] tracking-wide">
+                — Bromantane community
+              </p>
+            </div>
           </div>
         ))}
       </div>

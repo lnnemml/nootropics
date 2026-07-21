@@ -1,32 +1,6 @@
+import Image from "next/image";
 import { LpSection } from "../_components/LpSection";
 import { CtaButton } from "../_components/CtaButton";
-
-const CARDS = [
-  {
-    title: "NON-STIMULANT",
-    body: "No caffeine. No amphetamine. Works through dopamine synthesis, not forced release.",
-  },
-  {
-    title: "NO TOLERANCE",
-    body: "Gets better with consistent use. Not worse. No cycling required.",
-  },
-  {
-    title: "FOCUS AND CALM",
-    body: "Anxiolytic and pro-cognitive at the same time. The combination stimulants can never deliver.",
-  },
-  {
-    title: "SUBLINGUAL DROPS",
-    body: "15 to 30 minute onset. Higher bioavailability than capsules. Precise dosing with every drop.",
-  },
-  {
-    title: "ONE INGREDIENT",
-    body: "No kitchen-sink blend with 15 unknowns. One compound, pharmaceutical-grade, doing one job well.",
-  },
-  {
-    title: "NMR-VERIFIED PURITY",
-    body: "Every batch tested via nuclear magnetic resonance spectroscopy. You know exactly what you're getting.",
-  },
-];
 
 export function S10Differentiators() {
   return (
@@ -35,15 +9,14 @@ export function S10Differentiators() {
         Built Different. By Design.
       </h2>
 
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 mb-10">
-        {CARDS.map(({ title, body }) => (
-          <div key={title} className="border border-white/10 rounded-[2px] p-6">
-            <h3 className="font-mono text-xs uppercase tracking-wider text-[#1e9c78] mb-3">
-              {title}
-            </h3>
-            <p className="font-sans text-sm text-white/80 leading-relaxed">{body}</p>
-          </div>
-        ))}
+      <div className="mb-10">
+        <Image
+          src="/go/comparison-table.png"
+          alt="NeuroDrive vs Stimulants and Stacks: NeuroDrive wins on mechanism, tolerance, crash, side effects, ingredients, onset, and long-term effects."
+          width={1200}
+          height={896}
+          className="w-full h-auto rounded-[2px]"
+        />
       </div>
 
       <div className="flex justify-center">
