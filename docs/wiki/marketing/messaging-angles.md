@@ -53,6 +53,34 @@ not a hard cut — see copywriting principle in `log.md` entry
 - Logic-driven urgency (rational supply-constraint explanation, not fake
   countdown timers)
 
+## DR Landing Page structure (`/go`) — current live version
+
+**Different from the original belief-chain sales page structure above.** The `/go` page
+follows an e-commerce DR wireframe pattern optimized for cold paid traffic:
+
+**Hero (dream outcome) → Social proof → PAS pain agitation → UGC proof → Benefits
+→ Value Prop deep-dives (×3) → Mechanism explanation → Differentiators comparison
+→ Trust signals → FAQ → Final CTA**
+
+### Approved headline (hero):
+"Stop Running on Empty and Feel Mentally Clear All Day in Under a Week Using the
+Dopamine Synthesizer Trusted by 30+ Years of Clinical Use (Zero Caffeine)"
+
+Formula: `[Dream Outcome] + [Functional Benefit] in [Timeframe] Using [Mechanism] ([Proof])`
+
+### Three value prop angles:
+1. **S06: Deep Focus** — "Lock Into Deep Work for Hours" — caffeine-vs-bromantane daily timeline
+2. **S07: Motivation** — "Wake Up Actually Wanting to Work" — product documentary aesthetic
+3. **S12: Calm Clarity** — "Sharp and Calm at the Same Time" — dual-action mechanism diagram
+
+### Visual strategy:
+Evidence-based visuals, NOT lifestyle photography. Data timelines, mechanism diagrams,
+comparison tables. Rationale: target audience trusts data over faces; generic lifestyle
+photos signal "supplement brand marketing" which triggers skepticism.
+
+See [`../decisions/0019-dr-landing-page.md`](../decisions/0019-dr-landing-page.md) for
+the full structural rationale.
+
 ## Related pages
 
 - [`../product/overview.md`](../product/overview.md)

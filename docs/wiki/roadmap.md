@@ -101,7 +101,7 @@ Key decisions:
 - Post-delivery follow-up cron deferred (no Vercel Pro, no community destination)
 - ADRs 0014–0016
 
-## Phase 5 — Referral & affiliate system *(done — 2026-07-11)*
+## Phase 5 — Referral & affiliate system *(done — 2026-07-12)*
 
 *(was Phase 4 in older roadmap — pushed back, fulfillment prioritized)*
 
@@ -116,15 +116,67 @@ reward lifecycle; no loyalty tiers at launch. ADR 0017.
 - **Task 5.6** *(done)* — Rewards auto-applied at checkout (mutual exclusivity with referral discount; ledger marked redeemed before redirect)
 - **Task 5.7** *(done)* — `/account/referrals` dashboard: code + share link, how it works, available rewards, referral history
 
-## Phase 6 — Growth & optimization
+## Phase 6 — Analytics & DR Landing Page *(in progress)*
 
-*(was "Phase 4 — Growth & optimization" in older roadmap)*
+> Scope defined 2026-07-13. Two parallel workstreams: analytics infrastructure
+> and a high-converting direct-response landing page at `/go`.
 
-- SEO pass, analytics, A/B testing infra for headlines/angles
-- Revisit ADR 0002 based on real performance data
-- Community/social presence cadence (separate doc, not site code)
-- Reddit community creation + seeding strategy
-- Post-delivery follow-up email (requires Vercel Pro or external cron)
+### 6A — Analytics Infrastructure *(done — 2026-07-13)*
+
+Client-side:
+- Vercel Analytics + Speed Insights (automatic)
+- Google Tag Manager (`NEXT_PUBLIC_GTM_ID`) — GA4 configured as tag inside GTM
+- Microsoft Clarity (`NEXT_PUBLIC_CLARITY_ID`) — direct script, not via GTM
+- Meta Pixel (`NEXT_PUBLIC_META_PIXEL_ID`) — base code + standard events
+
+Server-side (CAPI):
+- Meta Conversions API — POST to `graph.facebook.com` on Purchase events
+- GA4 Measurement Protocol — POST on server-side conversion events
+- Event deduplication via shared `eventId` between client pixel and server CAPI
+
+Utilities:
+- `src/lib/analytics/client.ts` — `trackEvent()` fires to GTM dataLayer + fbq + Clarity simultaneously
+- `src/lib/analytics/server.ts` — `trackServerEvent()` fires Meta CAPI + GA4 MP
+- `src/lib/analytics/types.ts` — global Window interface extensions
+
+SEO:
+- `app/sitemap.ts` — dynamic sitemap covering all public routes
+- `app/robots.ts` — standard robots.txt via Next.js metadata API
+
+Manual steps completed by Anton:
+- GA4 property created, Measurement ID obtained
+- GTM container created, GA4 tag configured inside GTM
+- Clarity project created
+- Meta Pixel created (ID: 1831016094696078)
+- All env vars added to Vercel
+- GSC domain verification pending
+
+### 6B — DR Landing Page `/go` *(in progress — structure + assets integrated)*
+
+17-section direct response landing page at `/go` with custom layout (no NavBar/Footer),
+designed for maximum conversion from paid traffic.
+
+Structure follows the e-commerce DR wireframe pattern: hero carousel → social proof →
+PAS pain section → UGC → benefit icons → value props (×3) → mechanism → differentiators →
+FAQ → final CTA. Social proof sections repeat every 2-3 sections. CTAs every 2 sections.
+
+Key decisions:
+- No money-back guarantee (research chemicals don't offer this; fraud risk)
+- Evidence-based visuals instead of lifestyle photography (data timelines, mechanism diagrams,
+  comparison tables) — this audience trusts graphs more than stock photos
+- Community quotes from bromantane/nootropics forums, not fabricated testimonials
+- Single-column quote cards for maximum impact (not 3-col grid)
+- Hero carousel (4 slides: product shot, dropper close-up, mechanism chart, focus close-up)
+
+Remaining:
+- UGC video production (3-5 videos, Google Flow pipeline)
+- Paid traffic setup (Reddit Ads + Google Search, ~$20-30/day)
+- A/B testing of headlines via TikTok organic → winning angles move to LP
+
+### Future (not yet started):
+- Card payment processing (gather crypto transaction history → approach high-risk processors)
+- Post-delivery follow-up email
+- Community/social presence cadence
 
 ## Related pages
 

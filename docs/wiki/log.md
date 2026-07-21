@@ -1179,3 +1179,59 @@ Five issues found and fixed in one session:
 5. **Atomicity gap** (`submitOrder.ts`) — reward ledger is now marked `redeemed` AFTER `db.insert(orders)` succeeds, preventing reward loss on order-insert failure.
 
 Phase 5 marked complete in roadmap. CLAUDE.md updated to Phase 6.
+
+## [2026-07-13] phase | Phase 6A — Analytics infrastructure complete
+
+- Installed Vercel Analytics + Speed Insights
+- Added GTM, Microsoft Clarity, Meta Pixel client-side scripts to root layout
+  via `next/script` with `afterInteractive` strategy
+- Created `src/lib/analytics/client.ts` — unified `trackEvent()` for GTM dataLayer +
+  fbq + Clarity custom tags
+- Created `src/lib/analytics/server.ts` — `trackServerEvent()` for Meta CAPI +
+  GA4 Measurement Protocol, integrated into `submitOrder` and NowPayments webhook
+- Created `src/lib/analytics/types.ts` — Window interface extensions for fbq/clarity/dataLayer
+- Added `app/sitemap.ts` (dynamic, all public routes) and `app/robots.ts`
+- Six new env vars: `NEXT_PUBLIC_GTM_ID`, `NEXT_PUBLIC_CLARITY_ID`,
+  `NEXT_PUBLIC_META_PIXEL_ID`, `META_CAPI_ACCESS_TOKEN`, `GA4_MEASUREMENT_ID`, `GA4_API_SECRET`
+- ADR 0018 recorded
+
+## [2026-07-13] phase | Phase 6B — DR landing page `/go` initial build
+
+- Created 17-section DR landing page at `app/go/` with custom layout (no NavBar/Footer)
+- Sections S00–S16: TopBar, Hero, SocialProofBar, PainSection (PAS framework),
+  UgcProof, BenefitIcons, ValueProp1-3, Mechanism, SocialProof3-4,
+  Differentiators, TrustBar, FAQ, FinalCTA, Footer
+- Shared components: HeroCarousel, CtaButton, LpSection, FaqAccordion,
+  StickyMobileCta, BenefitIcon, ImagePlaceholder, VideoPlaceholder
+- All CTAs fire `trackEvent('cta_click', { location })` via analytics client
+- Approved hero headline: "Stop Running on Empty and Feel Mentally Clear All Day..."
+- No money-back guarantee (research chemicals standard)
+- ADR 0019 recorded
+
+## [2026-07-14] phase | Phase 6B — Landing page asset integration
+
+- Integrated 11 generated images into `public/go/`: hero carousel (4 slides),
+  before/after card, mechanism diagrams (2), comparison table, product detail,
+  final CTA background, desk bottle
+- Rewrote S02 (SVG badge icons), S05 (SVG benefit icons), S08 (diagram images),
+  S10 (comparison table image), S11 (SVG trust badges), S15 (background image + overlay)
+- HTML/CSS reference assets converted to Tailwind JSX (quote cards, badge strips, icon bars)
+- UGC video slots remain as VideoPlaceholder — production pending
+
+## [2026-07-14] phase | Phase 6B — Evidence visuals replace lifestyle photos
+
+- S06: caffeine-vs-bromantane daily cognitive profile timeline (full-width)
+- S07: product documentary shot (desk-bottle.png, dark moody aesthetic)
+- S12: dual-action mechanism diagram (pro-cognitive + anxiolytic pathways)
+- Decision: evidence-based visuals over lifestyle photos for target audience
+  (rational optimizers trust data > stock photos)
+
+## [2026-07-14] phase | Phase 6B — Landing page amplification pass
+
+- S01 Hero: carousel enlarged (55/45 grid, 4:5 aspect), images changed to object-contain
+- S03: text enlarged (text-lg/xl), bold emphasis lines scaled up, before/after image full-width
+- S06, S12: changed from side-by-side grid to full-width image above text (data-heavy visuals
+  need full width for readability)
+- S07: grid rebalanced to 50/50, image in fixed-height container with object-cover
+- S04, S09, S13: all quote sections changed from 3-col grid to single-column full-width cards
+  with text-lg/xl — social proof must bombard, not whisper

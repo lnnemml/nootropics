@@ -20,7 +20,8 @@ whole wiki.
 ## Marketing knowledge
 
 - [`marketing/messaging-angles.md`](./marketing/messaging-angles.md) —
-  angle families, validated headlines, sales-page structure
+  angle families, validated headlines, sales-page structure, **DR landing page
+  `/go` structure and approved headline**
 - [`marketing/competitive-landscape.md`](./marketing/competitive-landscape.md)
   — product-level competitors (Modafinil, Alpha Brain, Thesis, etc.) vs.
   platform-level competitors (Nootropics Depot, Umbrella Labs)
@@ -41,7 +42,8 @@ whole wiki.
 - [`architecture/tech-stack.md`](./architecture/tech-stack.md) — stack
   choices with reasoning and rejected alternatives
 - [`architecture/folder-structure.md`](./architecture/folder-structure.md)
-  — route groups, `src/lib` layout, why `src/lib/copy/` exists
+  — route groups, `src/lib` layout, `/go` DR landing page structure,
+  `src/lib/analytics/` utilities
 - [`architecture/data-model.md`](./architecture/data-model.md) — Phase 2
   DB schema sketch, open questions
 - [`architecture/platform-vs-product.md`](./architecture/platform-vs-product.md)
@@ -93,6 +95,10 @@ whole wiki.
   — post-delivery follow-up cron deferred (no Vercel Pro, no community)
 - [`decisions/0017-referral-system.md`](./decisions/0017-referral-system.md)
   — symmetrical 10%/10% referral model; `discount_ledger` lifecycle; no tiers at launch
+- [`decisions/0018-analytics-stack.md`](./decisions/0018-analytics-stack.md)
+  — GTM + Clarity + Meta Pixel (client), Meta CAPI + GA4 MP (server), event deduplication
+- [`decisions/0019-dr-landing-page.md`](./decisions/0019-dr-landing-page.md)
+  — `/go` standalone DR page, 17 sections, evidence visuals over lifestyle photos, no guarantee
 
 ## Planning
 
@@ -106,7 +112,7 @@ whole wiki.
 - [`nora-phase4-plan.md`](./nora-phase4-plan.md) —
   Phase 4 task list *(done — 2026-07-10)*
 - [`nora-phase5-plan.md`](./nora-phase5-plan.md) —
-  Phase 5 task list *(in progress — Task 5.1 done 2026-07-11)*
+  Phase 5 task list *(done — 2026-07-12)*
 
 ## Backlog (sources not yet ingested / pages not yet written)
 
@@ -120,8 +126,6 @@ whole wiki.
 - Figma label design knowledge (referenced in prior chat memory — not yet
   ingested into this wiki; lives only in chat history / Figma file
   `1AIByRxbbibNWrGDkkEVVn` for now)
-- Sales page React/Next.js copy implementation knowledge (prior landing
-  page work referenced in chat memory — not yet ingested)
 
 See [`log.md`](./log.md) for the chronological record of what's been done.
 

@@ -110,9 +110,10 @@ an architecture analysis, a copywriting rationale.
   before writing copy.** Platform pages (home, mission, nav, footer)
   speak as **NORA**. Product pages (`(shop)/neurodrive`, future product
   pages) speak as the product, inside NORA's visual system.
-- **Active task list:** Phases 1–5 are complete. Now in **Phase 6 — Growth
-  & optimization**. See [`docs/wiki/roadmap.md`](docs/wiki/roadmap.md) for
-  Phase 6 scope.
+- **Active task list:** Phases 1–5 complete. Now in **Phase 6 — Analytics & DR
+  Landing Page**. Analytics infrastructure done (6A). DR landing page structure
+  and asset integration done, UGC video production and paid traffic setup remaining.
+  See [`docs/wiki/roadmap.md`](docs/wiki/roadmap.md).
 - **Never invent a real product price.** The price is explicitly blocked
   on Anton supplying real numbers — build the UI slot with an
   obviously-fake placeholder and flag back if no real number has been
@@ -122,6 +123,15 @@ an architecture analysis, a copywriting rationale.
   legal review. State this visibly in commit messages and flag to Anton.
   Supplement-liability and FDA-disclaimer considerations make this
   non-negotiable.
+- **`/go` landing page is a standalone conversion funnel** — it has its own
+  layout with no NavBar/Footer. All CTAs go to checkout. Do not add navigation
+  or cross-links to the main site. See
+  [`docs/wiki/decisions/0019-dr-landing-page.md`](docs/wiki/decisions/0019-dr-landing-page.md).
+- **No money-back guarantee language anywhere** — not on `/go`, not on product
+  pages, not in emails. Research chemicals category; fraud risk.
+- **Analytics: use `trackEvent()` and `trackServerEvent()`** from `src/lib/analytics/`
+  for all tracking. Do not add raw `fbq()` or `dataLayer.push()` calls in components.
+  See [`docs/wiki/decisions/0018-analytics-stack.md`](docs/wiki/decisions/0018-analytics-stack.md).
 
 ## Coding conventions
 
