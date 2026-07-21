@@ -51,7 +51,7 @@ export function HeroCarousel() {
 
   return (
     <div
-      className="relative w-full overflow-hidden rounded-[2px] bg-[#4b5563]"
+      className="relative w-full overflow-hidden rounded-[2px] bg-[#2b3235]"
       style={{ aspectRatio: "4/5" }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
@@ -70,7 +70,7 @@ export function HeroCarousel() {
             src="/go/hero-1.png"
             alt="NeuroDrive sublingual bromantane drops bottle"
             fill
-            className="object-cover"
+            className="object-contain"
             priority
             sizes="(max-width: 768px) 100vw, 40vw"
           />
@@ -87,7 +87,7 @@ export function HeroCarousel() {
             src="/go/hero-2.png"
             alt="Sublingual dropper application"
             fill
-            className="object-cover"
+            className="object-contain"
             sizes="(max-width: 768px) 100vw, 40vw"
           />
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-4 pb-4 pt-8">
@@ -103,7 +103,7 @@ export function HeroCarousel() {
             src="/go/hero-3.png"
             alt="Developer in deep focus state"
             fill
-            className="object-cover"
+            className="object-contain"
             sizes="(max-width: 768px) 100vw, 40vw"
           />
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-4 pb-4 pt-8">
