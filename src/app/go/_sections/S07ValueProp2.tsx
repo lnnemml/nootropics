@@ -1,6 +1,6 @@
 import { LpSection } from "../_components/LpSection";
 import { CtaButton } from "../_components/CtaButton";
-import { ImagePlaceholder } from "../_components/ImagePlaceholder";
+import Image from "next/image";
 
 export function S07ValueProp2() {
   return (
@@ -23,7 +23,13 @@ export function S07ValueProp2() {
           <CtaButton trackingLocation="vp2_motivation" />
         </div>
         <div>
-          <ImagePlaceholder aspectRatio="4/3" label="Lifestyle: Morning Routine with NeuroDrive" />
+          <Image
+            src="/go/desk-bottle.png"
+            alt="NeuroDrive bottle on a dark desk"
+            width={687}
+            height={1024}
+            className="w-full h-auto rounded-[2px]"
+          />
         </div>
       </div>
     </LpSection>

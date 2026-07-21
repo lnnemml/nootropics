@@ -1,13 +1,19 @@
 import { LpSection } from "../_components/LpSection";
 import { CtaButton } from "../_components/CtaButton";
-import { ImagePlaceholder } from "../_components/ImagePlaceholder";
+import Image from "next/image";
 
 export function S06ValueProp1() {
   return (
     <LpSection id="benefits" variant="dark">
       <div className="grid md:grid-cols-[45fr_55fr] gap-10 md:gap-14 items-center">
         <div>
-          <ImagePlaceholder aspectRatio="4/3" label="Lifestyle: Developer in Deep Focus" />
+          <Image
+            src="/go/caffeine-vs-bromantane.png"
+            alt="Your day on caffeine: 4 doses, spikes, crashes, poor sleep. Your day on NeuroDrive: one dose, steady focus, restful sleep."
+            width={1200}
+            height={896}
+            className="w-full h-auto rounded-[2px]"
+          />
         </div>
         <div>
           <h2 className="font-sans text-2xl md:text-3xl font-bold text-white leading-tight mb-5">

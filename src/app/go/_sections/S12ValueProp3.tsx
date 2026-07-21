@@ -1,13 +1,19 @@
 import { LpSection } from "../_components/LpSection";
 import { CtaButton } from "../_components/CtaButton";
-import { ImagePlaceholder } from "../_components/ImagePlaceholder";
+import Image from "next/image";
 
 export function S12ValueProp3() {
   return (
     <LpSection variant="dark">
       <div className="grid md:grid-cols-[45fr_55fr] gap-10 md:gap-14 items-center">
         <div>
-          <ImagePlaceholder aspectRatio="4/3" label="Lifestyle: Calm Focus State" />
+          <Image
+            src="/go/dual-mechanism.png"
+            alt="Dual action mechanism: Pathway 1 pro-cognitive (dopamine synthesis, focus, motivation) and Pathway 2 anxiolytic (stress reduction, calm, resilience) combine into the NeuroDrive effect."
+            width={1200}
+            height={896}
+            className="w-full h-auto rounded-[2px]"
+          />
         </div>
         <div>
           <h2 className="font-sans text-2xl md:text-3xl font-bold text-white leading-tight mb-5">
