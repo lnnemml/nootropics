@@ -1,11 +1,11 @@
+import Image from "next/image";
 import { LpSection } from "../_components/LpSection";
 import { CtaButton } from "../_components/CtaButton";
-import Image from "next/image";
 
 export function S07ValueProp2() {
   return (
     <LpSection variant="light">
-      <div className="grid md:grid-cols-[55fr_45fr] gap-10 md:gap-14 items-center">
+      <div className="grid md:grid-cols-2 gap-10 md:gap-14 items-center">
         <div>
           <h2 className="font-sans text-2xl md:text-3xl font-bold text-[#2b3235] leading-tight mb-5">
             Wake Up Actually Wanting to Work Instead of Forcing Yourself Through Another Day
@@ -22,13 +22,12 @@ export function S07ValueProp2() {
           </p>
           <CtaButton trackingLocation="vp2_motivation" />
         </div>
-        <div>
+        <div className="relative h-[400px] md:h-[500px] rounded-[2px] overflow-hidden">
           <Image
             src="/go/desk-bottle.png"
             alt="NeuroDrive bottle on a dark desk"
-            width={687}
-            height={1024}
-            className="w-full h-auto rounded-[2px]"
+            fill
+            className="object-cover object-center"
           />
         </div>
       </div>

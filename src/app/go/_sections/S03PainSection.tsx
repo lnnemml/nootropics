@@ -10,26 +10,28 @@ const PAIN_POINTS = [
 export function S03PainSection() {
   return (
     <LpSection variant="light">
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <h2 className="font-sans text-3xl md:text-4xl font-bold text-[#2b3235] leading-tight mb-8">
           {"Your Brain Fog Is Not Burnout. It's Dopamine Depletion."}
         </h2>
 
-        <div className="font-sans text-base text-[#2b3235]/80 leading-relaxed space-y-5">
+        <div className="font-sans text-lg md:text-xl text-[#2b3235]/80 leading-relaxed space-y-6">
           <p>Dear developers, founders, and builders,</p>
 
-          <ul className="space-y-3">
+          <ul className="space-y-4">
             {PAIN_POINTS.map((point) => (
               <li key={point} className="flex items-start gap-3">
                 <span className="text-[#1e9c78] font-bold mt-0.5 flex-shrink-0">✓</span>
-                <span>{point}</span>
+                <span className="text-lg md:text-xl">{point}</span>
               </li>
             ))}
           </ul>
 
           <p>{"You're not broken. You're not lazy."}</p>
 
-          <p className="font-bold text-[#2b3235]">Your dopamine system is running on fumes.</p>
+          <p className="font-bold text-[#2b3235] text-xl md:text-2xl">
+            Your dopamine system is running on fumes.
+          </p>
 
           <p>
             {"Years of chronic stress, stimulant cycling, and screen overload have exhausted your brain's motivation pathways."}
@@ -49,7 +51,9 @@ export function S03PainSection() {
             {"Nootropic stacks with 15 ingredients don't restore dopamine. They shotgun your neurochemistry and hope something sticks."}
           </p>
 
-          <p className="font-bold text-[#2b3235]">NONE OF THEM fix the root cause.</p>
+          <p className="font-bold text-[#2b3235] text-xl md:text-2xl">
+            NONE OF THEM fix the root cause.
+          </p>
 
           <p>
             {"What you actually need isn't more stimulation. You need to restore your brain's ability to "}
@@ -57,20 +61,20 @@ export function S03PainSection() {
             {" dopamine on its own."}
           </p>
 
-          <p className="font-semibold text-[#1e9c78]">
+          <p className="font-semibold text-[#1e9c78] text-xl md:text-2xl">
             {"That's exactly what NeuroDrive does."}
           </p>
         </div>
+      </div>
 
-        <div className="mt-10">
-          <Image
-            src="/go/before-after.png"
-            alt="Before: brain fog, caffeine crashes, scattered attention. After: clear thinking, steady energy, deep focus."
-            width={1024}
-            height={572}
-            className="w-full h-auto rounded-[2px]"
-          />
-        </div>
+      <div className="mt-12">
+        <Image
+          src="/go/before-after.png"
+          alt="Before: brain fog, caffeine crashes, scattered attention. After: clear thinking, steady energy, deep focus."
+          width={1024}
+          height={572}
+          className="w-full h-auto rounded-[2px]"
+        />
       </div>
     </LpSection>
   );
