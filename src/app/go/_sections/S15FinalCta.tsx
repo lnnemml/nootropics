@@ -4,22 +4,38 @@ import { CtaButton } from "../_components/CtaButton";
 
 export function S15FinalCta() {
   return (
-    <section id="order" className="relative py-16 md:py-24 overflow-hidden">
+    <section id="order" className="relative py-20 md:py-[160px] overflow-hidden">
+      {/* Background image at low opacity */}
       <Image
         src="/go/final-cta-bg.png"
         alt=""
         fill
-        className="object-cover"
+        className="object-cover opacity-20"
         aria-hidden="true"
       />
-      <div className="absolute inset-0 bg-[#1e9c78]/90" />
+      {/* Teal gradient overlay */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(160deg, rgba(30,156,120,0.92), rgba(51,77,72,0.95))",
+        }}
+      />
+      {/* Vignette */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.25) 100%)",
+        }}
+      />
 
       <Container>
         <div className="relative z-10 max-w-2xl mx-auto text-center">
-          <h2 className="font-sans text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="font-sans text-[38px] md:text-[54px] font-bold text-white leading-[1.08] tracking-[-0.02em] [text-wrap:pretty] mb-4">
             Your Brain Is Your Leverage. Protect It.
           </h2>
-          <p className="font-sans text-lg text-white/90 leading-relaxed mb-8">
+          <p className="font-sans text-[18px] md:text-[20px] text-white/[0.85] leading-relaxed mb-8">
             Join the developers, founders, and builders who stopped forcing performance and started
             restoring it.
           </p>
@@ -27,7 +43,6 @@ export function S15FinalCta() {
             variant="inverted"
             trackingLocation="final_cta"
             label="Order NeuroDrive →"
-            className="text-lg px-10 py-5"
           />
           <p className="mt-6 font-mono text-xs text-white/70 uppercase tracking-wider">
             Free Worldwide Shipping · NMR-Verified Purity · Legal in US, Canada, EU, AU

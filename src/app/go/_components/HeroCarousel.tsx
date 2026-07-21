@@ -50,93 +50,107 @@ export function HeroCarousel() {
   }
 
   return (
-    <div
-      className="relative w-full overflow-hidden rounded-[2px] bg-[#2b3235]"
-      style={{ aspectRatio: "4/5" }}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-    >
-      {/* Slide track */}
+    <div className="relative">
+      {/* Teal glow behind carousel */}
       <div
-        className="absolute inset-0 flex"
+        className="absolute teal-glow pointer-events-none"
+        style={{ inset: "-40px" }}
+      />
+      {/* Carousel frame */}
+      <div
+        className="relative w-full overflow-hidden rounded-[2px] border border-white/[0.12] shadow-[0_48px_96px_-32px_rgba(0,0,0,0.6)]"
         style={{
-          transform: `translateX(-${current * 100}%)`,
-          transition: "transform 500ms ease-in-out",
+          aspectRatio: "4/5",
+          background:
+            "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))",
         }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
-        {/* Slide 0 — What It Is */}
-        <div className="relative w-full h-full flex-shrink-0">
-          <Image
-            src="/go/hero-1.png"
-            alt="NeuroDrive sublingual bromantane drops bottle"
-            fill
-            className="object-contain"
-            priority
-            sizes="(max-width: 768px) 100vw, 40vw"
-          />
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-4 pb-4 pt-8">
-            <p className="font-mono text-xs text-white/60">
-              NEURODRIVE · Sublingual Bromantane · 80mg/ml
-            </p>
+        {/* Slide track */}
+        <div
+          className="absolute inset-0 flex"
+          style={{
+            transform: `translateX(-${current * 100}%)`,
+            transition: "transform 500ms ease-in-out",
+          }}
+        >
+          {/* Slide 0 — What It Is */}
+          <div className="relative w-full h-full flex-shrink-0 bg-[#2b3235]">
+            <Image
+              src="/go/hero-1.png"
+              alt="NeuroDrive sublingual bromantane drops bottle"
+              fill
+              className="object-contain"
+              priority
+              sizes="(max-width: 768px) 100vw, 40vw"
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-4 pb-4 pt-8">
+              <p className="font-mono text-xs text-white/60">
+                NEURODRIVE · Sublingual Bromantane · 80mg/ml
+              </p>
+            </div>
+          </div>
+
+          {/* Slide 1 — How To Use */}
+          <div className="relative w-full h-full flex-shrink-0 bg-[#2b3235]">
+            <Image
+              src="/go/hero-2.png"
+              alt="Sublingual dropper application"
+              fill
+              className="object-contain"
+              sizes="(max-width: 768px) 100vw, 40vw"
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-4 pb-4 pt-8">
+              <p className="font-mono text-xs text-white/60">
+                One dropper. Under the tongue. 15 min to onset.
+              </p>
+            </div>
+          </div>
+
+          {/* Slide 2 — Dream Outcome */}
+          <div className="relative w-full h-full flex-shrink-0 bg-[#2b3235]">
+            <Image
+              src="/go/hero-3.png"
+              alt="Developer in deep focus state"
+              fill
+              className="object-contain"
+              sizes="(max-width: 768px) 100vw, 40vw"
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-4 pb-4 pt-8">
+              <p className="font-sans text-base font-bold text-white text-center">
+                Calm Focus. All Day. No Crash.
+              </p>
+            </div>
+          </div>
+
+          {/* Slide 3 — Mechanism / Proof */}
+          <div className="relative w-full h-full flex-shrink-0 bg-[#2b3235]">
+            <Image
+              src="/go/hero-4.png"
+              alt="NeuroDrive mechanism: not a stimulant, a dopamine synthesizer"
+              fill
+              className="object-contain"
+              sizes="(max-width: 768px) 100vw, 40vw"
+            />
           </div>
         </div>
 
-        {/* Slide 1 — How To Use */}
-        <div className="relative w-full h-full flex-shrink-0">
-          <Image
-            src="/go/hero-2.png"
-            alt="Sublingual dropper application"
-            fill
-            className="object-contain"
-            sizes="(max-width: 768px) 100vw, 40vw"
-          />
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-4 pb-4 pt-8">
-            <p className="font-mono text-xs text-white/60">
-              One dropper. Under the tongue. 15 min to onset.
-            </p>
-          </div>
+        {/* Navigation dots — pill style */}
+        <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2 items-center">
+          {Array.from({ length: TOTAL }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              className={`rounded-full transition-all duration-300 ${
+                i === current
+                  ? "w-6 h-0.5 bg-[#1e9c78]"
+                  : "w-2.5 h-0.5 bg-white/30"
+              }`}
+            />
+          ))}
         </div>
-
-        {/* Slide 2 — Dream Outcome */}
-        <div className="relative w-full h-full flex-shrink-0">
-          <Image
-            src="/go/hero-3.png"
-            alt="Developer in deep focus state"
-            fill
-            className="object-contain"
-            sizes="(max-width: 768px) 100vw, 40vw"
-          />
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-4 pb-4 pt-8">
-            <p className="font-sans text-base font-bold text-white text-center">
-              Calm Focus. All Day. No Crash.
-            </p>
-          </div>
-        </div>
-
-        {/* Slide 3 — Mechanism / Proof (designed card, not a photo) */}
-        <div className="relative w-full h-full flex-shrink-0">
-          <Image
-            src="/go/hero-4.png"
-            alt="NeuroDrive mechanism: not a stimulant, a dopamine synthesizer"
-            fill
-            className="object-contain bg-[#2b3235]"
-            sizes="(max-width: 768px) 100vw, 40vw"
-          />
-        </div>
-      </div>
-
-      {/* Navigation dots */}
-      <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
-        {Array.from({ length: TOTAL }).map((_, i) => (
-          <button
-            key={i}
-            onClick={() => goTo(i)}
-            aria-label={`Go to slide ${i + 1}`}
-            className={`w-1.5 h-1.5 rounded-full transition-colors ${
-              i === current ? "bg-[#1e9c78]" : "bg-white/30"
-            }`}
-          />
-        ))}
       </div>
     </div>
   );

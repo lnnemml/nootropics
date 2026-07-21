@@ -11,25 +11,29 @@ export function S03PainSection() {
   return (
     <LpSection variant="light">
       <div className="max-w-3xl mx-auto">
-        <h2 className="font-sans text-3xl md:text-4xl font-bold text-[#2b3235] leading-tight mb-8">
+        <h2 className="font-sans text-[32px] md:text-[42px] font-bold text-[#2b3235] leading-tight tracking-[-0.02em] [text-wrap:pretty] mb-8">
           {"Your Brain Fog Is Not Burnout. It's Dopamine Depletion."}
         </h2>
 
         <div className="font-sans text-lg md:text-xl text-[#2b3235]/80 leading-relaxed space-y-6">
-          <p>Dear developers, founders, and builders,</p>
+          <p className="font-mono text-[14px] tracking-[0.06em] text-[#2b3235]/50">
+            Dear developers, founders, and builders,
+          </p>
 
-          <ul className="space-y-4">
-            {PAIN_POINTS.map((point) => (
-              <li key={point} className="flex items-start gap-3">
-                <span className="text-[#1e9c78] font-bold mt-0.5 flex-shrink-0">✓</span>
-                <span className="text-lg md:text-xl">{point}</span>
-              </li>
-            ))}
-          </ul>
+          <div className="bg-white border border-[#2b3235]/[0.08] rounded-[2px] shadow-[0_16px_40px_-24px_rgba(43,50,53,0.25)] p-7 md:px-8 md:py-7">
+            <ul className="space-y-4">
+              {PAIN_POINTS.map((point) => (
+                <li key={point} className="flex items-start gap-3">
+                  <span className="font-mono text-[#1e9c78] font-bold mt-0.5 flex-shrink-0">✓</span>
+                  <span className="text-lg md:text-xl">{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <p>{"You're not broken. You're not lazy."}</p>
 
-          <p className="font-bold text-[#2b3235] text-xl md:text-2xl">
+          <p className="font-bold text-[#2b3235] text-[22px] md:text-[26px] tracking-[-0.01em]">
             Your dopamine system is running on fumes.
           </p>
 
@@ -51,7 +55,7 @@ export function S03PainSection() {
             {"Nootropic stacks with 15 ingredients don't restore dopamine. They shotgun your neurochemistry and hope something sticks."}
           </p>
 
-          <p className="font-bold text-[#2b3235] text-xl md:text-2xl">
+          <p className="font-bold text-[#2b3235] text-[22px] md:text-[26px] tracking-[-0.01em]">
             NONE OF THEM fix the root cause.
           </p>
 
@@ -61,13 +65,13 @@ export function S03PainSection() {
             {" dopamine on its own."}
           </p>
 
-          <p className="font-semibold text-[#1e9c78] text-xl md:text-2xl">
+          <p className="font-semibold text-[#1e9c78] text-[22px] md:text-[26px] border-l-2 border-[#1e9c78] pl-6">
             {"That's exactly what NeuroDrive does."}
           </p>
         </div>
       </div>
 
-      <div className="mt-12">
+      <div className="mt-12 bg-white border border-[#2b3235]/[0.08] p-3.5 rounded-[2px] shadow-[0_32px_64px_-36px_rgba(43,50,53,0.35)]">
         <Image
           src="/go/before-after.png"
           alt="Before: brain fog, caffeine crashes, scattered attention. After: clear thinking, steady energy, deep focus."

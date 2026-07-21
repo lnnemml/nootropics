@@ -3,9 +3,9 @@ import { CtaButton } from "../_components/CtaButton";
 import { VideoPlaceholder } from "../_components/VideoPlaceholder";
 
 const VIDEOS = [
-  "UGC Video: Caffeine Quitter",
-  "UGC Video: Developer Focus",
-  "UGC Video: Dopamine Reset",
+  { label: "Caffeine Quitter", duration: "2:14" },
+  { label: "Developer Focus", duration: "1:47" },
+  { label: "Dopamine Reset", duration: "3:02" },
 ];
 
 const QUOTES = [
@@ -16,36 +16,43 @@ const QUOTES = [
 
 export function S04UgcProof() {
   return (
-    <LpSection variant="dark">
-      <h2 className="font-sans text-2xl md:text-3xl font-bold text-white mb-8">
+    <LpSection
+      variant="dark"
+      className="noise-overlay"
+      style={{ background: "linear-gradient(180deg, #2b3235, #262d30)" }}
+    >
+      <h2 className="font-sans font-bold text-white mb-8 section-heading-dash text-[28px] md:text-[34px] tracking-[-0.015em]">
         What the Community Is Saying
       </h2>
 
       <div className="grid md:grid-cols-3 gap-4 mb-8">
-        {VIDEOS.map((label) => (
-          <VideoPlaceholder key={label} aspectRatio="16:9" label={label} />
+        {VIDEOS.map(({ label, duration }) => (
+          <VideoPlaceholder key={label} aspectRatio="16:9" label={label} duration={duration} />
         ))}
       </div>
 
-      <div className="space-y-4 mb-10">
+      <div className="space-y-6 mb-10">
         {QUOTES.map((quote) => (
-          <div
-            key={quote}
-            className="bg-white/[0.03] border border-white/[0.06] rounded-[2px] px-8 py-7 md:px-10 md:py-8 relative"
-          >
+          <div key={quote} className="quote-card relative pr-[52px] pl-[100px] pt-11 pb-10">
             <span
-              className="text-7xl md:text-8xl leading-none text-[#1e9c78] absolute top-3 left-6 md:left-8 opacity-90"
-              style={{ fontFamily: "Georgia, serif" }}
+              className="leading-none text-[#1e9c78] absolute top-6 left-8 opacity-55"
+              style={{ fontFamily: "Georgia, serif", fontSize: "110px" }}
               aria-hidden="true"
             >
               &ldquo;
             </span>
-            <p className="font-sans text-lg md:text-xl text-white leading-relaxed pt-6 relative z-10 mb-4">
+            <p
+              className="font-sans text-white leading-[1.65] relative z-10 mb-5"
+              style={{ fontSize: "21px", fontWeight: 500 }}
+            >
               {quote}
             </p>
-            <p className="font-mono text-xs text-[#6b8480] tracking-wide">
-              — Bromantane community
-            </p>
+            <div className="flex items-center gap-3">
+              <div className="w-7 h-px bg-[#1e9c78]" />
+              <p className="font-mono text-[11px] uppercase tracking-wider text-[#6b8480]">
+                Bromantane community
+              </p>
+            </div>
           </div>
         ))}
       </div>

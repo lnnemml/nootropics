@@ -33,19 +33,23 @@ const FAQ_ITEMS = [
 
 export function S14Faq() {
   return (
-    <LpSection id="faq" variant="dark">
+    <LpSection id="faq" variant="dark" className="noise-overlay">
       <div className="grid md:grid-cols-[35fr_65fr] gap-10 md:gap-14 items-start">
         <div className="hidden md:block">
-          <Image
-            src="/go/product-detail.png"
-            alt="NeuroDrive bottle product detail"
-            width={896}
-            height={1200}
-            className="w-full h-auto rounded-[2px]"
-          />
+          <div className="image-frame">
+            <Image
+              src="/go/product-detail.png"
+              alt="NeuroDrive bottle product detail"
+              width={896}
+              height={1200}
+              className="w-full h-auto rounded-[2px]"
+            />
+          </div>
         </div>
         <div>
-          <h2 className="font-sans text-2xl md:text-3xl font-bold text-white mb-8">Questions</h2>
+          <h2 className="font-sans text-[28px] md:text-[34px] font-bold text-white tracking-[-0.015em] mb-8">
+            Questions
+          </h2>
           <FaqAccordion items={FAQ_ITEMS} />
           <div className="mt-10">
             <CtaButton trackingLocation="faq" />

@@ -59,3 +59,85 @@ gmp-placeautocomplete input {
   background-color: var(--color-card);
   color: var(--color-primary);
 }
+
+/* ─── /go Landing Page Utilities ─────────────────────────────────── */
+
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/></filter><rect width='240' height='240' filter='url(%23n)' opacity='0.5'/></svg>");
+  opacity: 0.045;
+  pointer-events: none;
+}
+
+.teal-glow {
+  background: radial-gradient(circle, rgba(30,156,120,0.16) 0%, rgba(30,156,120,0) 65%);
+}
+
+.teal-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(30,156,120,0.4), transparent);
+}
+
+.image-frame {
+  border: 1px solid rgba(255,255,255,0.1);
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+  padding: 16px;
+  border-radius: 2px;
+  box-shadow: 0 40px 80px -40px rgba(0,0,0,0.6);
+}
+
+.image-frame-teal {
+  border: 1px solid rgba(30,156,120,0.25);
+  background: linear-gradient(180deg, rgba(30,156,120,0.05), rgba(255,255,255,0.01));
+  padding: 16px;
+  border-radius: 2px;
+  box-shadow: 0 0 100px -30px rgba(30,156,120,0.3), 0 40px 80px -40px rgba(0,0,0,0.6);
+}
+
+.cta-gradient {
+  background: linear-gradient(160deg, #22b189 0%, #1e9c78 55%, #178263 100%);
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset, 0 12px 32px -8px rgba(30,156,120,0.45);
+}
+.cta-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset, 0 18px 44px -8px rgba(30,156,120,0.6);
+}
+
+.cta-outline-dark {
+  border: 1px solid rgba(30,156,120,0.65);
+  color: #1e9c78;
+  background: rgba(30,156,120,0.06);
+}
+.cta-outline-dark:hover {
+  background: #1e9c78;
+  color: #fff;
+  border-color: #1e9c78;
+}
+
+.quote-card {
+  background: linear-gradient(135deg, #2b3235 0%, #262d30 100%);
+  border-left: 2px solid #1e9c78;
+  border-radius: 2px;
+  box-shadow: 0 32px 64px -32px rgba(43,50,53,0.5);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.quote-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 40px 72px -32px rgba(43,50,53,0.6);
+}
+
+.section-heading-dash {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.section-heading-dash::before {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: #1e9c78;
+  flex-shrink: 0;
+}

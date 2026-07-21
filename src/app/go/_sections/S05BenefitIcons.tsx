@@ -80,9 +80,11 @@ export function S05BenefitIcons() {
     <LpSection variant="light" padding="py-10 md:py-12">
       <div className="flex flex-wrap md:flex-nowrap justify-center gap-6 md:gap-8">
         {BENEFITS.map((b) => (
-          <div key={b.label} className="flex flex-col items-center gap-2 min-w-[80px]">
-            <div className="w-11 h-11 flex items-center justify-center">{b.icon}</div>
-            <span className="font-sans text-[11px] font-medium text-[#2b3235] text-center leading-tight">
+          <div key={b.label} className="flex flex-col items-center gap-3 min-w-[80px] group">
+            <div className="w-16 h-16 flex items-center justify-center bg-white border border-[#2b3235]/[0.1] rounded-[2px] shadow-[0_8px_20px_-12px_rgba(43,50,53,0.25)] transition-all duration-300 group-hover:border-[#1e9c78]/50 group-hover:-translate-y-[3px]">
+              {b.icon}
+            </div>
+            <span className="font-mono text-[10px] font-medium text-[#2b3235] text-center leading-tight uppercase tracking-[0.1em]">
               {b.label}
             </span>
           </div>

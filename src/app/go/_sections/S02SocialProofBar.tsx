@@ -43,19 +43,19 @@ const BADGES = [
 
 export function S02SocialProofBar() {
   return (
-    <div className="bg-[#f0f1f0] py-4 md:py-5">
+    <div className="bg-[#f8f9fa] border-b border-[#2b3235]/[0.07] py-[26px]">
       <Container>
         <div className="flex flex-wrap md:flex-nowrap items-center justify-center gap-x-0 gap-y-3">
           {BADGES.map((badge, i) => (
             <div key={badge.label} className="flex items-center">
-              <div className="flex items-center gap-2 px-4">
+              <div className="flex items-center gap-[10px] px-4">
                 {badge.icon}
                 <span className="font-sans text-[13px] font-medium text-[#2b3235]">
                   {badge.label}
                 </span>
               </div>
               {i < BADGES.length - 1 && (
-                <div className="h-4 w-px bg-[#c4c5c3] hidden md:block" />
+                <div className="h-5 w-px bg-[#2b3235]/[0.12] hidden md:block" />
               )}
             </div>
           ))}

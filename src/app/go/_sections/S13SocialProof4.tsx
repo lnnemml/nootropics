@@ -10,25 +10,26 @@ const QUOTES = [
 export function S13SocialProof4() {
   return (
     <LpSection variant="light">
-      <div className="space-y-4 mb-10">
+      <div className="space-y-6 mb-10">
         {QUOTES.map((quote) => (
-          <div
-            key={quote}
-            className="bg-[#2b3235] rounded-[2px] px-8 py-6 md:px-10 md:py-7 flex items-start gap-5"
-          >
+          <div key={quote} className="quote-card relative pr-10 pl-[80px] pt-8 pb-8">
             <span
-              className="leading-[0.8] text-[#1e9c78] flex-shrink-0 mt-1 opacity-85"
-              style={{ fontFamily: "Georgia, serif", fontSize: "56px" }}
+              className="leading-none text-[#1e9c78] absolute top-4 left-6 opacity-55"
+              style={{ fontFamily: "Georgia, serif", fontSize: "80px" }}
               aria-hidden="true"
             >
               &ldquo;
             </span>
-            <div>
-              <p className="font-sans text-base md:text-lg text-white leading-relaxed mb-3">
-                {quote}
-              </p>
-              <p className="font-mono text-[11px] text-[#6b8480] tracking-wide">
-                — Bromantane community
+            <p
+              className="font-sans text-white leading-[1.65] relative z-10 mb-4"
+              style={{ fontSize: "18px", fontWeight: 500 }}
+            >
+              {quote}
+            </p>
+            <div className="flex items-center gap-3">
+              <div className="w-7 h-px bg-[#1e9c78]" />
+              <p className="font-mono text-[11px] uppercase tracking-wider text-[#6b8480]">
+                Bromantane community
               </p>
             </div>
           </div>

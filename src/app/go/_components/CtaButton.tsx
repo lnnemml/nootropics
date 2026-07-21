@@ -21,11 +21,12 @@ export function CtaButton({
   className = "",
 }: CtaButtonProps) {
   const base =
-    "inline-flex items-center justify-center rounded-[2px] px-8 py-4 font-sans text-base md:text-lg font-medium transition-opacity hover:opacity-90";
+    "inline-flex items-center justify-center rounded-[2px] font-sans font-semibold transition-all duration-200";
   const styles: Record<string, string> = {
-    primary: "bg-[#1e9c78] text-white",
-    outline: "border border-[#1e9c78] text-[#1e9c78] bg-transparent",
-    inverted: "bg-white text-[#1e9c78]",
+    primary: "cta-gradient text-white px-10 py-[18px] text-[17px]",
+    outline: "cta-outline-dark px-10 py-[18px] text-[17px]",
+    inverted:
+      "bg-white text-[#1e9c78] shadow-[0_24px_64px_-12px_rgba(0,0,0,0.4)] px-16 py-6 text-xl",
   };
 
   return (
