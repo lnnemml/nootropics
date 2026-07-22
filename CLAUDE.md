@@ -102,9 +102,10 @@ an architecture analysis, a copywriting rationale.
   [`docs/wiki/design/design-system.md`](docs/wiki/design/design-system.md),
   don't invent new colors/radii/spacing per page.** Raw reference markup:
   [`docs/raw/design/home-design-pass-1.html`](docs/raw/design/home-design-pass-1.html)
-  (open directly in a browser). Claude Design is retired from the build
-  loop — see
-  [`docs/wiki/decisions/0007-design-lock-in-and-brand-hierarchy.md`](docs/wiki/decisions/0007-design-lock-in-and-brand-hierarchy.md).
+  (open directly in a browser). Claude Design is retired from the main site
+  build loop (ADR 0007) but re-entered for `/go` visual design passes (ADR 0020).
+  For `/go` styling, reference
+  [`docs/raw/design/handoff-spec.md`](docs/raw/design/handoff-spec.md).
 - **Brand voice depends on the page — check
   [`docs/wiki/product/brand-hierarchy.md`](docs/wiki/product/brand-hierarchy.md)
   before writing copy.** Platform pages (home, mission, nav, footer)

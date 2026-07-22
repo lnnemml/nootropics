@@ -62,6 +62,9 @@ whole wiki.
 - [`design/design-tokens.md`](./design/design-tokens.md) — **authoritative
   color palette**, extracted directly from the existing logo + product
   label (supersedes the earlier color-temperature instinct)
+- **`docs/raw/design/handoff-spec.md`** — authoritative Tailwind class spec
+  for the `/go` premium redesign (desktop + mobile); reference before editing
+  any `/go` section styling
 
 ## Decisions (ADR-style, append-only — never delete, supersede instead)
 
@@ -99,6 +102,8 @@ whole wiki.
   — GTM + Clarity + Meta Pixel (client), Meta CAPI + GA4 MP (server), event deduplication
 - [`decisions/0019-dr-landing-page.md`](./decisions/0019-dr-landing-page.md)
   — `/go` standalone DR page, 17 sections, evidence visuals over lifestyle photos, no guarantee
+- [`decisions/0020-premium-redesign.md`](./decisions/0020-premium-redesign.md)
+  — premium visual redesign of `/go`, Claude Design handoff spec, reusable CSS utilities
 
 ## Planning
 

@@ -1235,3 +1235,29 @@ Phase 5 marked complete in roadmap. CLAUDE.md updated to Phase 6.
 - S07: grid rebalanced to 50/50, image in fixed-height container with object-cover
 - S04, S09, S13: all quote sections changed from 3-col grid to single-column full-width cards
   with text-lg/xl — social proof must bombard, not whisper
+
+## [2026-07-15] phase | Phase 6B — Premium visual redesign of `/go`
+
+- Claude Design (Fable model) connected to GitHub repo, produced full redesign
+  mockup with Tailwind handoff spec
+- Desktop mockup: `docs/raw/design/Redesign.dc.html`
+- Mobile mockup: `docs/raw/design/Redesign Mobile.dc.html`
+- Handoff spec: `docs/raw/design/handoff-spec.md` (237 lines, exact Tailwind
+  classes for every section + component, desktop and mobile)
+- Design direction: bold premium (Aesop/Seed/Eight Sleep/Linear level)
+- Key visual additions: noise grain textures, gradient CTAs with hover lift,
+  glass-frame image mounts, teal radial glow accents, poster-frame video
+  placeholders with glass play button, CSS grid-rows FAQ animation,
+  140px section rhythm, offset teal outline on S07 product photo
+- Custom CSS utilities added to globals.css: noise-overlay, cta-gradient,
+  teal-glow, teal-hairline, image-frame, image-frame-teal, cta-outline-dark,
+  quote-card, section-heading-dash
+- ADR 0020 recorded
+- Implementation prompt prepared for Claude Code (10-commit rollout per
+  handoff spec commit order)
+
+## [2026-07-15] decision | Claude Design re-enters workflow for `/go`
+
+- ADR 0007 ("Claude Design retired") superseded for `/go` page only
+- Claude Design used for visual design passes, Claude Code for implementation
+- Main site design system remains locked and unchanged

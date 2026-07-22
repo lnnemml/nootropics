@@ -151,7 +151,7 @@ Manual steps completed by Anton:
 - All env vars added to Vercel
 - GSC domain verification pending
 
-### 6B — DR Landing Page `/go` *(in progress — structure + assets integrated)*
+### 6B — DR Landing Page `/go` *(in progress — structure, assets, and premium redesign complete)*
 
 17-section direct response landing page at `/go` with custom layout (no NavBar/Footer),
 designed for maximum conversion from paid traffic.

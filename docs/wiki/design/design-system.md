@@ -144,6 +144,25 @@ Rules for using Container:
   explicit smaller `text-[Npx]` / `sm:text-[Npx]` steps below `md`, so mobile
   doesn't fall through to the clamp's desktop-sized floor.
 
+## `/go` Landing Page — Extended Design Language
+
+The `/go` DR landing page has its own visual layer that extends the base design
+system. It shares the locked palette, fonts, and border radius, but adds:
+
+- Noise/grain texture overlays on dark sections
+- Gradient CTA buttons (vs. flat on main site)
+- Glass-border image frames with deep shadows
+- Teal radial glow accents
+- 140px section padding (vs. standard site spacing)
+- Elevated quote cards with hover lift
+
+These patterns are documented in the handoff spec at
+`docs/raw/design/handoff-spec.md` and the CSS utilities live in
+`src/app/globals.css` (search for "Landing Page Utilities").
+
+This extended language applies ONLY to `/go` — the main site retains
+the base design system defined above.
+
 ## Related pages
 
 - [`design-tokens.md`](./design-tokens.md) — color extraction reasoning
