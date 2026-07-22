@@ -5,9 +5,12 @@ import { CtaButton } from "../_components/CtaButton";
 export function S10Differentiators() {
   return (
     <LpSection variant="dark" className="noise-overlay">
-      <h2 className="font-sans font-bold text-white mb-10 section-heading-dash text-[28px] md:text-[34px] tracking-[-0.015em]">
-        Built Different. By Design.
-      </h2>
+      <div className="flex items-center gap-4 mb-16">
+        <div className="w-8 h-px bg-[#1e9c78] flex-shrink-0" />
+        <h2 className="text-[26px] md:text-[34px] font-bold tracking-[-0.015em] text-white">
+          Built Different. By Design.
+        </h2>
+      </div>
 
       <div className="mb-10">
         <div className="image-frame-teal">

@@ -141,3 +141,9 @@ gmp-placeautocomplete input {
   background: #1e9c78;
   flex-shrink: 0;
 }
+
+/* Alias for teal-divider used in redesign spec */
+.teal-hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(30,156,120,0.4), transparent);
+}

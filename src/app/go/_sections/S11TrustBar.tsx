@@ -16,14 +16,14 @@ const ITEMS = [
 
 export function S11TrustBar() {
   return (
-    <div className="bg-[#1f2528] py-5 md:py-6 border-y border-white/[0.06]">
+    <div className="bg-[#1f2528] py-[26px] border-y border-white/[0.06]">
       <Container>
-        <div className="flex flex-wrap justify-center items-center gap-x-0 gap-y-3">
+        <div className="grid grid-cols-2 md:flex md:flex-wrap justify-center items-center gap-x-2.5 md:gap-x-0 gap-y-3.5 md:gap-y-3">
           {ITEMS.map((item, i) => (
             <div key={item} className="flex items-center">
               <div className="flex items-center gap-2 px-4">
                 <CheckIcon />
-                <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/75">
+                <span className="font-mono text-[9px] md:text-[11px] font-medium uppercase tracking-[0.14em] text-white/75">
                   {item}
                 </span>
               </div>

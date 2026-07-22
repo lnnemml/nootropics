@@ -4,8 +4,8 @@ import { CtaButton } from "../_components/CtaButton";
 
 export function S15FinalCta() {
   return (
-    <section id="order" className="relative py-20 md:py-[160px] overflow-hidden">
-      {/* Background image at low opacity */}
+    <section id="order" className="relative py-28 md:py-40 overflow-hidden noise-overlay">
+      {/* Background image */}
       <Image
         src="/go/final-cta-bg.png"
         alt=""
@@ -18,7 +18,7 @@ export function S15FinalCta() {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(160deg, rgba(30,156,120,0.92), rgba(51,77,72,0.95))",
+            "linear-gradient(135deg, rgba(30,156,120,0.94) 0%, rgba(51,77,72,0.96) 100%)",
         }}
       />
       {/* Vignette */}
@@ -26,16 +26,16 @@ export function S15FinalCta() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.25) 100%)",
+            "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.25) 100%)",
         }}
       />
 
       <Container>
         <div className="relative z-10 max-w-2xl mx-auto text-center">
-          <h2 className="font-sans text-[38px] md:text-[54px] font-bold text-white leading-[1.08] tracking-[-0.02em] [text-wrap:pretty] mb-4">
+          <h2 className="font-sans text-[36px] md:text-[54px] font-bold text-white leading-[1.05] tracking-[-0.02em] [text-wrap:pretty] mb-6">
             Your Brain Is Your Leverage. Protect It.
           </h2>
-          <p className="font-sans text-[18px] md:text-[20px] text-white/[0.85] leading-relaxed mb-8">
+          <p className="font-sans text-xl text-white/85 leading-relaxed mb-12 max-w-[600px] mx-auto">
             Join the developers, founders, and builders who stopped forcing performance and started
             restoring it.
           </p>
@@ -44,7 +44,7 @@ export function S15FinalCta() {
             trackingLocation="final_cta"
             label="Order NeuroDrive →"
           />
-          <p className="mt-6 font-mono text-xs text-white/70 uppercase tracking-wider">
+          <p className="mt-9 font-mono text-[11px] text-white/70 uppercase tracking-[0.16em]">
             Free Worldwide Shipping · NMR-Verified Purity · Legal in US, Canada, EU, AU
           </p>
         </div>

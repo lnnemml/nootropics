@@ -15,21 +15,21 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
       {items.map((item, i) => (
         <div
           key={i}
-          className={`border-b border-b-white/10 border-l-2 pl-6 transition-all duration-300 ${
+          className={`border-b border-b-white/10 border-l-2 transition-all duration-300 ${
             openIndex === i
-              ? "border-l-[#1e9c78] bg-white/[0.025]"
+              ? "pl-6 bg-white/[0.025] border-l-[#1e9c78]"
               : "border-l-transparent"
           }`}
         >
           <button
             onClick={() => setOpenIndex(openIndex === i ? null : i)}
-            className="w-full flex items-start justify-between gap-4 text-left py-4"
+            className="w-full flex items-start justify-between gap-4 text-left py-5"
           >
-            <span className="font-sans font-medium text-white text-base leading-snug">
+            <span className="font-sans font-semibold text-white text-[17px] leading-[1.4]">
               {item.question}
             </span>
             <span
-              className={`flex-shrink-0 font-mono text-[#1e9c78] text-xl leading-none mt-0.5 transition-transform duration-300 ${
+              className={`flex-shrink-0 font-mono text-[#1e9c78] text-xl leading-none mt-0.5 inline-block transition-transform duration-300 ${
                 openIndex === i ? "rotate-45" : "rotate-0"
               }`}
             >
@@ -37,14 +37,12 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
             </span>
           </button>
           <div
-            style={{
-              display: "grid",
-              gridTemplateRows: openIndex === i ? "1fr" : "0fr",
-              transition: "grid-template-rows 350ms ease",
-            }}
+            className={`grid transition-[grid-template-rows] duration-[350ms] ${
+              openIndex === i ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+            }`}
           >
             <div className="overflow-hidden">
-              <p className="font-sans text-sm text-white/70 leading-relaxed pb-4 pr-8">
+              <p className="font-sans text-[15px] text-white/65 leading-[1.7] pt-3.5 pb-4 pr-8">
                 {item.answer}
               </p>
             </div>

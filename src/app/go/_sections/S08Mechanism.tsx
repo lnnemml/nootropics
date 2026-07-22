@@ -10,12 +10,15 @@ export function S08Mechanism() {
       className="noise-overlay"
       style={{ background: "linear-gradient(180deg, #262d30, #2b3235)" }}
     >
-      {/* Top teal divider */}
+      {/* Top teal hairline */}
       <div className="teal-divider absolute top-0 left-0 right-0" />
 
-      <h2 className="font-sans font-bold text-white mb-10 section-heading-dash text-[28px] md:text-[34px] tracking-[-0.015em]">
-        Why NeuroDrive Works When Everything Else Failed
-      </h2>
+      <div className="flex items-center gap-4 mb-16">
+        <div className="w-8 h-px bg-[#1e9c78] flex-shrink-0" />
+        <h2 className="text-[26px] md:text-[34px] font-bold tracking-[-0.015em] text-white">
+          Why NeuroDrive Works When Everything Else Failed
+        </h2>
+      </div>
 
       <div className="mb-[72px]">
         <div className="image-frame">
@@ -29,7 +32,7 @@ export function S08Mechanism() {
         </div>
       </div>
 
-      <div className="mb-10">
+      <div className="mb-16">
         <div className="image-frame">
           <Image
             src="/go/how-it-works.png"

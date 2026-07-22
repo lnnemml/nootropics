@@ -21,15 +21,25 @@ export function StickyMobileCta() {
 
   return (
     <div
-      className={`fixed bottom-0 left-0 right-0 z-50 p-4 md:hidden bg-[#2b3235]/95 backdrop-blur-sm border-t border-white/10 transition-transform duration-300 ${
-        visible ? "translate-y-0" : "translate-y-full"
+      className={`fixed bottom-0 inset-x-0 z-50 px-4 pt-3 pb-[calc(12px+env(safe-area-inset-bottom))] md:hidden bg-[#1f2528]/[0.92] backdrop-blur-[12px] border-t border-white/10 shadow-[0_-12px_32px_-12px_rgba(0,0,0,0.5)] transition-transform duration-[350ms] ${
+        visible ? "translate-y-0" : "translate-y-[110%]"
       }`}
     >
-      <CtaButton
-        href="/checkout?qty=1"
-        trackingLocation="sticky_mobile"
-        className="w-full"
-      />
+      <div className="flex items-center gap-3">
+        <div className="flex flex-col gap-0.5 flex-shrink-0">
+          <span className="font-mono text-[9px] tracking-[0.12em] text-white/55 uppercase">
+            NeuroDrive
+          </span>
+          <span className="font-mono text-[9px] tracking-[0.12em] text-[#1e9c78] uppercase">
+            80mg/ml · 30 days
+          </span>
+        </div>
+        <CtaButton
+          href="/checkout?qty=1"
+          trackingLocation="sticky_mobile"
+          className="flex-1 min-h-[50px] justify-center"
+        />
+      </div>
     </div>
   );
 }

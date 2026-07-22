@@ -21,7 +21,7 @@ export function LpSection({
   variant,
   id,
   className = "",
-  padding = "py-[140px]",
+  padding = "py-[88px] md:py-[140px]",
   style,
 }: LpSectionProps) {
   return (

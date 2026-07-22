@@ -33,10 +33,15 @@ const FAQ_ITEMS = [
 
 export function S14Faq() {
   return (
-    <LpSection id="faq" variant="dark" className="noise-overlay">
-      <div className="grid md:grid-cols-[35fr_65fr] gap-10 md:gap-14 items-start">
+    <LpSection
+      id="faq"
+      variant="dark"
+      className="noise-overlay"
+      style={{ background: "linear-gradient(180deg, #2b3235, #262d30)" }}
+    >
+      <div className="grid md:grid-cols-[35fr_65fr] gap-10 md:gap-20 items-start">
         <div className="hidden md:block">
-          <div className="image-frame">
+          <div className="image-frame" style={{ padding: "12px" }}>
             <Image
               src="/go/product-detail.png"
               alt="NeuroDrive bottle product detail"
@@ -47,9 +52,12 @@ export function S14Faq() {
           </div>
         </div>
         <div>
-          <h2 className="font-sans text-[28px] md:text-[34px] font-bold text-white tracking-[-0.015em] mb-8">
-            Questions
-          </h2>
+          <div className="flex items-center gap-4 mb-11">
+            <div className="w-8 h-px bg-[#1e9c78] flex-shrink-0" />
+            <h2 className="text-[26px] md:text-[34px] font-bold tracking-[-0.015em] text-white">
+              Questions
+            </h2>
+          </div>
           <FaqAccordion items={FAQ_ITEMS} />
           <div className="mt-10">
             <CtaButton trackingLocation="faq" />

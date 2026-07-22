@@ -5,7 +5,7 @@ import { CtaButton } from "../_components/CtaButton";
 export function S12ValueProp3() {
   return (
     <LpSection variant="dark" className="noise-overlay">
-      <div className="mb-10">
+      <div className="mb-16">
         <div className="image-frame">
           <Image
             src="/go/dual-mechanism.png"
@@ -17,8 +17,8 @@ export function S12ValueProp3() {
         </div>
       </div>
 
-      <div className="max-w-2xl">
-        <h2 className="font-sans text-[28px] md:text-[34px] font-bold text-white leading-tight tracking-[-0.015em] [text-wrap:pretty] mb-5">
+      <div className="max-w-[640px]">
+        <h2 className="font-sans text-[34px] leading-[1.15] tracking-[-0.015em] [text-wrap:pretty] font-bold text-white mb-6">
           Feel Sharp and Calm at the Same Time. The Combination Stimulants Can Never Deliver.
         </h2>
         <p className="font-sans text-[17px] text-white/[0.72] leading-[1.7] mb-4">
@@ -29,7 +29,7 @@ export function S12ValueProp3() {
           The result is a focused state without tension, without racing thoughts, and without the
           emotional blunting that amphetamines are known for.
         </p>
-        <p className="font-sans text-[17px] text-white/[0.72] leading-[1.7] mb-8">
+        <p className="font-sans text-[17px] text-white/[0.72] leading-[1.7] mb-10">
           {"You stay you. Just the sharp, present, engaged version."}
         </p>
         <CtaButton trackingLocation="vp3_clarity" />

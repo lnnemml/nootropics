@@ -77,14 +77,14 @@ const BENEFITS = [
 
 export function S05BenefitIcons() {
   return (
-    <LpSection variant="light" padding="py-10 md:py-12">
-      <div className="flex flex-wrap md:flex-nowrap justify-center gap-6 md:gap-8">
+    <LpSection variant="light" padding="py-[72px] border-b border-[#2b3235]/[0.06]">
+      <div className="grid grid-cols-3 md:flex md:flex-nowrap justify-center gap-x-3 gap-y-6 md:gap-11">
         {BENEFITS.map((b) => (
-          <div key={b.label} className="flex flex-col items-center gap-3 min-w-[80px] group">
-            <div className="w-16 h-16 flex items-center justify-center bg-white border border-[#2b3235]/[0.1] rounded-[2px] shadow-[0_8px_20px_-12px_rgba(43,50,53,0.25)] transition-all duration-300 group-hover:border-[#1e9c78]/50 group-hover:-translate-y-[3px]">
+          <div key={b.label} className="flex flex-col items-center gap-3 group">
+            <div className="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center bg-white border border-[#2b3235]/[0.1] rounded-[2px] shadow-[0_8px_20px_-12px_rgba(43,50,53,0.25)] transition-all duration-[250ms] group-hover:border-[#1e9c78]/50 group-hover:-translate-y-[3px]">
               {b.icon}
             </div>
-            <span className="font-mono text-[10px] font-medium text-[#2b3235] text-center leading-tight uppercase tracking-[0.1em]">
+            <span className="font-mono text-[9px] md:text-[10px] font-medium text-[#2b3235] text-center leading-tight uppercase tracking-[0.1em]">
               {b.label}
             </span>
           </div>

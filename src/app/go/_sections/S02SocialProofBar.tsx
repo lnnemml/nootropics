@@ -45,12 +45,12 @@ export function S02SocialProofBar() {
   return (
     <div className="bg-[#f8f9fa] border-b border-[#2b3235]/[0.07] py-[26px]">
       <Container>
-        <div className="flex flex-wrap md:flex-nowrap items-center justify-center gap-x-0 gap-y-3">
+        <div className="grid grid-cols-2 md:flex md:flex-nowrap items-center justify-center gap-x-3 md:gap-x-0 gap-y-3.5 md:gap-y-0">
           {BADGES.map((badge, i) => (
             <div key={badge.label} className="flex items-center">
-              <div className="flex items-center gap-[10px] px-4">
+              <div className="flex items-center gap-[10px] px-4 md:px-7">
                 {badge.icon}
-                <span className="font-sans text-[13px] font-medium text-[#2b3235]">
+                <span className="font-sans text-xs md:text-[13px] font-medium text-[#2b3235]">
                   {badge.label}
                 </span>
               </div>

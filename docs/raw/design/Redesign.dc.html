@@ -59,7 +59,7 @@
         <div style="position:absolute;inset:-40px;background:radial-gradient(circle, rgba(30,156,120,0.18) 0%, rgba(30,156,120,0) 70%);pointer-events:none"></div>
         <div style="position:relative;border:1px solid rgba(255,255,255,0.12);background:linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);padding:12px;border-radius:2px;box-shadow:0 48px 96px -32px rgba(0,0,0,0.6)">
           <div style="position:relative;width:100%;overflow:hidden;border-radius:2px;background:#22282b;aspect-ratio:4/5">
-            <div style="{{ trackStyle }}">
+            <div data-track="1" style="{{ trackStyle }}">
               <div style="position:relative;width:100%;height:100%;flex-shrink:0">
                 <img src="hero-1.png" alt="NeuroDrive bottle" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain">
                 <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(0,0,0,0.7), transparent);padding:40px 20px 18px">
@@ -83,10 +83,10 @@
               </div>
             </div>
             <div style="position:absolute;bottom:14px;left:0;right:0;display:flex;justify-content:center;gap:8px">
-              <button onClick="{{ goTo0 }}" aria-label="Go to slide 1" style="{{ dotStyle0 }}"></button>
-              <button onClick="{{ goTo1 }}" aria-label="Go to slide 2" style="{{ dotStyle1 }}"></button>
-              <button onClick="{{ goTo2 }}" aria-label="Go to slide 3" style="{{ dotStyle2 }}"></button>
-              <button onClick="{{ goTo3 }}" aria-label="Go to slide 4" style="{{ dotStyle3 }}"></button>
+              <button onClick="{{ goTo0 }}" aria-label="Go to slide 1" data-dot="0" style="{{ dotStyle0 }}"></button>
+              <button onClick="{{ goTo1 }}" aria-label="Go to slide 2" data-dot="1" style="{{ dotStyle1 }}"></button>
+              <button onClick="{{ goTo2 }}" aria-label="Go to slide 3" data-dot="2" style="{{ dotStyle2 }}"></button>
+              <button onClick="{{ goTo3 }}" aria-label="Go to slide 4" data-dot="3" style="{{ dotStyle3 }}"></button>
             </div>
           </div>
         </div>
@@ -480,40 +480,40 @@
           <h2 style="margin:0;font-size:34px;font-weight:700;letter-spacing:-0.015em;color:#fff">Questions</h2>
         </div>
         <div>
-          <div style="{{ item0 }}">
+          <div data-faq-item="0" style="{{ item0 }}">
             <button onClick="{{ toggle0 }}" style="width:100%;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;text-align:left;background:none;border:none;padding:0;cursor:pointer">
               <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:#fff;font-size:17px;line-height:1.4">Is bromantane safe?</span>
-              <span style="{{ sign0Style }}">+</span>
+              <span data-faq-sign="0" style="{{ sign0Style }}">+</span>
             </button>
-            <div style="{{ rows0 }}"><div style="overflow:hidden"><p style="margin:0;font-size:15px;color:rgba(255,255,255,0.65);line-height:1.7;padding:14px 40px 4px 0">Bromantane has been used clinically in Russia as Ladasten for treating neurasthenia. It is non-addictive and well-tolerated at recommended dosages. No significant adverse effects have been reported in the published literature. As with any supplement, consult your healthcare provider before use.</p></div></div>
+            <div data-faq-rows="0" style="{{ rows0 }}"><div style="overflow:hidden"><p style="margin:0;font-size:15px;color:rgba(255,255,255,0.65);line-height:1.7;padding:14px 40px 4px 0">Bromantane has been used clinically in Russia as Ladasten for treating neurasthenia. It is non-addictive and well-tolerated at recommended dosages. No significant adverse effects have been reported in the published literature. As with any supplement, consult your healthcare provider before use.</p></div></div>
           </div>
-          <div style="{{ item1 }}">
+          <div data-faq-item="1" style="{{ item1 }}">
             <button onClick="{{ toggle1 }}" style="width:100%;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;text-align:left;background:none;border:none;padding:0;cursor:pointer">
               <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:#fff;font-size:17px;line-height:1.4">Is it legal?</span>
-              <span style="{{ sign1Style }}">+</span>
+              <span data-faq-sign="1" style="{{ sign1Style }}">+</span>
             </button>
-            <div style="{{ rows1 }}"><div style="overflow:hidden"><p style="margin:0;font-size:15px;color:rgba(255,255,255,0.65);line-height:1.7;padding:14px 40px 4px 0">Yes. Bromantane is unscheduled and legal to purchase and use in the United States, Canada, the European Union, and Australia. It is banned only in competitive athletics by WADA, not for general use.</p></div></div>
+            <div data-faq-rows="1" style="{{ rows1 }}"><div style="overflow:hidden"><p style="margin:0;font-size:15px;color:rgba(255,255,255,0.65);line-height:1.7;padding:14px 40px 4px 0">Yes. Bromantane is unscheduled and legal to purchase and use in the United States, Canada, the European Union, and Australia. It is banned only in competitive athletics by WADA, not for general use.</p></div></div>
           </div>
-          <div style="{{ item2 }}">
+          <div data-faq-item="2" style="{{ item2 }}">
             <button onClick="{{ toggle2 }}" style="width:100%;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;text-align:left;background:none;border:none;padding:0;cursor:pointer">
               <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:#fff;font-size:17px;line-height:1.4">Will I build tolerance?</span>
-              <span style="{{ sign2Style }}">+</span>
+              <span data-faq-sign="2" style="{{ sign2Style }}">+</span>
             </button>
-            <div style="{{ rows2 }}"><div style="overflow:hidden"><p style="margin:0;font-size:15px;color:rgba(255,255,255,0.65);line-height:1.7;padding:14px 40px 4px 0">Unlike stimulants, bromantane does not show tolerance development in studies. Many users report that it works better with consistent use as dopamine synthesis normalizes over time.</p></div></div>
+            <div data-faq-rows="2" style="{{ rows2 }}"><div style="overflow:hidden"><p style="margin:0;font-size:15px;color:rgba(255,255,255,0.65);line-height:1.7;padding:14px 40px 4px 0">Unlike stimulants, bromantane does not show tolerance development in studies. Many users report that it works better with consistent use as dopamine synthesis normalizes over time.</p></div></div>
           </div>
-          <div style="{{ item3 }}">
+          <div data-faq-item="3" style="{{ item3 }}">
             <button onClick="{{ toggle3 }}" style="width:100%;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;text-align:left;background:none;border:none;padding:0;cursor:pointer">
               <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:#fff;font-size:17px;line-height:1.4">How is this different from modafinil or Adderall?</span>
-              <span style="{{ sign3Style }}">+</span>
+              <span data-faq-sign="3" style="{{ sign3Style }}">+</span>
             </button>
-            <div style="{{ rows3 }}"><div style="overflow:hidden"><p style="margin:0;font-size:15px;color:rgba(255,255,255,0.65);line-height:1.7;padding:14px 40px 4px 0">Modafinil blocks dopamine reuptake. Adderall forces dopamine release. Both are stimulant mechanisms that lead to tolerance and crashes. Bromantane upregulates tyrosine hydroxylase, the enzyme responsible for dopamine production. It helps your brain make more dopamine naturally rather than depleting existing stores.</p></div></div>
+            <div data-faq-rows="3" style="{{ rows3 }}"><div style="overflow:hidden"><p style="margin:0;font-size:15px;color:rgba(255,255,255,0.65);line-height:1.7;padding:14px 40px 4px 0">Modafinil blocks dopamine reuptake. Adderall forces dopamine release. Both are stimulant mechanisms that lead to tolerance and crashes. Bromantane upregulates tyrosine hydroxylase, the enzyme responsible for dopamine production. It helps your brain make more dopamine naturally rather than depleting existing stores.</p></div></div>
           </div>
-          <div style="{{ item4 }}">
+          <div data-faq-item="4" style="{{ item4 }}">
             <button onClick="{{ toggle4 }}" style="width:100%;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;text-align:left;background:none;border:none;padding:0;cursor:pointer">
               <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:#fff;font-size:17px;line-height:1.4">When will I feel results?</span>
-              <span style="{{ sign4Style }}">+</span>
+              <span data-faq-sign="4" style="{{ sign4Style }}">+</span>
             </button>
-            <div style="{{ rows4 }}"><div style="overflow:hidden"><p style="margin:0;font-size:15px;color:rgba(255,255,255,0.65);line-height:1.7;padding:14px 40px 4px 0">Sublingual onset is typically 15 to 30 minutes. Most users report noticeable improvements in focus and motivation within the first week. Cumulative benefits build over 2 to 4 weeks of consistent use.</p></div></div>
+            <div data-faq-rows="4" style="{{ rows4 }}"><div style="overflow:hidden"><p style="margin:0;font-size:15px;color:rgba(255,255,255,0.65);line-height:1.7;padding:14px 40px 4px 0">Sublingual onset is typically 15 to 30 minutes. Most users report noticeable improvements in focus and motivation within the first week. Cumulative benefits build over 2 to 4 weeks of consistent use.</p></div></div>
           </div>
         </div>
         <div style="margin-top:56px">
@@ -566,16 +566,43 @@ class Component extends DCLogic {
     clearInterval(this.interval);
     if (this.props.autoRotate === false) return;
     this.interval = setInterval(() => {
-      this.setState(s => ({ current: (s.current + 1) % 4 }));
+      const next = (this.state.current + 1) % 4;
+      this.applyCarousel(next);
+      this.setState({ current: next });
     }, 4500);
   }
   goTo(i) {
+    this.applyCarousel(i);
     this.setState({ current: i });
+    this.forceUpdate();
     clearInterval(this.interval);
     clearTimeout(this.pauseT);
     this.pauseT = setTimeout(() => this.startAuto(), 8000);
   }
-  toggle(i) { this.setState(s => ({ openIndex: s.openIndex === i ? null : i })); }
+  toggle(i) { const next = this.state.openIndex === i ? null : i; this.applyFaq(next); this.setState({ openIndex: next }); this.forceUpdate(); }
+  applyFaq(open) {
+    for (let i = 0; i < 5; i++) {
+      const isOpen = open === i;
+      const item = document.querySelector('[data-faq-item="' + i + '"]');
+      const rows = document.querySelector('[data-faq-rows="' + i + '"]');
+      const sign = document.querySelector('[data-faq-sign="' + i + '"]');
+      if (item) {
+        item.style.padding = isOpen ? '20px 0 20px 24px' : '20px 0';
+        item.style.borderLeft = isOpen ? '2px solid #1e9c78' : '2px solid transparent';
+        item.style.background = isOpen ? 'rgba(255,255,255,0.025)' : 'transparent';
+      }
+      if (rows) rows.style.gridTemplateRows = isOpen ? '1fr' : '0fr';
+      if (sign) sign.style.transform = isOpen ? 'rotate(45deg)' : 'rotate(0deg)';
+    }
+  }
+  applyCarousel(cur) {
+    const track = document.querySelector('[data-track]');
+    if (track) track.style.transform = 'translateX(-' + (cur * 100) + '%)';
+    for (let i = 0; i < 4; i++) {
+      const d = document.querySelector('[data-dot="' + i + '"]');
+      if (d) { d.style.width = i === cur ? '24px' : '10px'; d.style.background = i === cur ? '#1e9c78' : 'rgba(255,255,255,0.3)'; }
+    }
+  }
   renderVals() {
     const { current, openIndex } = this.state;
     const vals = {

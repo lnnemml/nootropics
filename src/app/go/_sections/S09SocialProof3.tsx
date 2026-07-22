@@ -19,13 +19,16 @@ const QUOTES = [
 export function S09SocialProof3() {
   return (
     <LpSection variant="light">
-      <h2 className="font-sans font-bold text-[#2b3235] mb-8 section-heading-dash text-[28px] md:text-[34px] tracking-[-0.015em]">
-        From the Bromantane Community
-      </h2>
+      <div className="flex items-center gap-4 mb-14">
+        <div className="w-8 h-px bg-[#1e9c78] flex-shrink-0" />
+        <h2 className="text-[26px] md:text-[34px] font-bold tracking-[-0.015em] text-[#2b3235]">
+          From the Bromantane Community
+        </h2>
+      </div>
 
-      <div className="space-y-6 mb-10">
+      <div className="space-y-6 mb-16">
         {QUOTES.map(({ text, attr }) => (
-          <div key={text} className="quote-card relative pr-[52px] pl-[100px] pt-11 pb-10">
+          <div key={text} className="quote-card relative pl-[100px] pr-[52px] py-11">
             <span
               className="leading-none text-[#1e9c78] absolute top-6 left-8 opacity-55"
               style={{ fontFamily: "Georgia, serif", fontSize: "110px" }}
@@ -34,14 +37,13 @@ export function S09SocialProof3() {
               &ldquo;
             </span>
             <p
-              className="font-sans text-white leading-[1.65] relative z-10 mb-5"
-              style={{ fontSize: "21px", fontWeight: 500 }}
+              className="font-sans text-white leading-[1.65] relative z-10 mb-5 text-[21px] font-medium"
             >
               {text}
             </p>
             <div className="flex items-center gap-3">
-              <div className="w-7 h-px bg-[#1e9c78]" />
-              <p className="font-mono text-[11px] uppercase tracking-wider text-[#6b8480]">{attr}</p>
+              <div className="w-7 h-px bg-[#1e9c78]/60" />
+              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b8480]">{attr}</p>
             </div>
           </div>
         ))}
