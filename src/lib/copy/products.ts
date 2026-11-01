@@ -110,8 +110,9 @@ const PRODUCTS: ProductData[] = [
     formula: {
       composition: [
         { name: "Bromantane", value: "80 mg/ml" },
+        { name: "Peppermint oil", value: "0.15%" },
+        { name: "Tween 80", value: "0.1%" },
         { name: "MCT oil (pharmaceutical grade)", value: "carrier" },
-        { name: "Peppermint oil", value: "0.1%" },
       ],
       protocol: [
         {

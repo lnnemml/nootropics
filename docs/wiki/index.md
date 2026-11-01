@@ -104,6 +104,8 @@ whole wiki.
   — `/go` standalone DR page, 17 sections, evidence visuals over lifestyle photos, no guarantee
 - [`decisions/0020-premium-redesign.md`](./decisions/0020-premium-redesign.md)
   — premium visual redesign of `/go`, Claude Design handoff spec, reusable CSS utilities
+- [`decisions/0022-formulation-peppermint-tween80.md`](./decisions/0022-formulation-peppermint-tween80.md)
+  — NeuroDrive formulation: bromantane 80 mg/ml, peppermint oil 0.15%, Tween 80 0.1%, in MCT oil
 
 ## Planning
 

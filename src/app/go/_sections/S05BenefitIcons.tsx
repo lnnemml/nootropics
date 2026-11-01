@@ -63,7 +63,7 @@ const BENEFITS = [
     ),
   },
   {
-    label: "One Ingredient",
+    label: "Single compound",
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
         <circle cx="14" cy="14" r="3" stroke="#1e9c78" strokeWidth="1.5" />

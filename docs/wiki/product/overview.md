@@ -10,6 +10,11 @@ pharmaceutical-grade MCT oil carrier) positioned as a **stimulant-free
 cognitive performance restorer** — not another stimulant in a crowded
 nootropics market.
 
+**Formulation** (see
+[ADR 0022](../decisions/0022-formulation-peppermint-tween80.md)): bromantane
+80 mg/ml, peppermint oil 0.15%, Tween 80 0.1%, in MCT oil. The customer-facing
+composition table lives in `src/lib/copy/products.ts`.
+
 ## Big Idea
 
 Unlock deep drive and clarity — without stimulants, crashes, or fog — using

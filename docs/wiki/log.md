@@ -1261,3 +1261,9 @@ Phase 5 marked complete in roadmap. CLAUDE.md updated to Phase 6.
 - ADR 0007 ("Claude Design retired") superseded for `/go` page only
 - Claude Design used for visual design passes, Claude Code for implementation
 - Main site design system remains locked and unchanged
+
+## [2026-11-01] decision | NeuroDrive formulation updated (ADR 0022)
+
+- New formulation: bromantane 80 mg/ml, peppermint oil 0.15% (was 0.1%), Tween 80 0.1% (new), in MCT oil. Recorded in [ADR 0022](./decisions/0022-formulation-peppermint-tween80.md).
+- Updated the product page composition table (`src/lib/copy/products.ts`), `product/overview.md` and `docs/go-v2-claims-to-confirm.md`. Bromantane concentration and dosing are unchanged.
+- Live `/go` badge "One Ingredient" changed to "Single compound" with Anton's approval, matching `/go-v2`.
