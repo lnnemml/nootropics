@@ -4,9 +4,10 @@ import { redirect } from "next/navigation";
 import { CopyButton } from "@/components/CopyButton";
 import { listAffiliatesWithStats } from "@/lib/affiliate/admin-queries";
 import { computeTotalOwedCents, formatBpsAsPercent, formatUsd } from "@/lib/affiliate/core";
-import { isAdminAuthed } from "@/lib/auth";
+import { isAdminAuthed } from "@/lib/admin/auth";
 import { AffiliateForm } from "./AffiliateForm";
-import { Card, FlagNotice, SectionHeading, Th, TopBar, fmtBalance, refLink } from "./ui";
+import { AdminHeader, Card, SectionHeading, Th } from "../ui";
+import { FlagNotice, fmtBalance, refLink } from "./ui";
 
 export const metadata: Metadata = {
   title: "Affiliates",
@@ -28,7 +29,7 @@ export default async function AdminAffiliatesPage() {
   return (
     <main className="min-h-screen bg-page p-8">
       <div className="max-w-[1300px] mx-auto">
-        <TopBar section="Affiliates" backHref="/admin" backLabel="← Orders" />
+        <AdminHeader section="Affiliates" />
         <FlagNotice />
 
         <SectionHeading>{"Payout run"}</SectionHeading>

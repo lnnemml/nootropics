@@ -10,7 +10,7 @@ import {
   setAffiliateActive,
   type TestNotificationResult,
 } from "../actions";
-import { DANGER_BUTTON, FIELD_CLASS, PRIMARY_BUTTON, SECONDARY_BUTTON } from "../form-styles";
+import { DANGER_BUTTON, FIELD_CLASS, PRIMARY_BUTTON, SECONDARY_BUTTON } from "../../form-styles";
 
 function testResultLabel(result: Extract<TestNotificationResult, { ok: true }>): string {
   if (result.channel === "telegram") return "Sent by Telegram.";

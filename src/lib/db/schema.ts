@@ -158,6 +158,19 @@ export const referrals = pgTable("referrals", {
 
 export type Referral = typeof referrals.$inferSelect;
 
+// ── Marketing contacts (ADR 0024) ─────────────────────────────────────────────
+// The broadcast list, kept apart from orders so LTV numbers never include never-paid leads.
+// Insert-only: an existing row is never touched, so an opt-out always wins. Resend owns
+// unsubscribe status once a contact is in the segment.
+export const marketingContacts = pgTable("marketing_contacts", {
+  id:             text("id").primaryKey(),
+  email:          text("email").notNull().unique(),  // lowercased + trimmed
+  firstName:      text("first_name"),
+  source:         text("source").notNull(),          // "order" | "order-backfill"
+  unsubscribedAt: timestamp("unsubscribed_at"),
+  createdAt:      timestamp("created_at").defaultNow().notNull(),
+});
+
 // ── Affiliates (ADR 0023, ported from isrib-next ADR 0025) ────────────────────
 // Creator program, separate from the customer referral (ADR 0017). Money is integer cents;
 // rates are integer basis points (3500 = 35%).

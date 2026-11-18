@@ -1,25 +1,23 @@
 import { db } from "@/lib/db";
 import { orders } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
-import { notFound } from "next/navigation";
-import Link from "next/link";
-import { updateOrderStatus } from "@/app/actions/updateOrderStatus";
+import { notFound, redirect } from "next/navigation";
+import { isAdminAuthed } from "@/lib/admin/auth";
 import { ShippingForm } from "./ShippingForm";
 import { CARRIER_LABELS, getTrackingUrl } from "@/lib/tracking";
+import { MarkPaidButton } from "../../MarkPaidButton";
+import { StatusSelect } from "../../StatusSelect";
+import { AdminHeader } from "../../ui";
 
-const ALL_STATUSES = [
-  "pending_payment_instructions",
-  "awaiting_payment",
-  "paid",
-  "fulfilled",
-  "cancelled",
-] as const;
+export const dynamic = "force-dynamic";
 
 export default async function OrderDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
+  if (!(await isAdminAuthed())) redirect("/admin/login");
+
   const { id } = await params;
   const [order] = await db
     .select()
@@ -52,14 +50,10 @@ export default async function OrderDetailPage({
 
   return (
     <main className="min-h-screen bg-page p-8">
+      <div className="max-w-[1300px] mx-auto">
+        <AdminHeader section={`Order ${order.orderNumber}`} />
+      </div>
       <div className="max-w-[700px] mx-auto">
-        <Link
-          href="/admin"
-          className="font-mono text-xs text-ink/40 hover:text-ink transition-colors mb-6 inline-block"
-        >
-          ← All orders
-        </Link>
-
         <p className="font-mono text-xs text-accent uppercase tracking-widest mb-2">
           {order.orderNumber}
         </p>
@@ -72,30 +66,12 @@ export default async function OrderDetailPage({
           <p className="font-mono text-xs text-ink/50 mb-3 uppercase tracking-widest">
             Status
           </p>
-          <form className="flex gap-3 items-center">
-            <select
-              name="status"
-              defaultValue={order.status}
-              className="border border-border bg-page text-ink font-mono text-sm px-3 py-2 rounded-[2px] outline-none"
-            >
-              {ALL_STATUSES.map(s => (
-                <option key={s} value={s}>
-                  {s.replace(/_/g, " ")}
-                </option>
-              ))}
-            </select>
-            <button
-              type="submit"
-              formAction={async (formData: FormData) => {
-                "use server";
-                const status = formData.get("status") as typeof ALL_STATUSES[number];
-                await updateOrderStatus(order.id, status);
-              }}
-              className="bg-ink text-page font-mono text-xs px-4 py-2 rounded-[2px] hover:opacity-90 transition-opacity"
-            >
-              Save
-            </button>
-          </form>
+          <div className="flex flex-wrap gap-3 items-start">
+            <StatusSelect orderId={order.id} status={order.status} />
+            {(order.status === "pending_payment_instructions" || order.status === "awaiting_payment") && (
+              <MarkPaidButton orderId={order.id} />
+            )}
+          </div>
         </div>
 
         {/* Shipping */}

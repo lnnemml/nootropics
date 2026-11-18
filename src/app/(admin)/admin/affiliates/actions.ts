@@ -9,7 +9,7 @@
 import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
-import { isAdminAuthed } from "@/lib/auth";
+import { isAdminAuthed } from "@/lib/admin/auth";
 import {
   findAffiliateConflict,
   getAffiliateChannels,

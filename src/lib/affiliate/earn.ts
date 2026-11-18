@@ -1,7 +1,7 @@
 import "server-only";
 
 // ADR 0023 — the commission claim. commission_earned_at is set by one conditional UPDATE, so
-// however many paid paths (webhook, updateOrderStatus, markOrderShipped) reach an order, exactly
+// however many paid paths (webhook, admin setStatus/markPaid, markOrderShipped) reach an order, exactly
 // one gets a row back and notifies.
 
 import { and, eq, inArray, isNotNull, isNull } from "drizzle-orm";

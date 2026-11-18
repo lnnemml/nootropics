@@ -11,7 +11,7 @@ import {
   type AffiliateInput,
 } from "@/lib/affiliate/core";
 import { createAffiliate, updateAffiliate } from "./actions";
-import { FIELD_CLASS, FIELD_LABEL_CLASS, PRIMARY_BUTTON } from "./form-styles";
+import { FIELD_CLASS, FIELD_LABEL_CLASS, PRIMARY_BUTTON } from "../form-styles";
 
 const NEW_AFFILIATE: AffiliateInput = {
   name: "",

@@ -62,7 +62,7 @@ export async function sendPaymentConfirmedOpsAlert(order: Order): Promise<void> 
   await resend.emails.send({
     from: "NORA System <system@noraalliance.com>",
     to: adminEmails,
-    subject: `✓ [NORA] ${order.orderNumber} — Crypto payment confirmed — $${(order.totalPrice / 100).toFixed(2)}`,
+    subject: `✓ [NORA] ${order.orderNumber} — ${order.paymentMethod === "crypto" ? "Crypto payment" : "Manual payment"} confirmed — $${(order.totalPrice / 100).toFixed(2)}`,
     html: orderPaymentConfirmedOps(order),
   });
 }

@@ -182,6 +182,15 @@ Ported from isrib-next ADR 0025 as a launch sales pillar. See
 Remaining: commit + deploy, set `AFFILIATE_HASH_SECRET` + `TELEGRAM_BOT_TOKEN`, QA with a test
 affiliate, then `AFFILIATES_ENABLED=true`; first influencer outreach.
 
+### 6D — Admin panel port *(code done, DB migrated, Resend segment created 2026-11-18 — Vercel env + deploy pending)*
+
+Ported from isrib-next; see [ADR 0024](./decisions/0024-admin-panel-port.md). BI dashboard,
+inline order actions, customers/LTV, password login, campaigns.
+
+Remaining, in order: set `ADMIN_PASSWORD`, `ADMIN_AUTH_SECRET` and
+`RESEND_SEGMENT_ID=7ebe3ba7-eb6a-4946-b784-7358acfb0d1a` on Vercel → deploy → "Sync contacts
+from orders". Privacy page: mention the marketing list.
+
 ### Future (not yet started):
 - Card payment processing (gather crypto transaction history → approach high-risk processors)
 - Post-delivery follow-up email

@@ -68,7 +68,7 @@ export function orderPaymentConfirmedCrypto(order: Order): string {
   <p style="font-family: monospace; font-size: 11px; color: #1E9C78; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px;">NORA Alliance</p>
   <h1 style="font-size: 28px; font-weight: 600; margin-bottom: 16px; line-height: 1.2;">Payment confirmed.</h1>
   <p style="font-family: monospace; font-size: 13px; color: #1E9C78; margin-bottom: 24px;">Order ${order.orderNumber}</p>
-  <p style="color: #2E3A3C; margin-bottom: 24px;">Your crypto payment has been confirmed, ${order.name}. We'll ship your NeuroDrive within 24 hours and email a tracking number to <strong>${order.email}</strong>.</p>
+  <p style="color: #2E3A3C; margin-bottom: 24px;">Your ${order.paymentMethod === "crypto" ? "crypto " : ""}payment has been confirmed, ${order.name}. We'll ship your NeuroDrive within 24 hours and email a tracking number to <strong>${order.email}</strong>.</p>
   <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
     <tr style="border-bottom: 1px solid #e5e5e0;">
       <td style="padding: 10px 0; color: #666;">Order number</td>

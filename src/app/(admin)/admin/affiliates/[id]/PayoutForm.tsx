@@ -5,7 +5,7 @@
 import { useState, useTransition } from "react";
 import { PAYOUT_CURRENCIES, parseUsdToCents, type PayoutInput } from "@/lib/affiliate/core";
 import { recordPayout } from "../actions";
-import { FIELD_CLASS, FIELD_LABEL_CLASS, PRIMARY_BUTTON } from "../form-styles";
+import { FIELD_CLASS, FIELD_LABEL_CLASS, PRIMARY_BUTTON } from "../../form-styles";
 
 const TEXT_FIELDS: readonly {
   key: keyof PayoutInput;

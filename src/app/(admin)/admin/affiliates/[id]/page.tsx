@@ -15,10 +15,11 @@ import {
   type CommissionState,
 } from "@/lib/affiliate/core";
 import { txExplorerUrl } from "@/lib/affiliate/explorer";
-import { isAdminAuthed } from "@/lib/auth";
+import { isAdminAuthed } from "@/lib/admin/auth";
 import Link from "next/link";
 import { AffiliateForm } from "../AffiliateForm";
-import { Card, FlagNotice, SectionHeading, Th, TopBar, fmtBalance, fmtDate, refLink } from "../ui";
+import { AdminHeader, Card, SectionHeading, Th, fmtDate } from "../../ui";
+import { FlagNotice, fmtBalance, refLink } from "../ui";
 import { AffiliateControls } from "./AffiliateControls";
 import { PayoutForm } from "./PayoutForm";
 
@@ -73,7 +74,7 @@ export default async function AdminAffiliatePage({ params }: { params: Promise<{
   return (
     <main className="min-h-screen bg-page p-8">
       <div className="max-w-[1300px] mx-auto">
-        <TopBar section={`Affiliates — ${affiliate.name}`} backHref="/admin/affiliates" backLabel="← Affiliates" />
+        <AdminHeader section={`Affiliates — ${affiliate.name}`} />
         <FlagNotice />
         {!affiliate.isActive && (
           <p className="mt-1 font-mono text-xs text-red-500">

@@ -114,6 +114,10 @@ whole wiki.
 - [`decisions/0023-affiliate-program.md`](./decisions/0023-affiliate-program.md)
   — creator affiliate program ported from isrib-next: 35% commission / 15% buyer discount, non-stacking,
   `/partner` portal, `/admin/affiliates`; **migrate DB before deploying**
+- [`decisions/0024-admin-panel-port.md`](./decisions/0024-admin-panel-port.md)
+  — admin panel ported from isrib-next: BI dashboard, password + jose login (NextAuth admin removed,
+  `src/proxy.ts`), campaigns on NORA's own Resend segment; **set ADMIN_PASSWORD/ADMIN_AUTH_SECRET
+  before deploying**
 
 ## Planning
 

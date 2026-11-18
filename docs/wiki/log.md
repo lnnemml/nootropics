@@ -1335,3 +1335,29 @@ Phase 5 marked complete in roadmap. CLAUDE.md updated to Phase 6.
 - Flagged, not fixed: `/admin` (orders list) is statically prerendered at build time, and
   `submitOrder` doesn't revalidate it, so new orders may not show there until a status change or
   redeploy.
+
+## [2026-11-18] decision | Admin panel ported from isrib-next (ADR 0024)
+
+- Anton asked to port isrib's admin panel and chose the full version: campaigns included, and the
+  login switched to isrib's single password + signed jose cookie. Recorded in
+  [ADR 0024](./decisions/0024-admin-panel-port.md).
+- Auth: `src/lib/admin/auth.ts` (`ADMIN_PASSWORD`, `ADMIN_AUTH_SECRET`, cookie
+  `nora_admin_session`); admin NextAuth removed; root `middleware.ts` replaced by `src/proxy.ts`,
+  which fixes the dev-only gap where the gate never ran. Customer NextAuth unchanged.
+- Dashboard: 30-day KPIs, revenue by month + MTD pace, attribution (traffic, UTM, affiliate,
+  country), top products, orders with inline status / Mark paid / shipping, customers with LTV.
+  Now `force-dynamic` (fixes the frozen, build-time order list). `updateOrderStatus` replaced by
+  `setStatus`; payment-confirmed emails no longer always say "crypto".
+- Campaigns: `marketing_contacts` table, contacts added on every order + a backfill button,
+  broadcasts listed/tested/sent only if bound to NORA's own Resend segment (the account is shared
+  with isrib.shop, whose segment isrib's code uses as a default — NORA has no default).
+- Verified locally on a `next start` build: every `/admin/*` route redirects without a session,
+  a forged cookie is rejected, wrong password rejected, right password signs in, all sections
+  render, inline status change persisted (QA order, then reverted), log out clears the session.
+  `/api/auth/session` is 404, the customer gate still redirects.
+- Then, with Anton's go-ahead: `db:push` added `marketing_contacts` (one CREATE TABLE, no remaining
+  diff), and a Resend segment "NORA customers" was created (id
+  `7ebe3ba7-eb6a-4946-b784-7358acfb0d1a`, now `RESEND_SEGMENT_ID` in `.env.local`).
+  `/admin/campaigns` renders locally: 0 contacts, 0 NORA broadcasts, 2 broadcasts on other
+  segments hidden. Not run: "Sync contacts from orders" (adds real customers to Resend — Anton's
+  call) and any campaign send.

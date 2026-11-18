@@ -13,6 +13,8 @@ import {
   effectiveAffiliateDiscountBps,
 } from "@/lib/affiliate/core";
 import { lookupAttribution } from "@/lib/affiliate/lookup";
+import { safeErrorTag } from "@/lib/affiliate/core";
+import { addMarketingContact, firstNameFromOrderName } from "@/lib/marketing/contacts";
 import { and, eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import { cookies, headers } from "next/headers";
@@ -228,6 +230,13 @@ export async function submitOrder(formData: FormData): Promise<void> {
     utmTerm:     raw.utmTerm     || null,
     trafficType,
   });
+
+  // ADR 0024 — the order is already saved, so a list failure must never cost the sale.
+  try {
+    await addMarketingContact(raw.email, firstNameFromOrderName(raw.name), "order");
+  } catch (err) {
+    console.error("addMarketingContact failed (non-fatal):", safeErrorTag(err));
+  }
 
   if (raw.paymentMethod === "crypto") {
     try {

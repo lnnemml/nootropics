@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import { CARRIER_LABELS, getTrackingUrl } from "@/lib/tracking";
 import { sendOrderShippedEmail } from "@/lib/email/send";
 import { claimCommissionAndNotify } from "@/lib/affiliate/earn";
-import { isAdminAuthed } from "@/lib/auth";
+import { isAdminAuthed } from "@/lib/admin/auth";
 
 export async function markOrderShipped(
   orderId: string,
@@ -48,6 +48,7 @@ export async function markOrderShipped(
 
   await sendOrderShippedEmail(updated, carrierLabel, trackingUrl);
 
+  revalidatePath("/admin");
   revalidatePath(`/admin/orders/${orderId}`);
   return {};
 }
