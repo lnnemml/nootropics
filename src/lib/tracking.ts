@@ -11,7 +11,7 @@ export function getTrackingUrl(carrier: string, trackingNumber: string): string 
 }
 
 export const CARRIER_LABELS: Record<string, string> = {
-  ukrposhta: 'Укрпошта',
+  ukrposhta: 'UkrPoshta',
   dhl: 'DHL',
   ups: 'UPS',
   fedex: 'FedEx',
