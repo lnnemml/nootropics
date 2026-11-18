@@ -1,4 +1,4 @@
-import { pgTable, text, integer, timestamp, pgEnum, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, integer, timestamp, pgEnum, boolean, index, uniqueIndex } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id:            text("id").primaryKey(),         // nanoid
@@ -37,6 +37,12 @@ export const orderStatusEnum = pgEnum("order_status", [
 export const paymentMethodEnum = pgEnum("payment_method", [
   "crypto",
   "manual",
+]);
+
+// ADR 0023 — how an order reached an affiliate: the ?ref link cookie, or a typed code
+export const attributionSourceEnum = pgEnum("attribution_source", [
+  "link",
+  "code",
 ]);
 
 export const orders = pgTable("orders", {
@@ -101,7 +107,19 @@ export const orders = pgTable("orders", {
   referralCodeUsed:    text("referral_code_used"),    // snapshot of code string at purchase
   referralDiscountPct: integer("referral_discount_pct"), // 10 when referral applied
   discountLedgerId:    text("discount_ledger_id"),    // FK → discountLedger.id if reward used
-});
+
+  // ADR 0023 — affiliate attribution + commission snapshot, written at order creation from the
+  // final total. Earned/void is derived from `status`, never stored (commissionState).
+  // No onDelete: an affiliate with order history is deactivated (is_active), not deleted.
+  affiliateId:               text("affiliate_id").references(() => affiliates.id),
+  attributionSource:         attributionSourceEnum("attribution_source"),
+  affiliateDiscountBps:      integer("affiliate_discount_bps"),        // discount actually applied: best of the affiliate rate and crypto
+  commissionRateSnapshotBps: integer("commission_rate_snapshot_bps"),  // 3500 = 35%; the rate when the order was placed
+  commissionAmountCents:     integer("commission_amount_cents"),
+  commissionEarnedAt:        timestamp("commission_earned_at"),        // atomic claim; the only trigger for the notification
+}, (table) => [
+  index("orders_affiliate_id_idx").on(table.affiliateId),
+]);
 
 export type Order = typeof orders.$inferSelect;
 export type NewOrder = typeof orders.$inferInsert;
@@ -139,3 +157,74 @@ export const referrals = pgTable("referrals", {
 });
 
 export type Referral = typeof referrals.$inferSelect;
+
+// ── Affiliates (ADR 0023, ported from isrib-next ADR 0025) ────────────────────
+// Creator program, separate from the customer referral (ADR 0017). Money is integer cents;
+// rates are integer basis points (3500 = 35%).
+
+export const affiliates = pgTable("affiliates", {
+  id:                   text("id").primaryKey(),          // nanoid
+  name:                 text("name").notNull(),
+  handle:               text("handle"),
+  code:                 text("code").notNull().unique(),  // stored uppercase; never NORA- (customer referral prefix)
+  commissionRateBps:    integer("commission_rate_bps").notNull().default(3500),
+  customerDiscountBps:  integer("customer_discount_bps").notNull().default(1500),
+  notifyEmail:          text("notify_email"),             // also the self-purchase check and partner login
+  notifyTelegramChatId: text("notify_telegram_chat_id"),  // when set, Telegram goes first and email is the fallback
+  isActive:             boolean("is_active").notNull().default(true),
+  createdAt:            timestamp("created_at").defaultNow().notNull(),
+});
+
+export type Affiliate = typeof affiliates.$inferSelect;
+
+// One row per visitor per affiliate per UTC day: visitor_hash uses a daily salt, so the unique
+// index is the dedupe. Never store a raw IP.
+export const affiliateClicks = pgTable("affiliate_clicks", {
+  id:          text("id").primaryKey(),
+  affiliateId: text("affiliate_id").notNull().references(() => affiliates.id, { onDelete: "cascade" }),
+  createdAt:   timestamp("created_at").defaultNow().notNull(),
+  landingPath: text("landing_path"),
+  visitorHash: text("visitor_hash").notNull(),
+}, (table) => [
+  uniqueIndex("affiliate_clicks_affiliate_id_visitor_hash_idx").on(table.affiliateId, table.visitorHash),
+]);
+
+// Immutable money records. No onDelete: a paid affiliate must not be deletable.
+export const affiliatePayouts = pgTable("affiliate_payouts", {
+  id:             text("id").primaryKey(),
+  affiliateId:    text("affiliate_id").notNull().references(() => affiliates.id),
+  amountCents:    integer("amount_cents").notNull(),
+  cryptoCurrency: text("crypto_currency").notNull(),
+  cryptoAmount:   text("crypto_amount").notNull(),  // text so it stays exact
+  txHash:         text("tx_hash").notNull().unique(),
+  periodStart:    timestamp("period_start").notNull(),
+  periodEnd:      timestamp("period_end").notNull(),
+  paidAt:         timestamp("paid_at").notNull(),
+  createdAt:      timestamp("created_at").defaultNow().notNull(),
+});
+
+// Single-use magic links; only the SHA-256 of the opaque token is stored.
+export const affiliateLoginTokens = pgTable("affiliate_login_tokens", {
+  id:          text("id").primaryKey(),
+  affiliateId: text("affiliate_id").notNull().references(() => affiliates.id, { onDelete: "cascade" }),
+  tokenHash:   text("token_hash").notNull().unique(),
+  expiresAt:   timestamp("expires_at").notNull(),
+  usedAt:      timestamp("used_at"),
+  createdAt:   timestamp("created_at").defaultNow().notNull(),
+});
+
+// DB-backed partner sessions, so deactivating an affiliate cuts access at once.
+export const affiliateSessions = pgTable("affiliate_sessions", {
+  id:          text("id").primaryKey(),
+  affiliateId: text("affiliate_id").notNull().references(() => affiliates.id, { onDelete: "cascade" }),
+  tokenHash:   text("token_hash").notNull().unique(),
+  expiresAt:   timestamp("expires_at").notNull(),
+  createdAt:   timestamp("created_at").defaultNow().notNull(),
+});
+
+// Partner login rate limiting only.
+export const affiliateLoginAttempts = pgTable("affiliate_login_attempts", {
+  id:          text("id").primaryKey(),
+  visitorHash: text("visitor_hash").notNull(),
+  createdAt:   timestamp("created_at").defaultNow().notNull(),
+});

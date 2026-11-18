@@ -7,9 +7,15 @@ import { generateOrderNumber, deriveTrafficType } from "@/lib/order-number";
 import { createInvoice } from "@/lib/nowpayments";
 import { customerAuth } from "@/lib/customer-auth";
 import { trackServerEvent } from "@/lib/analytics/server";
+import {
+  applyDiscountBps,
+  computeCommissionCents,
+  effectiveAffiliateDiscountBps,
+} from "@/lib/affiliate/core";
+import { lookupAttribution } from "@/lib/affiliate/lookup";
 import { and, eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
@@ -64,10 +70,18 @@ export async function submitOrder(formData: FormData): Promise<void> {
   const session = await customerAuth();
   const userId = session?.user?.id ?? null;
 
+  // ADR 0023 — an affiliate attribution replaces the customer referral and the reward on this
+  // order, and its discount doesn't stack with crypto (best of the two).
+  const attribution = await lookupAttribution({
+    typedCode: raw.referralCode || raw.promoCode,
+    cookieCode: (await cookies()).get("nora_ref")?.value,
+    buyerEmail: raw.email,
+  });
+
   // Server-side referral validation — silently ignored if invalid
   let referralCodeUsed: string | null = null;
   let referralDiscountPct: number | null = null;
-  if (raw.referralCode) {
+  if (raw.referralCode && !attribution) {
     const codeRecord = await db.query.referralCodes.findFirst({
       where: and(eq(referralCodes.code, raw.referralCode), eq(referralCodes.active, true)),
     });
@@ -83,7 +97,7 @@ export async function submitOrder(formData: FormData): Promise<void> {
   // Reward validation — only for signed-in users, only if no referral discount (mutual exclusivity)
   let discountLedgerId: string | null = null;
   let rewardDiscountPct: number | null = null;
-  if (raw.rewardId && userId && !referralCodeUsed) {
+  if (raw.rewardId && userId && !referralCodeUsed && !attribution) {
     const entry = await db.query.discountLedger.findFirst({
       where: and(
         eq(discountLedger.id, raw.rewardId),
@@ -97,10 +111,32 @@ export async function submitOrder(formData: FormData): Promise<void> {
     }
   }
 
-  const cryptoDiscount = isCrypto ? Math.round(pricing.total * CRYPTO_DISCOUNT_PCT / 100) : 0;
-  const referralDiscount = referralDiscountPct ? Math.round(pricing.total * referralDiscountPct / 100) : 0;
-  const rewardDiscount = rewardDiscountPct ? Math.round(pricing.total * rewardDiscountPct / 100) : 0;
-  const totalPrice = pricing.total - cryptoDiscount - referralDiscount - rewardDiscount;
+  let totalPrice: number;
+  let orderCryptoDiscountPct = cryptoDiscountPct;
+  let affiliateDiscountBps: number | null = null;
+  let commissionAmountCents: number | null = null;
+  if (attribution) {
+    affiliateDiscountBps = effectiveAffiliateDiscountBps(
+      attribution.affiliate.customerDiscountBps,
+      isCrypto ? CRYPTO_DISCOUNT_PCT * 100 : 0,
+    );
+    totalPrice = applyDiscountBps(pricing.total, affiliateDiscountBps);
+    commissionAmountCents = computeCommissionCents(totalPrice, attribution.affiliate.commissionRateBps);
+    orderCryptoDiscountPct = null;
+  } else {
+    const cryptoDiscount = isCrypto ? Math.round(pricing.total * CRYPTO_DISCOUNT_PCT / 100) : 0;
+    const referralDiscount = referralDiscountPct ? Math.round(pricing.total * referralDiscountPct / 100) : 0;
+    const rewardDiscount = rewardDiscountPct ? Math.round(pricing.total * rewardDiscountPct / 100) : 0;
+    totalPrice = pricing.total - cryptoDiscount - referralDiscount - rewardDiscount;
+  }
+  const promoCode = attribution ? attribution.affiliate.code : raw.promoCode || null;
+  const affiliateFields = {
+    affiliateId:               attribution?.affiliate.id ?? null,
+    attributionSource:         attribution?.source ?? null,
+    affiliateDiscountBps,
+    commissionRateSnapshotBps: attribution?.affiliate.commissionRateBps ?? null,
+    commissionAmountCents,
+  };
 
   const id = nanoid();
   const orderNumber = generateOrderNumber();
@@ -121,13 +157,14 @@ export async function submitOrder(formData: FormData): Promise<void> {
     quantity:         qty,
     basePrice:        pricing.base,
     paymentMethod:    raw.paymentMethod,
-    cryptoDiscountPct,
+    cryptoDiscountPct: orderCryptoDiscountPct,
     totalPrice,
-    promoCode:           raw.promoCode || null,
+    promoCode,
     note:                raw.note || null,
     referralCodeUsed,
     referralDiscountPct,
     discountLedgerId,
+    ...affiliateFields,
     orderNumber,
     utmSource:        raw.utmSource   || null,
     utmMedium:        raw.utmMedium   || null,
@@ -170,13 +207,14 @@ export async function submitOrder(formData: FormData): Promise<void> {
     quantity: qty,
     basePrice: pricing.base,
     paymentMethod: raw.paymentMethod,
-    cryptoDiscountPct,
+    cryptoDiscountPct: orderCryptoDiscountPct,
     totalPrice,
-    promoCode: raw.promoCode || null,
+    promoCode,
     note: raw.note || null,
     referralCodeUsed,
     referralDiscountPct,
     discountLedgerId,
+    ...affiliateFields,
     nowpaymentsInvoiceId: null,
     nowpaymentsPaymentUrl: null,
     confirmationEmailSentAt: null,

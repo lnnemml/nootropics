@@ -6,12 +6,16 @@ import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { CARRIER_LABELS, getTrackingUrl } from "@/lib/tracking";
 import { sendOrderShippedEmail } from "@/lib/email/send";
+import { claimCommissionAndNotify } from "@/lib/affiliate/earn";
+import { isAdminAuthed } from "@/lib/auth";
 
 export async function markOrderShipped(
   orderId: string,
   carrier: string,
   trackingNumber: string
 ): Promise<{ error?: string }> {
+  if (!(await isAdminAuthed())) return { error: "Unauthorized" };
+
   const [order] = await db
     .select()
     .from(orders)
@@ -30,6 +34,8 @@ export async function markOrderShipped(
       shippedAt: new Date(),
     })
     .where(eq(orders.id, orderId));
+
+  await claimCommissionAndNotify(orderId);
 
   const [updated] = await db
     .select()

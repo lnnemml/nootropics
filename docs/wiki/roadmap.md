@@ -173,10 +173,29 @@ Remaining:
 - Paid traffic setup (Reddit Ads + Google Search, ~$20-30/day)
 - A/B testing of headlines via TikTok organic → winning angles move to LP
 
+### 6C — Affiliate program *(code done + DB migrated 2026-11-18 — commit, deploy, env + enable pending)*
+
+Ported from isrib-next ADR 0025 as a launch sales pillar. See
+[ADR 0023](./decisions/0023-affiliate-program.md) and
+[`marketing/sales-strategy-launch.md`](./marketing/sales-strategy-launch.md).
+
+Remaining: commit + deploy, set `AFFILIATE_HASH_SECRET` + `TELEGRAM_BOT_TOKEN`, QA with a test
+affiliate, then `AFFILIATES_ENABLED=true`; first influencer outreach.
+
 ### Future (not yet started):
 - Card payment processing (gather crypto transaction history → approach high-risk processors)
 - Post-delivery follow-up email
 - Community/social presence cadence
+
+## Cross-project — Shared organic video channel *(active 2026-10-21)*
+
+NORA takes part in one faceless nootropics channel (The Synthesis Lab) shared with
+isrib.shop: YouTube long-form + Shorts/TikTok/Reels → email opt-in on a neutral domain →
+interest-tagged list → soft CTA to NORA for the `dopamine-drive` segment. It is run and
+documented from isrib-next (`docs/wiki/marketing/video-track.md`, ADR 0022 there). NORA's
+mirror is [ADR 0021](./decisions/0021-shared-nootropics-video-channel.md). The only NORA-side
+work is to receive UTM'd email traffic; there is no platform change. Open: the bromantane
+routing rule (isrib.shop sells it too).
 
 ## Related pages
 

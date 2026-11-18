@@ -45,6 +45,18 @@ export async function sendOrderShippedEmail(
   });
 }
 
+// Affiliate notifications and partner sign-in links. Throws on a Resend error so callers can tell
+// a failed send from a sent one.
+export async function sendPartnerEmail(to: string, subject: string, html: string): Promise<void> {
+  const { error } = await resend.emails.send({
+    from: "NORA Partners <partners@noraalliance.com>",
+    to,
+    subject,
+    html,
+  });
+  if (error) throw new Error(`Resend send failed: ${error.name}`);
+}
+
 export async function sendPaymentConfirmedOpsAlert(order: Order): Promise<void> {
   const adminEmails = (process.env.ADMIN_EMAIL ?? "").split(",").map(e => e.trim()).filter(Boolean);
   await resend.emails.send({

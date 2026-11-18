@@ -374,11 +374,15 @@ interface OrderSummaryProps {
   referralDiscount: number;
   referralCode: string;
   referralValid: boolean | null;
+  affiliateApplied: boolean;
+  affiliateDiscountPct: number;
+  affiliateDiscount: number;
   rewardDiscount: number;
   availableReward: AvailableReward | null;
   total: number;
   promoCode: string;
   setPromoCode: (v: string) => void;
+  onApplyPromo: () => void;
 }
 
 function OrderSummary({
@@ -391,11 +395,15 @@ function OrderSummary({
   referralDiscount,
   referralCode,
   referralValid,
+  affiliateApplied,
+  affiliateDiscountPct,
+  affiliateDiscount,
   rewardDiscount,
   availableReward,
   total,
   promoCode,
   setPromoCode,
+  onApplyPromo,
 }: OrderSummaryProps) {
   return (
     <div className="bg-card border border-border rounded-[2px] p-5 flex flex-col gap-5">
@@ -458,9 +466,7 @@ function OrderSummary({
         />
         <button
           type="button"
-          onClick={() => {
-            /* TODO: validate against backend */
-          }}
+          onClick={onApplyPromo}
           className="px-3 py-2 border border-border rounded-[2px] font-mono text-[11px] uppercase tracking-[0.1em] text-secondary hover:border-accent/50 transition-colors whitespace-nowrap"
         >
           Apply
@@ -469,12 +475,14 @@ function OrderSummary({
 
       {referralCode && referralValid === false && (
         <p className="font-mono text-[10px] text-red-400 -mt-2">
-          Invalid referral code
+          {"Code not valid"}
         </p>
       )}
       {referralCode && referralValid === true && (
         <p className="font-mono text-[10px] text-accent -mt-2">
-          Referral code applied
+          {affiliateApplied
+            ? `Partner code ${referralCode} applied — ${affiliateDiscountPct}% off, discounts don't stack`
+            : "Referral code applied"}
         </p>
       )}
 
@@ -502,7 +510,7 @@ function OrderSummary({
           </div>
         )}
 
-        {paymentMethod === "crypto" && (
+        {paymentMethod === "crypto" && !affiliateApplied && (
           <div className="flex justify-between items-baseline">
             <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-accent">
               Crypto discount (10%)
@@ -513,7 +521,18 @@ function OrderSummary({
           </div>
         )}
 
-        {referralValid === true && (
+        {affiliateApplied && (
+          <div className="flex justify-between items-baseline">
+            <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-accent">
+              {`Discount (${affiliateDiscountPct}%)`}
+            </span>
+            <span className="font-sans text-[14px] text-accent">
+              –${affiliateDiscount}
+            </span>
+          </div>
+        )}
+
+        {referralValid === true && !affiliateApplied && (
           <div className="flex justify-between items-baseline">
             <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-accent">
               Referral discount (10%)
@@ -605,21 +624,51 @@ function CheckoutInner() {
       if (stored) setUtm(JSON.parse(stored));
     } catch {}
     try {
-      const storedRef = sessionStorage.getItem("nora_referral_code");
+      // Fallbacks: the URL, in case UTMCapture hasn't written sessionStorage yet (parent effects
+      // run after children), then the 30-day nora_ref cookie set by middleware (ADR 0023).
+      const storedRef =
+        sessionStorage.getItem("nora_referral_code") ??
+        searchParams.get("ref") ??
+        document.cookie.match(/(?:^|;\s*)nora_ref=([^;]+)/)?.[1];
       if (storedRef) {
-        setReferralCode(storedRef);
-      } else {
-        // Fallback: read directly from URL in case UTMCapture hasn't
-        // written to sessionStorage yet (parent effects run after children)
-        const urlRef = searchParams.get("ref");
-        if (urlRef) setReferralCode(urlRef);
+        const code = decodeURIComponent(storedRef).trim().toUpperCase();
+        setReferralCode(code);
+        void validateCode(code, "");
       }
     } catch {}
   }, []);
   const [promoCode, setPromoCode] = useState("");
   const [referralCode, setReferralCode] = useState("");
   const [referralValid, setReferralValid] = useState<boolean | null>(null);
+  const [referralKind, setReferralKind] = useState<"referral" | "affiliate" | null>(null);
+  const [codeDiscountPct, setCodeDiscountPct] = useState(0);
   const [availableReward, setAvailableReward] = useState<AvailableReward | null>(null);
+
+  async function validateCode(code: string, email: string) {
+    try {
+      const res = await fetch(
+        `/api/referral/validate?code=${encodeURIComponent(code)}&email=${encodeURIComponent(email)}`
+      );
+      const data = await res.json() as {
+        valid: boolean;
+        kind?: "referral" | "affiliate";
+        discountPct?: number;
+      };
+      setReferralValid(data.valid === true);
+      setReferralKind(data.valid ? data.kind ?? "referral" : null);
+      setCodeDiscountPct(data.valid ? data.discountPct ?? 10 : 0);
+    } catch {
+      setReferralValid(null);
+      setReferralKind(null);
+    }
+  }
+
+  function handleApplyPromo() {
+    const code = promoCode.trim().toUpperCase();
+    if (!code) return;
+    setReferralCode(code);
+    void validateCode(code, form.email.trim());
+  }
 
   useEffect(() => {
     fetch("/api/referral/rewards")
@@ -635,14 +684,22 @@ function CheckoutInner() {
 
   const basePrice = PRICES[qty];
   const bundleSaving = BUNDLE_SAVINGS[qty];
+  // Mirrors submitOrder, which stays authoritative. An affiliate code takes the better of its
+  // own rate and crypto's 10% and replaces the referral and reward (ADR 0023).
+  const affiliateApplied = referralValid === true && referralKind === "affiliate";
+  const affiliateDiscountPct = affiliateApplied
+    ? Math.max(codeDiscountPct, paymentMethod === "crypto" ? 10 : 0)
+    : 0;
+  const affiliateDiscount = Math.round(basePrice * affiliateDiscountPct / 100);
   const cryptoDiscount =
-    paymentMethod === "crypto" ? Math.round(basePrice * 0.1) : 0;
-  const referralDiscount = referralValid === true ? Math.round(basePrice * 0.1) : 0;
+    paymentMethod === "crypto" && !affiliateApplied ? Math.round(basePrice * 0.1) : 0;
+  const referralDiscount =
+    referralValid === true && !affiliateApplied ? Math.round(basePrice * 0.1) : 0;
   // Reward is mutually exclusive with referral discount (max 20% total per task spec)
   const rewardDiscount = (availableReward !== null && referralValid !== true)
     ? Math.round(basePrice * availableReward.discountPct / 100)
     : 0;
-  const total = basePrice - cryptoDiscount - referralDiscount - rewardDiscount;
+  const total = basePrice - affiliateDiscount - cryptoDiscount - referralDiscount - rewardDiscount;
 
   const callingCode = form.country ? getCallingCode(form.country) : null;
 
@@ -712,15 +769,7 @@ function CheckoutInner() {
 
   async function handleEmailBlur() {
     if (!referralCode || !form.email.trim()) return;
-    try {
-      const res = await fetch(
-        `/api/referral/validate?code=${encodeURIComponent(referralCode)}&email=${encodeURIComponent(form.email.trim())}`
-      );
-      const data = await res.json() as { valid: boolean };
-      setReferralValid(data.valid === true);
-    } catch {
-      setReferralValid(null);
-    }
+    await validateCode(referralCode, form.email.trim());
   }
 
   function handleCountryChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -788,11 +837,15 @@ function CheckoutInner() {
               referralDiscount={referralDiscount}
               referralCode={referralCode}
               referralValid={referralValid}
+              affiliateApplied={affiliateApplied}
+              affiliateDiscountPct={affiliateDiscountPct}
+              affiliateDiscount={affiliateDiscount}
               rewardDiscount={rewardDiscount}
               availableReward={availableReward}
               total={total}
               promoCode={promoCode}
               setPromoCode={(v) => setPromoCode(v)}
+              onApplyPromo={handleApplyPromo}
             />
           </div>
 
@@ -935,7 +988,7 @@ function CheckoutInner() {
                   onSelect={() => setPaymentMethod("crypto")}
                   label="Crypto via NowPayments"
                   description="BTC, ETH, USDC, and 150+ currencies"
-                  badge={{ text: "Save 10%", variant: "accent" }}
+                  badge={affiliateApplied ? undefined : { text: "Save 10%", variant: "accent" }}
                 />
                 <PaymentOption
                   value="manual"

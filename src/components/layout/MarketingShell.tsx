@@ -9,18 +9,17 @@ import UTMCapture from "@/components/UTMCapture";
 export function MarketingShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
-  const isStandalone = isAdmin || pathname.startsWith("/go");
+  const isStandalone = isAdmin || pathname.startsWith("/go") || pathname.startsWith("/partner");
 
   return (
     <>
-      {!isStandalone && (
-        <>
-          <Suspense fallback={null}>
-            <UTMCapture />
-          </Suspense>
-          <NavBar />
-        </>
+      {/* /go is where paid traffic lands, so it needs UTM + ?ref capture even without the nav */}
+      {!isAdmin && (
+        <Suspense fallback={null}>
+          <UTMCapture />
+        </Suspense>
       )}
+      {!isStandalone && <NavBar />}
       <main className="flex-1">{children}</main>
       {!isStandalone && <Footer />}
     </>

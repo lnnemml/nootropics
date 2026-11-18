@@ -36,6 +36,9 @@ whole wiki.
   *(superseded by v5 — section order, new eyebrow/H1, citation footnote, closing CTA)*
 - [`marketing/home-page-copy-v5.md`](./marketing/home-page-copy-v5.md) —
   **current home/mission copy** — ReleaseCatalog-first order, citation footnote, closing CTA
+- [`marketing/sales-strategy-launch.md`](./marketing/sales-strategy-launch.md) —
+  **launch salesmaxxing playbook** — pre-launch hype, paid traffic channels, referral
+  activation, email sequences, budget allocation, conversion optimization
 
 ## Architecture knowledge
 
@@ -104,8 +107,13 @@ whole wiki.
   — `/go` standalone DR page, 17 sections, evidence visuals over lifestyle photos, no guarantee
 - [`decisions/0020-premium-redesign.md`](./decisions/0020-premium-redesign.md)
   — premium visual redesign of `/go`, Claude Design handoff spec, reusable CSS utilities
+- [`decisions/0021-shared-nootropics-video-channel.md`](./decisions/0021-shared-nootropics-video-channel.md)
+  — **cross-project**: NORA joins one shared nootropics video channel (The Synthesis Lab) with isrib.shop; email-funnel only, no shop links on platforms
 - [`decisions/0022-formulation-peppermint-tween80.md`](./decisions/0022-formulation-peppermint-tween80.md)
   — NeuroDrive formulation: bromantane 80 mg/ml, peppermint oil 0.15%, Tween 80 0.1%, in MCT oil
+- [`decisions/0023-affiliate-program.md`](./decisions/0023-affiliate-program.md)
+  — creator affiliate program ported from isrib-next: 35% commission / 15% buyer discount, non-stacking,
+  `/partner` portal, `/admin/affiliates`; **migrate DB before deploying**
 
 ## Planning
 

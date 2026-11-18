@@ -30,8 +30,13 @@ export function orderConfirmationCustomer(order: NewOrder): string {
     </tr>
     <tr style="border-bottom: 1px solid #e5e5e0;">
       <td style="padding: 10px 0; color: #666;">Payment method</td>
-      <td style="padding: 10px 0; text-align: right;">${isCrypto ? "Crypto (10% discount applied)" : "Manual arrangement"}</td>
+      <td style="padding: 10px 0; text-align: right;">${isCrypto ? (order.cryptoDiscountPct ? "Crypto (10% discount applied)" : "Crypto") : "Manual arrangement"}</td>
     </tr>
+    ${order.affiliateDiscountBps ? `
+    <tr style="border-bottom: 1px solid #e5e5e0;">
+      <td style="padding: 10px 0; color: #666;">Partner code</td>
+      <td style="padding: 10px 0; text-align: right; color: #1E9C78;">${order.affiliateDiscountBps / 100}% off${order.promoCode ? ` (${order.promoCode})` : ""}</td>
+    </tr>` : ""}
     ${order.referralDiscountPct ? `
     <tr style="border-bottom: 1px solid #e5e5e0;">
       <td style="padding: 10px 0; color: #666;">Referral discount</td>
@@ -143,6 +148,28 @@ export function orderShippedCustomer(
 </html>`;
 }
 
+export function partnerLoginLink({
+  loginUrl,
+  expiresInMinutes,
+}: {
+  loginUrl: string;
+  expiresInMinutes: number;
+}): { subject: string; html: string } {
+  return {
+    subject: "Your NORA partner sign-in link",
+    html: `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family: 'Space Grotesk', Arial, sans-serif; color: #2E3A3C; max-width: 560px; margin: 0 auto; padding: 40px 24px;">
+  <p style="font-family: monospace; font-size: 11px; color: #1E9C78; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px;">NORA Partners</p>
+  <p style="color: #2E3A3C; margin-bottom: 24px;">Use the button below to sign in to your partner dashboard. The link works once and expires in ${expiresInMinutes} minutes.</p>
+  <p style="margin-bottom: 24px;"><a href="${loginUrl}" style="display: inline-block; padding: 12px 20px; background: #1E9C78; color: #FFFFFF; text-decoration: none; border-radius: 2px; font-weight: 600;">Sign in</a></p>
+  <p style="font-size: 13px; color: #999;">If you did not ask for this, you can ignore this email.</p>
+</body>
+</html>`,
+  };
+}
+
 export function orderAlertOps(order: NewOrder): string {
   const trafficColor =
     order.trafficType === "paid" ? "#dc2626" :
@@ -178,6 +205,7 @@ export function orderAlertOps(order: NewOrder): string {
     ${order.promoCode ? `<tr><td style="padding: 6px 0; color: #666;">Promo code</td><td>${order.promoCode}</td></tr>` : ""}
     ${order.referralCodeUsed ? `<tr><td style="padding: 6px 0; color: #666;">Referral code</td><td style="color: #1E9C78;">${order.referralCodeUsed} (${order.referralDiscountPct}% off)</td></tr>` : ""}
     ${order.discountLedgerId ? `<tr><td style="padding: 6px 0; color: #666;">Reward used</td><td style="color: #1E9C78;">${order.discountLedgerId}</td></tr>` : ""}
+    ${order.affiliateId ? `<tr><td style="padding: 6px 0; color: #666;">Affiliate</td><td style="color: #1E9C78;">${order.promoCode} via ${order.attributionSource} — ${(order.affiliateDiscountBps ?? 0) / 100}% off, commission ${formatPrice(order.commissionAmountCents ?? 0)}</td></tr>` : ""}
     ${order.note ? `<tr><td style="padding: 6px 0; color: #666;">Note</td><td>${order.note}</td></tr>` : ""}
     ${trafficBlock}
   </table>

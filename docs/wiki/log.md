@@ -1262,8 +1262,76 @@ Phase 5 marked complete in roadmap. CLAUDE.md updated to Phase 6.
 - Claude Design used for visual design passes, Claude Code for implementation
 - Main site design system remains locked and unchanged
 
+## [2026-10-21] decision | NORA joins shared nootropics video channel (ADR 0021)
+
+- Cross-project decision made in the isrib-next session (canonical: isrib-next ADR 0022).
+  NORA mirrored as [ADR 0021](./decisions/0021-shared-nootropics-video-channel.md).
+- One faceless channel, The Synthesis Lab ("nootropics through a chemist's eyes"), covering
+  nootropics broadly. Platforms carry no shop links. A neutral-domain email opt-in feeds an
+  interest-tagged list, and the soft CTA to NORA lives in emails only.
+- NORA guardrails carry over: ADR 0003 (no Soviet origin as primary hook), the six beliefs,
+  "restore, don't stimulate". Added: no sports-performance angle, mandatory affiliation
+  disclosure. Site/journal voice unchanged; no platform scope change (ADR 0004 intact).
+- Open: the bromantane routing rule (isrib.shop also sells bromantane); the UTM convention.
+
+## [2026-10-22] decision | Shared channel named NeuroBench; moved to own project
+
+- Channel = **NeuroBench**; canonical docs now in `~/Documents/NeuroBench` (ADR 0005/0006 there). NORA ADR 0021 updated with a pointer. No NORA platform change.
+
 ## [2026-11-01] decision | NeuroDrive formulation updated (ADR 0022)
 
 - New formulation: bromantane 80 mg/ml, peppermint oil 0.15% (was 0.1%), Tween 80 0.1% (new), in MCT oil. Recorded in [ADR 0022](./decisions/0022-formulation-peppermint-tween80.md).
 - Updated the product page composition table (`src/lib/copy/products.ts`), `product/overview.md` and `docs/go-v2-claims-to-confirm.md`. Bromantane concentration and dosing are unchanged.
 - Live `/go` badge "One Ingredient" changed to "Single compound" with Anton's approval, matching `/go-v2`.
+
+## [2026-11-18] ingest | Launch sales strategy created
+
+- Created [`marketing/sales-strategy-launch.md`](./marketing/sales-strategy-launch.md) —
+  comprehensive salesmaxxing playbook for first batch launch.
+- Covers: pre-launch hype (waitlist + Reddit seeding), paid traffic (Reddit Ads primary,
+  Google Search secondary, Meta retargeting only), email automation sequences (abandoned
+  checkout, post-purchase onboarding, win-back), referral system activation, NeuroBench
+  channel integration, pricing/offer psychology, budget allocation ($25/day split), and
+  conversion funnel metrics.
+- Quick-wins list prioritized by effort-to-impact ratio.
+- Updated wiki index with the new page.
+- **Revised** after Anton's input: Reddit Ads removed (not available), waitlist
+  removed (go straight to sales). Meta Ads promoted to primary channel, Google Search
+  secondary. Affiliate program (ported from ISRIB ADR 0025) added as a core sales
+  pillar: 35% commission, 15% buyer discount, partner portal, Telegram notifications.
+
+## [2026-11-18] decision | Affiliate program ported from isrib-next (ADR 0023)
+
+- Ported isrib-next's affiliate program: 6 new tables + 6 nullable `orders` columns,
+  `src/lib/affiliate/*`, `/api/affiliate/click`, `/admin/affiliates` (+ `[id]`), `/partner`
+  (magic-link login, dashboard, CSV), Telegram transport. Recorded in
+  [ADR 0023](./decisions/0023-affiliate-program.md) with a table of what differs from isrib.
+- Checkout: affiliate orders get the best of affiliate % vs crypto 10% and drop referral/reward;
+  non-affiliate pricing unchanged. The promo field's Apply button (previously a no-op TODO) now
+  validates codes. Commission is claimed on all three paid paths.
+- Fixed in passing: `/go` never ran `UTMCapture`, so UTM params and `?ref=` from paid traffic
+  were lost (orders would record as "direct"). `MarketingShell` now captures on every non-admin page.
+- `db:push` run on production Neon the same day (with Anton's go-ahead) after a `--strict` preview
+  showed additive statements only (1 enum, 6 tables, 6 nullable columns, FKs, indexes); a second
+  push reports no diff and `next build` passes. Code not yet committed or deployed.
+- Verified on a local `next start` of the production build: `/admin` and `/partner` gated,
+  `/go?ref=` sets `nora_ref`. Checkout shows an invalid code correctly.
+- Full QA the same day against production Neon (Anton approved), on a local `next start` build
+  with Meta Pixel / GTM / Clarity / GA4 / CAPI blanked so no test events left the machine:
+  QA affiliate `QATEST` → `/go?ref=qatest` (cookie set, 1 click, reload deduped) → self-purchase
+  email rejected → 3 bottles, manual: $300 → $255, `attribution_source=link`, commission $89.25
+  → signed NowPayments "finished" IPN sent twice → paid, commission claimed and emailed exactly
+  once, no referral reward → partner magic link (GET doesn't consume, replay = 410), dashboard +
+  CSV masked (`NR-******UJ`) → order cancelled → VOID, balance $0 → affiliate deactivated,
+  code invalid, partner session cut. QA order `NR-BJC2XVUJ` stays in the DB as cancelled;
+  `QATEST` stays inactive (affiliates are never deleted).
+- Dev-only quirk (pre-existing, not fixed): under `next dev` the root `middleware.ts` compiles but
+  never runs, so locally `/admin` serves the orders table without a session. Production is gated.
+  Likely tied to the deprecated `middleware.ts` name/location in Next 16 (`src/proxy.ts`
+  migration).
+- Fixed: `updateOrderStatus` and `markOrderShipped` didn't re-check the admin session. Server
+  Actions are reachable by direct POST, and order status now drives commission, so both now
+  require `isAdminAuthed()`.
+- Flagged, not fixed: `/admin` (orders list) is statically prerendered at build time, and
+  `submitOrder` doesn't revalidate it, so new orders may not show there until a status change or
+  redeploy.

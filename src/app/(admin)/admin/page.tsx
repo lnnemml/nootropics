@@ -25,6 +25,12 @@ export default async function AdminPage() {
           <p className="font-mono text-xs text-accent uppercase tracking-widest">
             NORA Admin — Orders
           </p>
+          <Link
+            href="/admin/affiliates"
+            className="ml-auto mr-6 font-mono text-xs text-ink/40 hover:text-ink transition-colors"
+          >
+            {"Affiliates →"}
+          </Link>
           <form
             action={async () => {
               "use server";

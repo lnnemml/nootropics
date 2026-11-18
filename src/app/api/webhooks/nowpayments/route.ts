@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { orders } from "@/lib/db/schema";
 import { sendPaymentConfirmedEmail, sendPaymentConfirmedOpsAlert } from "@/lib/email/send";
 import { createReferrerReward } from "@/lib/referral-reward";
+import { claimCommissionAndNotify } from "@/lib/affiliate/earn";
 import { trackServerEvent } from "@/lib/analytics/server";
 import { eq } from "drizzle-orm";
 
@@ -68,6 +69,7 @@ export async function POST(req: Request): Promise<Response> {
 
   await Promise.allSettled([
     createReferrerReward(order.id),
+    claimCommissionAndNotify(order.id),
     sendPaymentConfirmedEmail({ ...order, status: "paid" }),
     sendPaymentConfirmedOpsAlert({ ...order, status: "paid" }),
     trackServerEvent({

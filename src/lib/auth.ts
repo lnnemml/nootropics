@@ -40,3 +40,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
 });
+
+// Server Actions are reachable by POST without their page rendering, so each one re-checks this.
+export async function isAdminAuthed(): Promise<boolean> {
+  return Boolean((await auth())?.user);
+}
