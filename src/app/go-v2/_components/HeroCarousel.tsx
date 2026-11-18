@@ -1,0 +1,161 @@
+"use client";
+
+import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+
+const TOTAL = 4;
+const AUTO_MS = 4000;
+const PAUSE_MS = 8000;
+
+export function HeroCarousel() {
+  const [current, setCurrent] = useState(0);
+  const touchStartX = useRef<number>(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const pauseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function startInterval() {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      setCurrent((c) => (c + 1) % TOTAL);
+    }, AUTO_MS);
+  }
+
+  function pauseAndResume() {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    if (pauseTimeoutRef.current) clearTimeout(pauseTimeoutRef.current);
+    pauseTimeoutRef.current = setTimeout(startInterval, PAUSE_MS);
+  }
+
+  useEffect(() => {
+    startInterval();
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (pauseTimeoutRef.current) clearTimeout(pauseTimeoutRef.current);
+    };
+  }, []);
+
+  function goTo(index: number) {
+    setCurrent(index);
+    pauseAndResume();
+  }
+
+  function handleTouchStart(e: React.TouchEvent<HTMLDivElement>) {
+    touchStartX.current = e.touches[0].clientX;
+  }
+
+  function handleTouchEnd(e: React.TouchEvent<HTMLDivElement>) {
+    const delta = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(delta) < 50) return;
+    goTo(delta < 0 ? (current + 1) % TOTAL : (current - 1 + TOTAL) % TOTAL);
+  }
+
+  return (
+    <div className="relative">
+      {/* Teal glow halo behind frame */}
+      <div
+        className="absolute teal-glow pointer-events-none"
+        style={{ inset: "-40px" }}
+      />
+      {/* Glass frame */}
+      <div className="relative border border-white/[0.12] bg-gradient-to-b from-white/[0.05] to-white/[0.01] p-3 rounded-[2px] shadow-[0_48px_96px_-32px_rgba(0,0,0,0.6)]">
+        {/* Inner carousel */}
+        <div
+          className="relative overflow-hidden rounded-[2px] bg-[#22282b]"
+          style={{ aspectRatio: "4/5" }}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Slide track */}
+          <div
+            className="absolute inset-0 flex"
+            style={{
+              transform: `translateX(-${current * 100}%)`,
+              transition: "transform 600ms cubic-bezier(0.4,0,0.2,1)",
+            }}
+          >
+            {/* Slide 0 — Mechanism / Proof: spike-crash vs flat-line dopamine
+                graph (hero-3.png). Moved to first in go-v2 so the visual proof
+                lands next to the new H1 ("it's dopamine depletion"). NOTE: the
+                source alt text on these files was mislabeled — hero-3 is the
+                graph (not "deep focus") and hero-4 is an eye (not "mechanism").
+                Alts corrected here to match the actual images. */}
+            <div className="relative w-full h-full flex-shrink-0">
+              <Image
+                src="/go/hero-3.png"
+                alt="Dopamine over time: a stimulant's sharp spike and crash versus NeuroDrive's steady, flat line"
+                fill
+                className="object-contain"
+                priority
+                sizes="(max-width: 768px) 100vw, 40vw"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-5 pb-[18px] pt-10">
+                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/70">
+                  Calm Focus. All Day. No Crash.
+                </p>
+              </div>
+            </div>
+
+            {/* Slide 1 — What It Is (product shot, pushed down from first) */}
+            <div className="relative w-full h-full flex-shrink-0">
+              <Image
+                src="/go/hero-1.png"
+                alt="NeuroDrive sublingual bromantane drops bottle"
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 100vw, 40vw"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-5 pb-[18px] pt-10">
+                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/70">
+                  NEURODRIVE · Sublingual Bromantane · 80mg/ml
+                </p>
+              </div>
+            </div>
+
+            {/* Slide 2 — How To Use */}
+            <div className="relative w-full h-full flex-shrink-0">
+              <Image
+                src="/go/hero-2.png"
+                alt="Sublingual dropper application"
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 100vw, 40vw"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-5 pb-[18px] pt-10">
+                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/70">
+                  One dropper. Under the tongue. 15 min to onset.
+                </p>
+              </div>
+            </div>
+
+            {/* Slide 3 — close-up (hero-4.png), no caption, as in the original */}
+            <div className="relative w-full h-full flex-shrink-0">
+              <Image
+                src="/go/hero-4.png"
+                alt="Close-up of a clear, focused eye"
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 100vw, 40vw"
+              />
+            </div>
+          </div>
+
+          {/* Navigation dots — bar style */}
+          <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2 items-center">
+            {Array.from({ length: TOTAL }).map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i)}
+                aria-label={`Go to slide ${i + 1}`}
+                className={`rounded-[1px] transition-all duration-300 ${
+                  i === current
+                    ? "w-6 h-0.5 bg-[#1e9c78]"
+                    : "w-2.5 h-0.5 bg-white/30"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
